@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.DS_Store
+.idea
+
+# Build
+dist/
+#gitbook build directory
+doc/_book/
+
+# Env vars
+ENV.json
