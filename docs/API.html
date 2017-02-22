@@ -1,0 +1,526 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>API · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="API.html" />
+    
+    
+    <link rel="prev" href="DEMO.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="DEMO.html">
+            
+                <a href="DEMO.html">
+            
+                    
+                    Demo page
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="API.html">
+            
+                <a href="API.html#autodata-api">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="API.html">
+            
+                <a href="API.html#init">
+            
+                    
+                    Initialization
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="API.html">
+            
+                <a href="API.html#autodatasendpageview">
+            
+                    
+                    autoData.sendPageView
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="API.html">
+            
+                <a href="API.html#autodatasendvirtualpageview">
+            
+                    
+                    autoData.sendVirtualPageView
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="API.html">
+            
+                <a href="API.html#autodatasendevent">
+            
+                    
+                    autoData.sendEvent
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="PLUGINS.html">
+            
+                <a href="PLUGINS.html#plugins">
+            
+                    
+                    Plugins
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="plugins/EVENT-TRACKER.html">
+            
+                <a href="plugins/EVENT-TRACKER.html">
+            
+                    
+                    eventTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="plugins/PAGEVIEW-TRACKER.html">
+            
+                <a href="plugins/PAGEVIEW-TRACKER.html">
+            
+                    
+                    pageviewTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="plugins/MEDIA-QUERY-TRACKER.html">
+            
+                <a href="plugins/MEDIA-QUERY-TRACKER.html">
+            
+                    
+                    mediaQueryTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="plugins/OUTBOUND-FORM-TRACKER.html">
+            
+                <a href="plugins/OUTBOUND-FORM-TRACKER.html">
+            
+                    
+                    outboundFormTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="plugins/OUTBOUND-LINK-TRACKER.html">
+            
+                <a href="plugins/OUTBOUND-LINK-TRACKER.html">
+            
+                    
+                    outboundLinkTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="plugins/JWPLAYER-TRACKER.html">
+            
+                <a href="plugins/JWPLAYER-TRACKER.html">
+            
+                    
+                    jwplayerTracker
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="DEV.html">
+            
+                <a href="DEV.html#development">
+            
+                    
+                    Development
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="dev/TMS.html">
+            
+                <a href="dev/TMS.html">
+            
+                    
+                    TMS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="DEV.html">
+            
+                <a href="DEV.html#rules">
+            
+                    
+                    Rules
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >API</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="autodata-api">Autodata API</h1>
+<h1 id="init">Init</h1>
+<pre><code class="lang-js">autoData.init({
+    <span class="hljs-comment">// settings</span>
+});
+</code></pre>
+<h2 id="settings">Settings</h2>
+<pre><code class="lang-json">{
+    attributePrefix: <span class="hljs-string">&apos;data-&apos;</span>,
+    tms: {
+      name: <span class="hljs-string">&apos;gtm&apos;</span>,
+      parser: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">type, data</span>) </span>{}, <span class="hljs-comment">// Optional</span>
+      sender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parsedTag</span>) </span>{}, <span class="hljs-comment">// Optional</span>
+      enhancer: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">parsedTag</span>) </span>{}, <span class="hljs-comment">// Optional</span>
+    },
+    plugins: {
+
+    }
+}
+</code></pre>
+<h3 id="name">name</h3>
+<p>The tms name that you want to use</p>
+<h3 id="parser">parser</h3>
+<p>This parsing function will be called whenever a tag is triggered, this is your opportunity
+to enhance default tms logic or provide your own one</p>
+<h3 id="enhancer">enhancer</h3>
+<p>This function allows you to add custom data on the already parsed tag. This could have been done
+by the parsing function but it is done this way in order to seperate the role of each function.</p>
+<h2 id="autodatasendpageview">autoData.sendPageView</h2>
+<p>Usage</p>
+<pre><code class="lang-js">autoData.sendPageView({
+    page: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">// optional</span>
+    title: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">// optional,</span>
+});
+</code></pre>
+<p>Result</p>
+<pre><code class="lang-json">{
+    <span class="hljs-string">&quot;event&quot;</span>: <span class="hljs-string">&quot;pageview&quot;</span>,
+    <span class="hljs-string">&quot;page&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;&quot;</span>
+}
+</code></pre>
+<h2 id="autodatasendvirtualpageview">autoData.sendVirtualPageView</h2>
+<p>Usage</p>
+<pre><code class="lang-js">autoData.sendVirtualPageView({
+    page: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">// optional</span>
+    title: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">// optional,</span>
+});
+</code></pre>
+<p>Result</p>
+<pre><code class="lang-json">{
+    <span class="hljs-string">&quot;event&quot;</span>: <span class="hljs-string">&quot;virtualpageview&quot;</span>,
+    <span class="hljs-string">&quot;page&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;&quot;</span>
+}
+</code></pre>
+<h2 id="autodatasendevent">autoData.sendEvent</h2>
+<p>Usage</p>
+<pre><code class="lang-js">autoData.sendEvent({
+    foo: <span class="hljs-literal">true</span>,
+    bar: <span class="hljs-literal">false</span>,
+    baz: <span class="hljs-literal">true</span>
+});
+</code></pre>
+<p>Result</p>
+<pre><code class="lang-json">{
+    <span class="hljs-string">&quot;foo&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">&quot;bar&quot;</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-string">&quot;baz&quot;</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="DEMO.html" class="navigation navigation-prev " aria-label="Previous page: Demo page">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="API.html#init" class="navigation navigation-next " aria-label="Next page: Initialization">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"API","level":"1.3","depth":1,"next":{"title":"Initialization","level":"1.3.1","depth":2,"anchor":"#init","path":"API.md","ref":"API.md#init","articles":[]},"previous":{"title":"Demo page","level":"1.2","depth":1,"path":"DEMO.md","ref":"DEMO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"API.md","mtime":"2017-07-01T09:05:52.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-01T09:32:32.577Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

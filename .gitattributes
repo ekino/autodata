@@ -1,0 +1,3 @@
+src/demo/assets/**/* -diff
+src/demo/vendors/**/* -diff
+yarn.lock -diff
