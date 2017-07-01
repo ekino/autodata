@@ -1,3 +1,5 @@
 src/demo/assets/**/* -diff
 src/demo/vendors/**/* -diff
 yarn.lock -diff
+docs/**/* -diff
+dist/**/* -diff
