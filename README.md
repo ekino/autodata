@@ -1,5 +1,7 @@
 # Autodata
 
+[![Build Status](https://travis-ci.org/ekino/autodata.svg?branch=master)](https://travis-ci.org/ekino/autodata)
+
 This project is a fork of [googleanalytics/autotrack](https://github.com/googleanalytics/autotrack) and is part
 of the ekino github team.
 You can find the project documentation at [ekino.github.io/autodata](https://ekino.github.io/autodata/)
