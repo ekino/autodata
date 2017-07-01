@@ -3,11 +3,11 @@ import {expect} from 'chai';
 import {spy} from 'sinon';
 
 // Test modules
-require('./autodata');
+import autoData from './autodata';
 import Driver from './drivers/Driver';
 import * as tagTypes from './constants/tagTypes';
 
-const {autoData} = window;
+// const {autoData} = window;
 
 const initSpy = spy(autoData, 'init');
 const tmsSpy = spy(Driver.prototype, 'send');

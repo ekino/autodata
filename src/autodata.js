@@ -1,4 +1,3 @@
-import objectAssign from 'object-assign';
 import * as plugins from './plugins';
 import * as tagTypes from './constants/tagTypes';
 import getInstance from './drivers';
@@ -75,9 +74,4 @@ const autoData = {
   tagTypes,
 };
 
-try {
-  objectAssign(window, {autoData});
-} catch (err) {
-  throw new Error(err);
-}
-export default autoData;
+module.exports = autoData;

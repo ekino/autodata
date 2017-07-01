@@ -15,7 +15,6 @@ dev:
 	yarn start
 
 build:
-	make install
 	yarn run clean
 	yarn build:doc
 	yarn build:dev

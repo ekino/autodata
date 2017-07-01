@@ -52,7 +52,7 @@ export default {
   output: {
     path: resolve(`${__dirname}/dist`),
     filename: NODE_ENV === 'prod' ? '[name].min.js' : '[name].js',
-    library: 'autodata',
+    library: 'autoData',
     libraryTarget: 'umd',
   },
   module: {
