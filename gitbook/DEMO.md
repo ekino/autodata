@@ -22,3 +22,7 @@ imported or required by the autoData core library !
 
 The jwplayer library is not installed by npm, it is voluntary because its
 version needs to be exactly 7.10.4+
+
+**bigbuckbunny.mp4**
+
+This video is open source. It can be used under Creative Commons licence.

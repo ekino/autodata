@@ -3,7 +3,7 @@
 This plugin is aimed to send a tag whenever a form is posted
 to a outbound link.
 
-## Initialization ans usage
+## Initialization and usage
 
 ```js
 autoData.init({

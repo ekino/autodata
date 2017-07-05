@@ -4,7 +4,7 @@ This plugin is aimed to tag automatically jwplayer instances.
 As soon as a configured event will be fired by jwplayer, it will be
 send to current tms.
 
-## Initialization ans usage
+## Initialization and usage
 
 ```js
 autoData.init({

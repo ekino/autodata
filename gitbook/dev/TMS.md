@@ -1,6 +1,6 @@
 # TMS - Tag management system
 
-This page is aimed to help you understand how to create a new driver inside the project
+This page is aimed to help you understand how to create a new driver inside the project ### REVISION ###
 
 ## Structure
 
@@ -18,7 +18,7 @@ export const config = {
 ```
 
 This config is plugin-dedicated, it will allow you to set a specific configuration for the plugins.
-The rest of the configuration is still on charge of the final user (tms for example)
+The rest of the configuration is still on charge of the final user (tms for example).
 
 ## parser
 
@@ -28,7 +28,18 @@ export const parser = (type, data = {}) => {
 };
 ```
 
-The parser must return an object representing the final tag that will be sent
+The parser must return an object representing the final tag that will be sent.
+
+## enhancer
+
+```js
+export const enhancer = (tag) => {
+// tms enhancing logic
+// ...tag, ...window.utag_data
+};
+```
+
+The enhancer must return an object representing the enriched final tag provided by parser.
 
 ## sender
 

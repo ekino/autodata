@@ -283,7 +283,46 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="../DEV.html">
+        <li class="chapter " data-level="1.5" data-path="../DATALAYER.html">
+            
+                <a href="../DATALAYER.html">
+            
+                    
+                    Data layer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../FAQ.html">
+            
+                <a href="../FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../DEBUG.html">
+            
+                <a href="../DEBUG.html">
+            
+                    
+                    Debug
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -297,7 +336,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.8.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -310,7 +349,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.8.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -374,20 +413,29 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="event-plugin">Event plugin</h1>
-<p>This plugin is aimed to tag automatically event data.
-As soon as the user with click on the page, the eventTracker will see if the element
-matches the attributes rules and then send the tag automatically.</p>
-<h2 id="initialization-ans-usage">Initialization ans usage</h2>
+<p>This plugin is aimed to handle automatically event type tag.</p>
+<p>As soon as the user interact with the page (click, touch), the eventTracker plugin will see if the element
+matches the attributes rules and then, send the tag automatically.</p>
+<h2 id="initialization">Initialization</h2>
+<p>eventTracker plugin needs to be initialized to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     eventTracker: {
       <span class="hljs-comment">// your configuration here</span>
+      attributePrefix: <span class="hljs-string">&apos;&apos;</span>,
+      trigger: <span class="hljs-string">&apos;&apos;</span>,
+      attributes: []
+      <span class="hljs-comment">// if not set, default configuration is applied</span>
     }
   }
 });
 </code></pre>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ANY</span> <span class="hljs-attr">data-event-obj</span>=<span class="hljs-string">&quot;blog&quot;</span> <span class="hljs-attr">data-event-act</span>=<span class="hljs-string">&quot;Open article&quot;</span> /&gt;</span>
-</code></pre>
+<h3 id="attributeprefix-optional">attributePrefix (optional)</h3>
+<p>Attribute prefix used to parse attributes of interacted DOM element.</p>
+<h3 id="trigger-optional">trigger (optional)</h3>
+<p>Attribute used for DOM selection by the plugin.</p>
+<h3 id="attributes-optional">attributes (optional)</h3>
+<p>Set of attributes that should be collected on the trigger element in order to build the tag.</p>
 <h2 id="default-configuration">Default configuration</h2>
 <pre><code class="lang-js">{
   attributePrefix: <span class="hljs-string">&apos;data-event-&apos;</span>,
@@ -395,13 +443,54 @@ matches the attributes rules and then send the tag automatically.</p>
   attributes: [<span class="hljs-string">&apos;act&apos;</span>, <span class="hljs-string">&apos;desc&apos;</span>, <span class="hljs-string">&apos;val&apos;</span>]
 }
 </code></pre>
-<h3 id="attributeprefix-optional">attributePrefix (optional)</h3>
-<p>Attribute prefix used for DOM selection</p>
-<h3 id="trigger-optional">trigger (optional)</h3>
-<p>Attribute used for DOM selection by the plugin</p>
-<h3 id="attributes-optional">attributes (optional)</h3>
-<p>Set of attributes that should be collected on the trigger element in order
-to build the tag</p>
+<p>Targeted DOM element have to carry data attributes, at least trigger attribute</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ANY</span>  <span class="hljs-attr">data-event-obj</span>=<span class="hljs-string">&quot;interacted object&quot;</span>
+      <span class="hljs-attr">data-event-act</span>=<span class="hljs-string">&quot;action&quot;</span>
+      <span class="hljs-attr">data-event-desc</span>=<span class="hljs-string">&quot;description&quot;</span>
+      <span class="hljs-attr">data-event-val</span>=<span class="hljs-string">&quot;value&quot;</span>/&gt;</span>
+</code></pre>
+<p>Trigger attribute is required to send tag.</p>
+<p>If DOM element doesn&apos;t have some awaited data attributes, they aren&apos;t added to the tag.</p>
+<h2 id="custom-configuration-example">Custom configuration example</h2>
+<pre><code class="lang-js">{
+  attributePrefix: <span class="hljs-string">&apos;my-prefix-&apos;</span>,
+  trigger: <span class="hljs-string">&apos;trigger&apos;</span>,
+  attributes: [<span class="hljs-string">&apos;val1&apos;</span>, <span class="hljs-string">&apos;val2&apos;</span>, <span class="hljs-string">&apos;val3&apos;</span>,<span class="hljs-string">&apos;val4&apos;</span>,<span class="hljs-string">&apos;val5&apos;</span>]
+}
+</code></pre>
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- One event --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ANY</span>  <span class="hljs-attr">my-prefix-trigger</span>=<span class="hljs-string">&quot;trigger_val1&quot;</span>
+      <span class="hljs-attr">my-prefix-val1</span>=<span class="hljs-string">&quot;val1&quot;</span>
+      <span class="hljs-attr">my-prefix-val4</span>=<span class="hljs-string">&quot;val4&quot;</span>/&gt;</span>
+<span class="hljs-comment">&lt;!-- Another event --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ANY</span>  <span class="hljs-attr">my-prefix-trigger</span>=<span class="hljs-string">&quot;trigger_val2&quot;</span>
+      <span class="hljs-attr">my-prefix-val2</span>=<span class="hljs-string">&quot;val1&quot;</span>
+      <span class="hljs-attr">my-prefix-val3</span>=<span class="hljs-string">&quot;val4&quot;</span>
+      <span class="hljs-attr">my-prefix-val5</span>=<span class="hljs-string">&quot;val5&quot;</span>/&gt;</span>
+</code></pre>
+<h2 id="default-object-sent-to-the-parser">Default object sent to the parser</h2>
+<pre><code class="lang-js">{
+  event: <span class="hljs-string">&apos;click&apos;</span>,
+  obj:   <span class="hljs-string">&apos;interacted object&apos;</span>,
+  act:   <span class="hljs-string">&apos;action&apos;</span>,
+  desc:  <span class="hljs-string">&apos;description&apos;</span>,
+  val:   <span class="hljs-string">&apos;value&apos;</span>
+}
+</code></pre>
+<p>Note : prefix is not used to define each key.</p>
+<h2 id="tips">Tips</h2>
+<h3 id="event-name-override">Event name override</h3>
+<p>By default, an event key with &quot;click&quot; value is added to tag to handle it in tag collector.</p>
+<p>It can be overridden by using dedicated data attribute.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ANY</span>  <span class="hljs-attr">data-event-event</span>=<span class="hljs-string">&quot;custom_event&quot;</span>
+      <span class="hljs-attr">data-event-obj</span>=<span class="hljs-string">&quot;interacted object&quot;</span>
+      <span class="hljs-attr">data-event-act</span>=<span class="hljs-string">&quot;action&quot;</span>
+      <span class="hljs-attr">data-event-desc</span>=<span class="hljs-string">&quot;description&quot;</span>
+      <span class="hljs-attr">data-event-val</span>=<span class="hljs-string">&quot;value&quot;</span>/&gt;</span>
+</code></pre>
+<h3 id="manual-tracking">Manual tracking</h3>
+<p>If an event cannot be tracked automatically using data attributes, it can be handled by using a dedicated function from autodata API.
+See <a href="API.md#autodatasendevent">autoData.sendEvent</a></p>
 
                                 
                                 </section>
@@ -445,7 +534,7 @@ to build the tag</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"eventTracker","level":"1.4.1","depth":2,"next":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"previous":{"title":"Plugins","level":"1.4","depth":1,"anchor":"#plugins","path":"PLUGINS.md","ref":"PLUGINS.md#plugins","articles":[{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/EVENT-TRACKER.md","mtime":"2017-07-01T12:54:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-01T12:56:23.739Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"eventTracker","level":"1.4.1","depth":2,"next":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"previous":{"title":"Plugins","level":"1.4","depth":1,"anchor":"#plugins","path":"PLUGINS.md","ref":"PLUGINS.md#plugins","articles":[{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/EVENT-TRACKER.md","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -453,6 +542,10 @@ to build the tag</p>
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>

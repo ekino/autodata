@@ -2,7 +2,7 @@
 
 This plugin is aimed to send a tag whenever an outbound link is visited.
 
-## Initialization ans usage
+## Initialization and usage
 
 ```js
 autoData.init({

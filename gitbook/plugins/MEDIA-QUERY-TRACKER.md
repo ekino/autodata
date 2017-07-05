@@ -2,7 +2,7 @@
 
 This plugin is aimed to tag the viewport changes on your website.
 
-## Initialization ans usage
+## Initialization and usage
 
 ```js
 autoData.init({

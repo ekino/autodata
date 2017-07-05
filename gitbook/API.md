@@ -10,7 +10,7 @@ autoData.init({
 
 ## Settings
 
-```json
+```js
 {
     attributePrefix: 'data-',
     tms: {
@@ -43,7 +43,7 @@ Usage
 ```js
 autoData.sendPageView({
     page: '', // optional
-    title: '', // optional,
+    title: '', // optional
 });
 ```
 
@@ -52,8 +52,8 @@ Result
 ```json
 {
     "event": "pageview",
-    "page": "",
-    "title": ""
+    "page": "relative_url",
+    "title": "meta_title"
 }
 ```
 
@@ -64,17 +64,17 @@ Usage
 ```js
 autoData.sendVirtualPageView({
     page: '', // optional
-    title: '', // optional,
+    title: '', // optional
 });
 ```
 
 Result
 
-```json
+```js
 {
     "event": "virtualpageview",
-    "page": "",
-    "title": ""
+    "page": "relative_url",
+    "title": "meta_title"
 }
 ```
 
@@ -94,8 +94,31 @@ Result
 
 ```json
 {
-    "foo": true,
-    "bar": false,
-    "baz": true
+    "event":  "click",
+    "foo":    true,
+    "bar":    false,
+    "baz":    true
+}
+```
+
+Event name can be overridden if put in the object passed in parameter.
+
+```js
+autoData.sendEvent({
+    event:'custom_event'
+    foo: true,
+    bar: false,
+    baz: true
+});
+```
+
+Result
+
+```js
+{
+    "event":  "custom_event",
+    "foo":    true,
+    "bar":    false,
+    "baz":    true
 }
 ```
