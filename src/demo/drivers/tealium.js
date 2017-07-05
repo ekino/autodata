@@ -5,12 +5,12 @@
  */
 
 const $log = name => (...args) => console.log(
-  `%c TEALIUM:${name}`, 'color: white; background: blue', ...args
+  `%c TEALIUM:${name}`, 'color: white; background: blue', ...args,
 );
 
 window.utag = {
   link: $log('utag.link'),
-  view: $log('utag.view')
+  view: $log('utag.view'),
 };
 
 window.utag_data = {

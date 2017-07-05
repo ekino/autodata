@@ -1,21 +1,21 @@
 import {expect} from 'chai';
 import {spy} from 'sinon';
-import eventTracker from '../event-tracker';
+import EventTracker from '../event-tracker';
 
 const tracker = {
-  send: spy()
+  send: spy(),
 };
 const defaultOptions = {
   attributePrefix: 'data-event-',
   trigger: 'obj',
-  attributes: ['act', 'desc', 'val']
+  attributes: ['act', 'desc', 'val'],
 };
 
-const getInstance = (options = defaultOptions) => new eventTracker(tracker, options);
-const getEvent = (attributes) => ({
+const getInstance = (options = defaultOptions) => new EventTracker(tracker, options);
+const getEvent = attributes => ({
   delegateTarget: {
-    getAttribute: (name) => attributes[name.replace(defaultOptions.attributePrefix, '')],
-  }
+    getAttribute: name => attributes[name.replace(defaultOptions.attributePrefix, '')],
+  },
 });
 
 describe('(Plugin) event tracker', () => {

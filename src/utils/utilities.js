@@ -11,7 +11,7 @@
 export const withTimeout = (callback, wait) => {
   let called = false;
   setTimeout(callback, wait || 2000);
-  return function() {
+  return function withTimeoutCallback() {
     if (!called) {
       called = true;
       callback();
@@ -25,26 +25,23 @@ export const withTimeout = (callback, wait) => {
  * with the values merged. For each key in defaults, if there's a
  * corresponding value in overrides, it gets used.
  * @param {Object} overrides The object with properties to override.
- * @param {?Object} defaults The object with properties to use as defaults.
+ * @param {?Object} values The object with properties to use as defaults.
  * @return {Object} The final, merged object.
  */
-export const defaults = (overrides, defaults) => {
+export const defaults = (overrides, values) => {
   const result = {};
 
-  if (typeof overrides != 'object') {
+  if (typeof overrides !== 'object') {
     overrides = {};
   }
 
-  if (typeof defaults != 'object') {
-    defaults = {};
+  if (typeof values !== 'object') {
+    values = {};
   }
 
-  for (const key in defaults) {
-    if (defaults.hasOwnProperty(key)) {
-      result[key] = overrides.hasOwnProperty(key) ?
-        overrides[key] : defaults[key];
-    }
-  }
+  Object.keys(values).forEach((key) => {
+    result[key] = key in overrides ? overrides[key] : values[key];
+  });
   return result;
 };
 
@@ -54,9 +51,7 @@ export const defaults = (overrides, defaults) => {
  * @param {string} str The input string.
  * @return {string} The capitalized string
  */
-export const capitalize = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 
 /**
@@ -64,9 +59,7 @@ export const capitalize = (str) => {
  * @param {*} value The input constiable to test.
  * @return {boolean} Whether or not the test is an object.
  */
-export const isObject = (value) => {
-  return typeof value == 'object' && value !== null;
-};
+export const isObject = value => typeof value === 'object' && value !== null;
 
 /**
  * Compare to objects and determine if there first level of hierarchy is different
@@ -90,7 +83,7 @@ export const areDifferent = (obj1 = {}, obj2 = {}) => {
  * @param {*} value The input constiable to test.
  * @return {boolean} Whether or not the value is an array.
  */
-export const isArray = Array.isArray || function (value) {
+export const isArray = Array.isArray || function isArrayPolyfill(value) {
   return Object.prototype.toString.call(value) === '[object Array]';
 };
 
@@ -102,7 +95,10 @@ export const isArray = Array.isArray || function (value) {
  * @return {Array} The array-ified value.
  */
 export const toArray = (value) => {
-  return isArray(value) ? value : [value];
+  if (isArray(value)) {
+    return value;
+  }
+  return [value];
 };
 
 /**
@@ -120,3 +116,12 @@ export const getBrowserPageview = (withQueryString = true) => {
     title,
   };
 };
+
+/**
+ * Prevent unsupported Array.includes
+ * @param {array} arr - dataset to test
+ * @param {*} value - value to find
+ * @return {boolean} - bool state of Array.includes
+ */
+export const includes = (arr, value) => arr.indexOf(value) !== -1;
+

@@ -1,15 +1,15 @@
 import {expect} from 'chai';
 import {spy} from 'sinon';
-import jwplayerTracker from '../jwplayer-tracker';
+import JwplayerTracker from '../jwplayer-tracker';
 
 const tracker = {
-  send: spy()
+  send: spy(),
 };
 
 const jwplayer = () => {};
 jwplayer.api = {registerPlugin: spy()};
 
-const getInstance = (options = {}) => new jwplayerTracker(tracker, options);
+const getInstance = (options = {}) => new JwplayerTracker(tracker, options);
 
 describe('(Plugin) jwplayer tracker', () => {
   context('constructor', () => {
@@ -85,7 +85,7 @@ describe('(Plugin) jwplayer tracker', () => {
       'fullscreen',
       'resize',
       'audioTrackChanged',
-      'displayClick'
+      'displayClick',
     ]
       .forEach((name, i) => {
         it(`should have bound ${name} event`, () => {

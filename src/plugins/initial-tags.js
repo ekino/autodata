@@ -1,4 +1,4 @@
-var defaults = require('../utils/utilities').defaults;
+const defaults = require('../utils/utilities').defaults;
 
 /**
  * Registers initial tags events.
@@ -7,14 +7,13 @@ var defaults = require('../utils/utilities').defaults;
  * @param {?Object} opts Passed by the require command.
  */
 function InitialTags(tracker, opts) {
-
   this.opts = defaults(opts, {
     attributePrefix: 'data-',
-    initialTagsDelay: 1e3 // 1sec
+    initialTagsDelay: 1e3, // 1sec
   });
 
   this.tracker = tracker;
-  this.tagSelector = '[' + this.opts.attributePrefix + 'initial-tags]';
+  this.tagSelector = `[${this.opts.attributePrefix}initial-tags]`;
 
   // Wait for DOM to be ready before calling it
   document.addEventListener('DOMContentLoaded', () => {
@@ -37,16 +36,16 @@ InitialTags.prototype.send = function send(tag) {
  * Parse the initialTags HTMLScriptElement and send it to tracker
  */
 InitialTags.prototype.parseInitialTags = function parseInitialTags() {
-  var initialTags = [].slice.call(document.querySelectorAll(this.tagSelector));
+  const initialTags = [].slice.call(document.querySelectorAll(this.tagSelector));
 
-  if(initialTags.length) {
-    initialTags.forEach(function (initialTagNode) { // looping over each initialTags node
-      var tags = JSON.parse(initialTagNode.innerText);
+  if (initialTags.length) {
+    initialTags.forEach((initialTagNode) => { // looping over each initialTags node
+      const tags = JSON.parse(initialTagNode.innerText);
 
-      if(tags && tags.length) {
+      if (tags && tags.length) {
         tags.forEach(this.send.bind(this)); // send each tags
       }
-    }.bind(this));
+    });
   }
 };
 
