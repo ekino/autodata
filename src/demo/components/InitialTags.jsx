@@ -1,41 +1,46 @@
-import React from 'react';
+/* eslint-disable require-jsdoc */
+import React, {Component} from 'react';
 
-const InitialTags = () => (
-  <section>
-    <h2>InitialTags</h2>
-    <pre className="code" rows="12">
-      {`
-<script data-initial-tags type="autoData/initialTags">
-[
-  {
-    "event": "transaction",
-    "value": { }
-  }, {
-    "event": "variable",
-    "label": "brand",
-    "value": "autoData"
+export default class InitialTags extends Component {
+  state = {
+    tags: [
+      {
+        event: 'transaction',
+        value: { },
+      }, {
+        event: 'variable',
+        label: 'brand',
+        value: 'autoData',
+      },
+      {
+        label: 'navigation',
+        value: 'home button',
+      },
+    ],
+  };
+
+  getTagScript(stringified = false) {
+    if (stringified) {
+      return `
+        <script data-initial-tags type="autoData/initialTags">
+          ${JSON.stringify(this.state.tags, null, 2)}
+        </script>
+      `;
+    }
+    return (
+      <script data-initial-tags type="autoData/initialTags">
+        {JSON.stringify(this.state.tags, null, 2)}
+      </script>
+    );
   }
-]
-</script>
-          `}
-    </pre>
-    <script
-      data-initial-tags
-      type="autoData/initialTags"
-      dangerouslySetInnerHTML={{__html: `
-                  [
-                    {
-                      "event": "transaction",
-                      "value": { }
-                    }, {
-                      "event": "variable",
-                      "label": "brand",
-                      "value": "autoData"
-                    }
-                  ]
-                `}}
-    />
-  </section>
-);
 
-export default InitialTags;
+  render() {
+    return (
+      <section>
+        <h2>InitialTags</h2>
+        <pre className="code" rows="12">{this.getTagScript(true)}</pre>
+        {this.getTagScript()}
+      </section>
+    );
+  }
+}

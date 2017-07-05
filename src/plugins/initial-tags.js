@@ -1,4 +1,7 @@
-const defaults = require('../utils/utilities').defaults;
+import {warn} from '../utils/logger';
+import {defaults} from '../utils/utilities';
+
+export const DEFAULT_EVENT = 'click';
 
 /**
  * Registers initial tags events.
@@ -10,6 +13,7 @@ function InitialTags(tracker, opts) {
   this.opts = defaults(opts, {
     attributePrefix: 'data-',
     initialTagsDelay: 1e3, // 1sec
+    tags: [],
   });
 
   this.tracker = tracker;
@@ -27,8 +31,8 @@ function InitialTags(tracker, opts) {
  */
 InitialTags.prototype.send = function send(tag) {
   this.tracker.send('initial-tags', {
-    tag,
-    event: tag.event,
+    event: DEFAULT_EVENT,
+    ...tag,
   });
 };
 
@@ -36,18 +40,21 @@ InitialTags.prototype.send = function send(tag) {
  * Parse the initialTags HTMLScriptElement and send it to tracker
  */
 InitialTags.prototype.parseInitialTags = function parseInitialTags() {
-  const initialTags = [].slice.call(document.querySelectorAll(this.tagSelector));
-
-  if (initialTags.length) {
-    initialTags.forEach((initialTagNode) => { // looping over each initialTags node
-      const tags = JSON.parse(initialTagNode.innerText);
-
-      if (tags && tags.length) {
-        tags.forEach(this.send.bind(this)); // send each tags
+  const scriptTags = [].slice.call(document.querySelectorAll(this.tagSelector));
+  const initialTags = [
+    // Tags from config
+    ...this.opts.tags,
+    // Tags from DOM
+    ...scriptTags.reduce((allTags, scriptTag) => {
+      try {
+        return allTags.concat(JSON.parse(scriptTag.innerText));
+      } catch (err) {
+        warn('Script tag parsing failed', err);
+        return allTags;
       }
-    });
-  }
+    }, []),
+  ];
+  initialTags.forEach(this.send.bind(this));
 };
-
 
 export default InitialTags;
