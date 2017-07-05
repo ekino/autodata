@@ -15,8 +15,8 @@
  */
 
 
-var defaults = require('../utils/utilities').defaults;
-var delegate = require('delegate');
+const defaults = require('../utils/utilities').defaults;
+const delegate = require('delegate');
 
 
 /**
@@ -26,12 +26,11 @@ var delegate = require('delegate');
  * @param {?Object} opts Passed by the require command.
  */
 function OutboundLinkTracker(tracker, opts) {
-
   // Feature detects to prevent errors in unsupporting browsers.
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    shouldTrackOutboundLink: this.shouldTrackOutboundLink
+    shouldTrackOutboundLink: this.shouldTrackOutboundLink,
   });
 
   this.tracker = tracker;
@@ -48,8 +47,8 @@ function OutboundLinkTracker(tracker, opts) {
  * ensure the hit can be sent.
  * @param {Event} event The DOM click event.
  */
-OutboundLinkTracker.prototype.handleLinkClicks = function(event) {
-  var link = event.delegateTarget;
+OutboundLinkTracker.prototype.handleLinkClicks = function handleLinkClicks(event) {
+  const link = event.delegateTarget;
   if (this.opts.shouldTrackOutboundLink(link)) {
     // Opens outbound links in a new tab if the browser doesn't support
     // the beacon transport method.
@@ -58,7 +57,7 @@ OutboundLinkTracker.prototype.handleLinkClicks = function(event) {
     }
     this.tracker.send('outbound-link', {
       href: link.href,
-      transport: 'beacon'
+      transport: 'beacon',
     });
   }
 };
@@ -71,8 +70,8 @@ OutboundLinkTracker.prototype.handleLinkClicks = function(event) {
  * @param {Element} link The link that was clicked on.
  * @return {boolean} Whether or not the link should be tracked.
  */
-OutboundLinkTracker.prototype.shouldTrackOutboundLink = function(link) {
-  return link.hostname != location.hostname &&
+OutboundLinkTracker.prototype.shouldTrackOutboundLink = function shouldTrackOutboundLink(link) {
+  return link.hostname !== location.hostname &&
       link.protocol.indexOf('http') === 0;
 };
 
@@ -80,7 +79,7 @@ OutboundLinkTracker.prototype.shouldTrackOutboundLink = function(link) {
 /**
  * Removes all event listeners and instance properties.
  */
-OutboundLinkTracker.prototype.remove = function() {
+OutboundLinkTracker.prototype.remove = function remove() {
   this.delegate.destroy();
   this.delegate = null;
   this.tracker = null;

@@ -4,10 +4,11 @@ import * as tagTypes from '../constants/tagTypes';
 import {config, parser, sender} from './tealium';
 
 // API mock
-const utag = window.utag = {
+const utag = {
   view: spy(),
   link: spy(),
 };
+window.utag = utag;
 
 // Tiny driver for test
 const tealium = (type, data) => sender(parser(type, data));
@@ -17,8 +18,8 @@ describe('(Driver) tealium', () => {
     expect(config).eql({
       eventTracker: {
         trigger: 'obj',
-        attributes: ['act', 'desc', 'val']
-      }
+        attributes: ['act', 'desc', 'val'],
+      },
     });
   });
 
@@ -30,7 +31,7 @@ describe('(Driver) tealium', () => {
     expect(tag).eql({
       event: 'click',
       obj: 'foo',
-      desc: 'bar'
+      desc: 'bar',
     });
   });
 
@@ -42,7 +43,7 @@ describe('(Driver) tealium', () => {
     expect(tag).eql({
       event: tagTypes.VIRTUAL_PAGEVIEW,
       page: '/home',
-      title: 'home'
+      title: 'home',
     });
   });
 
@@ -54,7 +55,7 @@ describe('(Driver) tealium', () => {
     expect(tag).eql({
       event: tagTypes.PAGEVIEW,
       page: '/home',
-      title: 'home'
+      title: 'home',
     });
   });
 
@@ -66,7 +67,7 @@ describe('(Driver) tealium', () => {
     expect(tag).eql({
       event: tagTypes.MEDIA_QUERY,
       name: 'breakpoint',
-      value: 'foo'
+      value: 'foo',
     });
   });
 

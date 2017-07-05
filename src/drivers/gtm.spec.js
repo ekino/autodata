@@ -12,8 +12,8 @@ describe('(Driver) gtm', () => {
     expect(config).deep.equals({
       eventTracker: {
         trigger: 'obj',
-        attributes: ['act', 'desc', 'val']
-      }
+        attributes: ['act', 'desc', 'val'],
+      },
     });
   });
 

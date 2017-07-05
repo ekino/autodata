@@ -14,11 +14,11 @@ global.navigator = {
   userAgent: 'node.js',
 };
 
-//allows to add tests for the Carousel
+// allows to add tests for the Carousel
 window.matchMedia = window.matchMedia || function () {
-    return {
-      matches: false,
-      addListener() {},
-      removeListener() {},
-    };
+  return {
+    matches: false,
+    addListener() {},
+    removeListener() {},
   };
+};

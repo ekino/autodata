@@ -7,8 +7,8 @@ import * as tagTypes from '../constants/tagTypes';
 export const config = {
   eventTracker: {
     trigger: 'obj',
-    attributes: ['act', 'desc', 'val']
-  }
+    attributes: ['act', 'desc', 'val'],
+  },
 };
 
 /**

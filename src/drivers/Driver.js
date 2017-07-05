@@ -58,12 +58,10 @@ export default class Driver {
    * @param {*} value - the property value
    */
   set(propertyOrData, value) {
-    if(isObject(propertyOrData)) {
-      for(var propertyName in propertyOrData) {
-        if(propertyOrData.hasOwnProperty(propertyName)) {
-          this.set(propertyName, propertyOrData[propertyName]);
-        }
-      }
+    if (isObject(propertyOrData)) {
+      Object.keys(propertyOrData).forEach((propertyName) => {
+        this.set(propertyName, propertyOrData[propertyName]);
+      });
     } else {
       this.data[propertyOrData] = value;
     }

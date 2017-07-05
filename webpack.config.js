@@ -2,13 +2,13 @@ import {resolve} from 'path';
 import webpack from 'webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import rules from './webpack.loaders';
-import ENV from './ENV';
+import ENV from './ENV.json';
 
 const {NODE_ENV = 'dev', LOCAL = false} = process.env;
 
 // Format vars for webpack ENV process
 const formatVars = (VARS) => {
-  let obj = {};
+  const obj = {};
   Object.entries(VARS).forEach(([name, value]) => {
     obj[name] = typeof value === 'string' ? JSON.stringify(value) : value;
   });
@@ -17,8 +17,8 @@ const formatVars = (VARS) => {
 
 let plugins = [
   new webpack.DefinePlugin({
-    '__DEV__': NODE_ENV === 'dev',
-    '__ENV__': LOCAL ? {
+    __DEV__: NODE_ENV === 'dev',
+    __ENV__: LOCAL ? {
       ...formatVars(ENV),
     } : false,
   }),
@@ -28,17 +28,17 @@ let entry = {
 };
 
 if (LOCAL) {
+  entry = {
+    demo: './src/demo/demo.jsx',
+  };
   plugins = plugins.concat([
     new HTMLWebpackPlugin({
       title: 'Autodata',
       template: './src/demo/index.html',
       inject: 'body',
-      chunksSortMode: 'none'
-    })
+      chunksSortMode: 'none',
+    }),
   ]);
-  Object.assign(entry, {
-    demo: './src/demo/demo.js',
-  });
 }
 
 if (NODE_ENV === 'prod') {
@@ -54,6 +54,9 @@ export default {
     filename: NODE_ENV === 'prod' ? '[name].min.js' : '[name].js',
     library: 'autoData',
     libraryTarget: 'umd',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     rules,

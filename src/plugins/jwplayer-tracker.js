@@ -1,4 +1,4 @@
-import {defaults} from '../utils/utilities';
+import {defaults, includes} from '../utils/utilities';
 import {warn} from '../utils/logger';
 
 export const NO_API_PROVIDED = 'No JwPlayer instance was provided';
@@ -28,7 +28,7 @@ export default class {
         'fullscreen',
         'resize',
         'audioTrackChanged',
-        'displayClick'
+        'displayClick',
       ],
       autoDetect: false,
     });
@@ -42,11 +42,11 @@ export default class {
 
     const {jwplayer} = this.opts;
 
-    if (this.opts.events.includes('all')) {
+    if (includes(this.opts.events, 'all')) {
       throw new Error(UNSUPPORTED_EVENT.replace('%s', 'all'));
     }
 
-    jwplayer.api.registerPlugin('autoData', '6.0', (instance) => this.setInstance(instance));
+    jwplayer.api.registerPlugin('autoData', '6.0', instance => this.setInstance(instance));
 
     /**
      * Add autoData plugin to default configuration
@@ -57,7 +57,7 @@ export default class {
     if (this.opts.autoDetect) {
       warn(
         'jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration'
-        + 'and it could be overridden so be careful with its use !'
+        + 'and it could be overridden so be careful with its use !',
       );
       // Prevent empty config case
       if (!jwplayer.defaults) {
@@ -70,7 +70,7 @@ export default class {
       // Do the override
       jwplayer.defaults.plugins = {
         ...jwplayer.defaults.plugins, // Keep existing configuration
-        autoData: {}
+        autoData: {},
       };
     }
   }
@@ -136,9 +136,9 @@ export default class {
    * @param {object} instance - jwplayer instance
    */
   setInstance(instance) {
-    for (let name of this.opts.events) {
+    this.opts.events.forEach((name) => {
       instance.on(name, (...args) => this.onEvent(instance, name, ...args));
-    }
+    });
     instance.on('remove', () => this.unsetInstance(instance));
 
     this.instances.push(instance.uniqueId);

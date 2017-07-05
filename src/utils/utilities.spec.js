@@ -22,7 +22,7 @@ describe('(Utils) utilities', () => {
     it('should return false for same objects', () => {
       expect(areDifferent(
         {foo: 'bar'},
-        {foo: 'bar'}
+        {foo: 'bar'},
       )).equals(false);
     });
 
