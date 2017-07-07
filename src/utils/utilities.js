@@ -124,4 +124,3 @@ export const getBrowserPageview = (withQueryString = true) => {
  * @return {boolean} - bool state of Array.includes
  */
 export const includes = (arr, value) => arr.indexOf(value) !== -1;
-

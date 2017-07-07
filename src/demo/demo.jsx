@@ -63,6 +63,17 @@ autoData.init({
     },
     initialTags: {
       initialTagsDelay: 5e2,
+      tags: [
+        {
+          event: 'user',
+          label: 'geolocation',
+          value: 'Paris, France',
+        }, {
+          event: 'ui',
+          label: 'theme',
+          value: 'default',
+        },
+      ],
     },
     outboundFormTracker: {
       shouldTrackOutboundForm(form) {
