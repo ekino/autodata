@@ -18,7 +18,11 @@ Basically, data layer is a JSON object. autoData merge the parsed tag with data 
   autoData.init({
     tms: {
       //data layer configuration
-      //TODO
+      enhancer: (tag) => ({
+        ...tag,
+        // Add all data layer for each tag
+        ...my_data_layer,
+      })
     }
   });
 ```
@@ -40,7 +44,21 @@ If needed, it is possible to declare a list of elements to extract from data lay
   autoData.init({
     tms: {
       //data layer configuration
-      //TODO - select only key1 and key3 in configuration
+      enhancer: (tag) => {
+        switch (tag.event) {
+          case 'click':
+          case 'pageview':
+            return {
+              ...tag,
+              // Add key1 and key3 from data layer for 'click' or 'pageview' events
+              key1: my_data_layer.key1,
+              key3: my_data_layer.key3
+            }
+          }
+          default:
+            return tag;
+        }
+      }
     }
   });
 ```
