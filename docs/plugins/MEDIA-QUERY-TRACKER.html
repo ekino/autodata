@@ -322,7 +322,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="../DEV.html">
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -336,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -349,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -415,6 +428,7 @@
                                 <h1 id="media-query-plugin">Media query plugin</h1>
 <p>This plugin is aimed to tag the viewport changes on your website.</p>
 <h2 id="initialization-and-usage">Initialization and usage</h2>
+<p>Media query plugin needs to be declared to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     mediaQueryTracker: {
@@ -431,8 +445,7 @@
 }
 </code></pre>
 <h3 id="mediaquerydefinitions-mandatory">mediaQueryDefinitions (mandatory)</h3>
-<p>Set of media-queries that should be spied by the browser in order to
-tag it when a change occurs.</p>
+<p>Set of media-queries that should be spied by the browser in order to tag it when a change occurs.</p>
 <p>The configuration must match the following example :</p>
 <pre><code class="lang-js">{
   mediaQueryDefinitions: [
@@ -448,16 +461,15 @@ tag it when a change occurs.</p>
   ]
 }
 </code></pre>
-<p>In this case, a tag with the name of &quot;Breakpoing&quot; will be dispatched whenever
-one of the given mediaQueries in <strong>items</strong> is active</p>
+<p>In this case, a tag with the name of &quot;Breakpoint&quot; will be dispatched whenever one of the given mediaQueries in <strong>items</strong> is active.</p>
 <h3 id="mediaquerychangetemplate-optional">mediaQueryChangeTemplate (optional)</h3>
-<p>Let you define the template for value of the changes, by default it is as follow</p>
+<p>Let you define the template for value of the changes, by default it is as follow :</p>
 <pre><code class="lang-js">oldValue + <span class="hljs-string">&apos; =&gt; &apos;</span> + newValue
 </code></pre>
 <h3 id="mediaquerychangetimeout-optional">mediaQueryChangeTimeout (optional)</h3>
 <p><strong>NOTE</strong> This value is in milliseconds</p>
-<p>The tag will be debounced to this value in order to prevent performance issues
-It is recommended to set a value around 1 second.</p>
+<p>The tag will be debounced to this value in order to prevent performance issues when resizing window manually.</p>
+<p>It is recommended to set a value around 1 second.</p>
 
                                 
                                 </section>
@@ -501,7 +513,7 @@ It is recommended to set a value around 1 second.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"next":{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},"previous":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/MEDIA-QUERY-TRACKER.md","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"next":{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},"previous":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/MEDIA-QUERY-TRACKER.md","mtime":"2017-07-13T13:19:26.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

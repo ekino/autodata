@@ -21,7 +21,7 @@ export default class Driver {
   }
 
   /**
-   * Parse and send the tag to tms
+   * Parse and send the tag to TMS
    * @param {string} type - tag type
    * @param {object} data - generic autoData information
    */

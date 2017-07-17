@@ -4,6 +4,8 @@ This plugin is aimed to tag the viewport changes on your website.
 
 ## Initialization and usage
 
+Media query plugin needs to be declared to be taken into account by autoData.
+
 ```js
 autoData.init({
   plugins: {
@@ -26,8 +28,7 @@ autoData.init({
 
 ### mediaQueryDefinitions (mandatory)
 
-Set of media-queries that should be spied by the browser in order to
-tag it when a change occurs.
+Set of media-queries that should be spied by the browser in order to tag it when a change occurs.
 
 The configuration must match the following example :
 
@@ -47,12 +48,11 @@ The configuration must match the following example :
 }
 ```
 
-In this case, a tag with the name of "Breakpoing" will be dispatched whenever
-one of the given mediaQueries in **items** is active
+In this case, a tag with the name of "Breakpoint" will be dispatched whenever one of the given mediaQueries in **items** is active.
 
 ### mediaQueryChangeTemplate (optional)
 
-Let you define the template for value of the changes, by default it is as follow
+Let you define the template for value of the changes, by default it is as follow :
 
 ```js
 oldValue + ' => ' + newValue
@@ -62,5 +62,6 @@ oldValue + ' => ' + newValue
 
 **NOTE** This value is in milliseconds
 
-The tag will be debounced to this value in order to prevent performance issues
+The tag will be debounced to this value in order to prevent performance issues when resizing window manually.
+
 It is recommended to set a value around 1 second.

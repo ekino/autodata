@@ -31,3 +31,5 @@ In some cases, it is needed to send a stack of tags at document initialization. 
 ```
 
 **NOTE** : pageview tag is still sent at document initialization if pageview plugin is activated (see [pageviewTracker](./plugins/PAGEVIEW-TRACKER.md)), despite an event labelled "pageview" is set in initial tags.
+
+(WIP) Define a specific Javascript Objet to have another way to launch initial tags (instead script tag).

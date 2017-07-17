@@ -322,7 +322,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="DEV.html">
+        <li class="chapter " data-level="1.8" data-path="IMPLEMENTATION.html">
+            
+                <a href="IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="DEV.html">
             
                 <a href="DEV.html#development">
             
@@ -336,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="dev/TMS.html">
             
                 <a href="dev/TMS.html">
             
@@ -349,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="DEV.html">
             
                 <a href="DEV.html#rules">
             
@@ -416,7 +429,7 @@
 <p>autoData has been designed to work with a data layer if needed, which can enhance each tag with shared values, provided in the web page.</p>
 <h2 id="introduction">Introduction</h2>
 <p>If some tags on the page needs to be populated with shared datas (like a product id), data layer usage prevents writing these datas in many places.</p>
-<p>Basically, data layer is a JSON object. autoData merge the parsed tag with data layer data or part of it, based on configuration.</p>
+<p>Basically, data layer is a JSON object. autoData merge the parsed tag with data layer datas or part of it, based on configuration.</p>
 <h2 id="initialization-and-usage">Initialization and usage</h2>
 <pre><code class="lang-js">  my_data_layer = {
     key1: <span class="hljs-string">&quot;value1&quot;</span>,
@@ -425,14 +438,27 @@
   autoData.init({
     tms: {
       <span class="hljs-comment">//data layer configuration</span>
-      <span class="hljs-comment">//TODO</span>
+      enhancer: (tag) =&gt; ({
+        ...tag,
+        <span class="hljs-comment">// Add all key/value pairs from data layer</span>
+        ...my_data_layer,
+      })
     }
   });
 </code></pre>
-<p><strong>Note</strong> : data layer needs to be populated before autoData initialization or API usage.</p>
+<p>Result for an basic event</p>
+<pre><code class="lang-js">{
+    <span class="hljs-string">&quot;event&quot;</span>:   <span class="hljs-string">&quot;click&quot;</span>,
+    <span class="hljs-string">&quot;obj&quot;</span>:     <span class="hljs-string">&quot;My interacted object&quot;</span>,
+    <span class="hljs-string">&quot;key1&quot;</span>:    <span class="hljs-string">&quot;value1&quot;</span>,
+    <span class="hljs-string">&quot;key2&quot;</span>:    <span class="hljs-string">&quot;value2&quot;</span>
+}
+</code></pre>
+<p><strong>Note</strong> : data layer needs to be instanced and populated before autoData initialization or API usage. Updated values in the data layer are taken into account at each send.</p>
 <h2 id="custom-selection">Custom selection</h2>
 <p>By default, all elements from data layer object are merged to sent tag.</p>
 <p>If needed, it is possible to declare a list of elements to extract from data layer before merging it with tag.</p>
+<p>Here is an example of key selection on datalayer.</p>
 <pre><code class="lang-js">  my_data_layer = {
     key1: <span class="hljs-string">&quot;value1&quot;</span>,
     key2: <span class="hljs-string">&quot;value2&quot;</span>,
@@ -441,9 +467,31 @@
   autoData.init({
     tms: {
       <span class="hljs-comment">//data layer configuration</span>
-      <span class="hljs-comment">//TODO - select only key1 and key3 in configuration</span>
+      enhancer: (tag) =&gt; {
+        <span class="hljs-keyword">switch</span> (tag.event) {
+          <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;click&apos;</span>:
+          <span class="hljs-keyword">case</span> <span class="hljs-string">&apos;pageview&apos;</span>:
+            <span class="hljs-keyword">return</span> {
+              ...tag,
+              <span class="hljs-comment">// Add key1 and key3 from data layer for &apos;click&apos; or &apos;pageview&apos; events</span>
+              key1: my_data_layer.key1,
+              key3: my_data_layer.key3
+            }
+          }
+          <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">return</span> tag;
+        }
+      }
     }
   });
+</code></pre>
+<p>Switch usage is just for example, it shows a way to enhance tag on &apos;click&apos; or &apos;pageview&apos; name of event. In other cases, the tag is not enhanced.</p>
+<pre><code class="lang-js">{
+    <span class="hljs-string">&quot;event&quot;</span>:   <span class="hljs-string">&quot;click&quot;</span>,
+    <span class="hljs-string">&quot;obj&quot;</span>:     <span class="hljs-string">&quot;My interacted object&quot;</span>,
+    <span class="hljs-string">&quot;key1&quot;</span>:    <span class="hljs-string">&quot;value1&quot;</span>,
+    <span class="hljs-string">&quot;key3&quot;</span>:    <span class="hljs-string">&quot;value3&quot;</span>
+}
 </code></pre>
 
                                 
@@ -488,7 +536,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Data layer","level":"1.5","depth":1,"next":{"title":"FAQ","level":"1.6","depth":1,"path":"FAQ.md","ref":"FAQ.md","articles":[]},"previous":{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"DATALAYER.md","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Data layer","level":"1.5","depth":1,"next":{"title":"FAQ","level":"1.6","depth":1,"path":"FAQ.md","ref":"FAQ.md","articles":[]},"previous":{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"DATALAYER.md","mtime":"2017-07-13T14:15:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

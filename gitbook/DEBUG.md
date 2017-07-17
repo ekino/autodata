@@ -2,11 +2,13 @@
 
 autoData can be debugged easily to check data parsing to data sending.
 
-## Debugging with js inclusion
+## Debug context
 
-## Debugging with npm integration
+Actually, not minified version of autoData allow developer to see final tag before sending it to TMS on browser console.
+
+In this context, nothing is sent to TMS.
 
 ## Know my configuration
 
-Initial configuration
+Initial configuration object
 Version of autoData

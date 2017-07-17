@@ -322,7 +322,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="../DEV.html">
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -336,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -349,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -414,10 +427,9 @@
                                 
                                 <h1 id="event-plugin">Event plugin</h1>
 <p>This plugin is aimed to handle automatically event type tag.</p>
-<p>As soon as the user interact with the page (click, touch), the eventTracker plugin will see if the element
-matches the attributes rules and then, send the tag automatically.</p>
+<p>As soon as the user interact with the page (click, touch), the event plugin will see if the element matches the attributes rules and then, send the tag automatically.</p>
 <h2 id="initialization">Initialization</h2>
-<p>eventTracker plugin needs to be initialized to be taken into account by autoData.</p>
+<p>event plugin needs to be declared to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     eventTracker: {
@@ -430,6 +442,13 @@ matches the attributes rules and then, send the tag automatically.</p>
   }
 });
 </code></pre>
+<p>All elements are optional, so event plugin can be declared empty.</p>
+<pre><code class="lang-js">autoData.init({
+  plugins: {
+    eventTracker: {}
+  }
+});
+</code></pre>
 <h3 id="attributeprefix-optional">attributePrefix (optional)</h3>
 <p>Attribute prefix used to parse attributes of interacted DOM element.</p>
 <h3 id="trigger-optional">trigger (optional)</h3>
@@ -437,6 +456,7 @@ matches the attributes rules and then, send the tag automatically.</p>
 <h3 id="attributes-optional">attributes (optional)</h3>
 <p>Set of attributes that should be collected on the trigger element in order to build the tag.</p>
 <h2 id="default-configuration">Default configuration</h2>
+<p>This default configuration is applied if all or part of elements are not set.</p>
 <pre><code class="lang-js">{
   attributePrefix: <span class="hljs-string">&apos;data-event-&apos;</span>,
   trigger: <span class="hljs-string">&apos;obj&apos;</span>,
@@ -534,7 +554,7 @@ See <a href="API.md#autodatasendevent">autoData.sendEvent</a></p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"eventTracker","level":"1.4.1","depth":2,"next":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"previous":{"title":"Plugins","level":"1.4","depth":1,"anchor":"#plugins","path":"PLUGINS.md","ref":"PLUGINS.md#plugins","articles":[{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/EVENT-TRACKER.md","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"eventTracker","level":"1.4.1","depth":2,"next":{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},"previous":{"title":"Plugins","level":"1.4","depth":1,"anchor":"#plugins","path":"PLUGINS.md","ref":"PLUGINS.md#plugins","articles":[{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},{"title":"pageviewTracker","level":"1.4.2","depth":2,"path":"plugins/PAGEVIEW-TRACKER.md","ref":"./plugins/PAGEVIEW-TRACKER.md","articles":[]},{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},{"title":"outboundFormTracker","level":"1.4.4","depth":2,"path":"plugins/OUTBOUND-FORM-TRACKER.md","ref":"./plugins/OUTBOUND-FORM-TRACKER.md","articles":[]},{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},{"title":"jwplayerTracker","level":"1.4.6","depth":2,"path":"plugins/JWPLAYER-TRACKER.MD","ref":"./plugins/JWPLAYER-TRACKER.MD","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/EVENT-TRACKER.md","mtime":"2017-07-13T13:17:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

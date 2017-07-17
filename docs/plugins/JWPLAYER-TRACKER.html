@@ -322,7 +322,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="../DEV.html">
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -336,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -349,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -412,11 +425,12 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="jwplayer-plugin">Jwplayer plugin</h1>
-<p>This plugin is aimed to tag automatically jwplayer instances.
-As soon as a configured event will be fired by jwplayer, it will be
-send to current tms.</p>
+                                <h1 id="jwplayer-plugin">JWPlayer plugin</h1>
+<p>This plugin is aimed to tag automatically JWPlayer instances.</p>
+<p>As soon as a configured event will be fired by JWPlayer, it will be sent to current TMS.</p>
+<p>autoData use JWPlayer API to listen player events. 7.10.4+ version of JWPlayer is required to work with autoData.</p>
 <h2 id="initialization-and-usage">Initialization and usage</h2>
+<p>JWPlayer plugin needs to be declared to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     jwplayerTracker: {
@@ -441,16 +455,16 @@ send to current tms.</p>
 }
 </code></pre>
 <h3 id="jwplayer-mandatory">jwplayer (mandatory)</h3>
-<p>jwplayer javascript API</p>
+<p>JWPlayer javascript API</p>
 <h3 id="events-optional">events (optional)</h3>
-<p>All the events that you want to track (default will be overridden by new ones)</p>
+<p>All the events that you want to track (default will be  overridden by new ones)</p>
 <h3 id="autodetect-optional">autoDetect (optional)</h3>
-<p>This is an experimental feature. This will set &quot;autoData&quot; plugin to jwplayer&apos;s default configuration
+<p>This is an experimental feature. This will set &quot;autoData&quot; plugin to JWPlayer&apos;s default configuration
 in order to catch automatically every instance that is created.
-If you don&apos;t want to use this option, you just need to specify the &quot;autoData&quot; plugin in the jwplayer
+If you don&apos;t want to use this option, you just need to specify the &quot;autoData&quot; plugin in the JWPlayer
 setup settings.</p>
 <pre><code class="lang-js">jwplayer(<span class="hljs-string">&apos;myDiv&apos;</span>).setup({
-  <span class="hljs-comment">// jwplayer config</span>
+  <span class="hljs-comment">// JWPlayer config</span>
   plugins: {
     autoData: {}, <span class="hljs-comment">// optional, see &quot;autoDetect&quot; option</span>
   }
@@ -500,7 +514,7 @@ setup settings.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"jwplayerTracker","level":"1.4.6","depth":2,"next":{"title":"Data layer","level":"1.5","depth":1,"path":"DATALAYER.md","ref":"DATALAYER.md","articles":[]},"previous":{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/JWPLAYER-TRACKER.MD","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"jwplayerTracker","level":"1.4.6","depth":2,"next":{"title":"Data layer","level":"1.5","depth":1,"path":"DATALAYER.md","ref":"DATALAYER.md","articles":[]},"previous":{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/JWPLAYER-TRACKER.MD","mtime":"2017-07-13T14:58:36.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -2,12 +2,11 @@
 
 This plugin is aimed to handle automatically event type tag.
 
-As soon as the user interact with the page (click, touch), the eventTracker plugin will see if the element
-matches the attributes rules and then, send the tag automatically.
+As soon as the user interact with the page (click, touch), the event plugin will see if the element matches the attributes rules and then, send the tag automatically.
 
 ## Initialization
 
-eventTracker plugin needs to be initialized to be taken into account by autoData.
+event plugin needs to be declared to be taken into account by autoData.
 
 ```js
 autoData.init({
@@ -19,6 +18,16 @@ autoData.init({
       attributes: []
       // if not set, default configuration is applied
     }
+  }
+});
+```
+
+All elements are optional, so event plugin can be declared empty.
+
+```js
+autoData.init({
+  plugins: {
+    eventTracker: {}
   }
 });
 ```
@@ -36,6 +45,8 @@ Attribute used for DOM selection by the plugin.
 Set of attributes that should be collected on the trigger element in order to build the tag.
 
 ## Default configuration
+
+This default configuration is applied if all or part of elements are not set.
 
 ```js
 {

@@ -1,4 +1,4 @@
-# WIP (Autodata)
+# Summary
 
 - [Demo page](DEMO.md)
 - [API](API.md#autodata-api)
@@ -16,6 +16,7 @@
 - [Data layer](DATALAYER.md)
 - [FAQ](FAQ.md)
 - [Debug](DEBUG.md)
+- [Implementation](IMPLEMENTATION.md)
 - [Development](DEV.md#development)
     - [TMS](./dev/TMS.md)
     - [Rules](DEV.md#rules)

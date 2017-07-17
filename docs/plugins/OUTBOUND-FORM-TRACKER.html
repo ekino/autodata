@@ -322,7 +322,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8" data-path="../DEV.html">
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -336,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.8.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -349,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.8.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -416,6 +429,7 @@
 <p>This plugin is aimed to send a tag whenever a form is posted
 to a outbound link.</p>
 <h2 id="initialization-and-usage">Initialization and usage</h2>
+<p>Outbound form plugin needs to be declared to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     outboundFormTracker: {
@@ -424,14 +438,13 @@ to a outbound link.</p>
   }
 });
 </code></pre>
+<h3 id="shouldtrackoutboundform-optional">shouldTrackOutboundForm (optional)</h3>
+<p>This function let you manage manually if you wish to treat the current form as an outbound link.</p>
 <h2 id="default-configuration">Default configuration</h2>
 <pre><code class="lang-js">{
   shouldTrackOutboundForm: <span class="hljs-keyword">this</span>.shouldTrackOutboundForm
 }
 </code></pre>
-<h3 id="shouldtrackoutboundform-optional">shouldTrackOutboundForm (optional)</h3>
-<p>This function let you manage manually if you wish to treat the current form
-as an outbound link.</p>
 
                                 
                                 </section>
@@ -475,7 +488,7 @@ as an outbound link.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"outboundFormTracker","level":"1.4.4","depth":2,"next":{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},"previous":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/OUTBOUND-FORM-TRACKER.md","mtime":"2017-07-05T09:45:21.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T09:46:10.226Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"outboundFormTracker","level":"1.4.4","depth":2,"next":{"title":"outboundLinkTracker","level":"1.4.5","depth":2,"path":"plugins/OUTBOUND-LINK-TRACKER.md","ref":"./plugins/OUTBOUND-LINK-TRACKER.md","articles":[]},"previous":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/OUTBOUND-FORM-TRACKER.md","mtime":"2017-07-13T13:19:50.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

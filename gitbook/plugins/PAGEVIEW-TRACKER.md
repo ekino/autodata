@@ -6,18 +6,30 @@ If set, it will collect all the informations on the html tag added to the page.
 
 ## Initialization and usage
 
+pageview plugin needs to be declared to be taken into account by autoData.
+
 ```js
 autoData.init({
   plugins: {
     pageviewTracker: {
       // your configuration here
-      attributePrefix: '',
-      trigger: '',
-      attributes: [],
-      withQueryString: boolean,
-      hotReload: boolean
+      attributePrefix: '', //data atrribute prefix as string
+      trigger: '', //data attribute name as string without prefix
+      attributes: [], //object
+      withQueryString: 0, //boolean
+      hotReload: 0 //boolean
       // if not set, default configuration is applied
     }
+  }
+});
+```
+
+All elements are optional, so pageview plugin can be declared empty.
+
+```js
+autoData.init({
+  plugins: {
+    eventTracker: {}
   }
 });
 ```
