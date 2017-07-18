@@ -4,11 +4,11 @@ import getInstance from './drivers';
 import {getBrowserPageview} from './utils/utilities';
 import {warn, log} from './utils/logger';
 
-let _driver;
+let driver;
 
 const init = (config = {}) => {
-  if (!_driver) {
-    _driver = getInstance(config);
+  if (!driver) {
+    driver = getInstance(config);
   }
 
   if (!config.plugins) {
@@ -16,9 +16,9 @@ const init = (config = {}) => {
   } else {
     Object.keys(config.plugins)
       .filter(pluginName => plugins[pluginName])
-      .forEach(pluginName => {
+      .forEach((pluginName) => {
         const pluginConfig = {
-          ...(_driver.defaultConfig[pluginName] || {}),  // driver default config
+          ...(driver.defaultConfig[pluginName] || {}),  // driver default config
           ...(config.plugins[pluginName] || {}),         // user plugin config
         };
 
@@ -27,7 +27,7 @@ const init = (config = {}) => {
           console.log(pluginConfig);
         }
 
-        new plugins[pluginName](_driver.instance, pluginConfig);
+        new plugins[pluginName](driver.instance, pluginConfig);
       });
   }
 };
@@ -39,7 +39,7 @@ const init = (config = {}) => {
  * @param {string} data.title - page title
  */
 const sendVirtualPageView = (data) => {
-  _driver.instance.send(tagTypes.VIRTUAL_PAGEVIEW, {
+  driver.instance.send(tagTypes.VIRTUAL_PAGEVIEW, {
     ...getBrowserPageview(),
     ...data,
   });
@@ -52,7 +52,7 @@ const sendVirtualPageView = (data) => {
  * @param {string} data.title - page title
  */
 const sendPageView = (data) => {
-  _driver.instance.send(tagTypes.PAGEVIEW, {
+  driver.instance.send(tagTypes.PAGEVIEW, {
     ...getBrowserPageview(),
     ...data,
   });
@@ -63,7 +63,7 @@ const sendPageView = (data) => {
  * @param {object} data - data to be sent
  */
 const sendEvent = (data) => {
-  _driver.instance.send(tagTypes.EVENT, data);
+  driver.instance.send(tagTypes.EVENT, data);
 };
 
 const autoData = {

@@ -15,22 +15,22 @@
  */
 
 
-var debounce = require('debounce');
-var defaults = require('../utils/utilities').defaults;
-var isObject = require('../utils/utilities').isObject;
-var toArray = require('../utils/utilities').toArray;
+const debounce = require('debounce');
+const defaults = require('../utils/utilities').defaults;
+const isObject = require('../utils/utilities').isObject;
+const toArray = require('../utils/utilities').toArray;
 
 
 /**
  * Sets the string to use when no custom dimension value is available.
  */
-var NULL_DIMENSION = '(not set)';
+const NULL_DIMENSION = '(not set)';
 
 
 /**
  * Declares the MediaQueryListener instance cache.
  */
-var mediaMap = {};
+const mediaMap = {};
 
 
 /**
@@ -40,14 +40,13 @@ var mediaMap = {};
  * @param {?Object} opts Passed by the require command.
  */
 function MediaQueryTracker(tracker, opts) {
-
   // Feature detects to prevent errors in unsupporting browsers.
   if (!window.matchMedia) return;
 
   this.opts = defaults(opts, {
     mediaQueryDefinitions: false,
     mediaQueryChangeTemplate: this.changeTemplate,
-    mediaQueryChangeTimeout: 1000
+    mediaQueryChangeTimeout: 1000,
   });
 
   // Exits early if media query data doesn't exist.
@@ -65,16 +64,16 @@ function MediaQueryTracker(tracker, opts) {
  * Loops through each media query definition, sets the custom dimenion data,
  * and adds the change listeners.
  */
-MediaQueryTracker.prototype.processMediaQueries = function() {
-  this.opts.mediaQueryDefinitions.forEach(function(definition) {
+MediaQueryTracker.prototype.processMediaQueries = function processMediaQueries() {
+  this.opts.mediaQueryDefinitions.forEach((definition) => {
     // Only processes definitions with a name and index.
     if (definition.name && definition.dimensionIndex) {
-      var mediaName = this.getMatchName(definition);
-      this.tracker.set('dimension' + definition.dimensionIndex, mediaName);
+      const mediaName = this.getMatchName(definition);
+      this.tracker.set(`dimension${definition.dimensionIndex}`, mediaName);
 
       this.addChangeListeners(definition);
     }
-  }.bind(this));
+  });
 };
 
 
@@ -85,10 +84,10 @@ MediaQueryTracker.prototype.processMediaQueries = function() {
  *     with a single custom dimension.
  * @return {string} The name of the matched media or NULL_DIMENSION.
  */
-MediaQueryTracker.prototype.getMatchName = function(definition) {
-  var match;
+MediaQueryTracker.prototype.getMatchName = function getMatchName(definition) {
+  let match;
 
-  definition.items.forEach(function(item) {
+  definition.items.forEach((item) => {
     if (getMediaListener(item.media).matches) {
       match = item;
     }
@@ -103,16 +102,16 @@ MediaQueryTracker.prototype.getMatchName = function(definition) {
  * @param {Object} definition A set of named media queries associated
  *     with a single custom dimension
  */
-MediaQueryTracker.prototype.addChangeListeners = function(definition) {
-  definition.items.forEach(function(item) {
-    var mql = getMediaListener(item.media);
-    var fn = debounce(function() {
+MediaQueryTracker.prototype.addChangeListeners = function addChangeListeners(definition) {
+  definition.items.forEach((item) => {
+    const mql = getMediaListener(item.media);
+    const fn = debounce(() => {
       this.handleChanges(definition);
-    }.bind(this), this.opts.mediaQueryChangeTimeout);
+    }, this.opts.mediaQueryChangeTimeout);
 
     mql.addListener(fn);
-    this.changeListeners.push({mql: mql, fn: fn});
-  }.bind(this));
+    this.changeListeners.push({mql, fn});
+  });
 };
 
 
@@ -122,15 +121,15 @@ MediaQueryTracker.prototype.addChangeListeners = function(definition) {
  * @param {Object} definition A set of named media queries associated
  *     with a single custom dimension
  */
-MediaQueryTracker.prototype.handleChanges = function(definition) {
-  var newValue = this.getMatchName(definition);
-  var oldValue = this.tracker.get('dimension' + definition.dimensionIndex);
+MediaQueryTracker.prototype.handleChanges = function handleChanges(definition) {
+  const newValue = this.getMatchName(definition);
+  const oldValue = this.tracker.get(`dimension${definition.dimensionIndex}`);
 
   if (newValue !== oldValue) {
-    this.tracker.set('dimension' + definition.dimensionIndex, newValue);
+    this.tracker.set(`dimension${definition.dimensionIndex}`, newValue);
     this.tracker.send('media-query', {
       name: definition.name,
-      value: this.opts.mediaQueryChangeTemplate(oldValue, newValue)
+      value: this.opts.mediaQueryChangeTemplate(oldValue, newValue),
     });
   }
 };
@@ -139,8 +138,8 @@ MediaQueryTracker.prototype.handleChanges = function(definition) {
 /**
  * Removes all event listeners and instance properties.
  */
-MediaQueryTracker.prototype.remove = function() {
-  for (var i = 0, listener; listener = this.changeListeners[i]; i++) {
+MediaQueryTracker.prototype.remove = function remove() {
+  for (let i = 0, listener; listener = this.changeListeners[i]; i += 1) {
     listener.mql.removeListener(listener.fn);
   }
   this.changeListeners = null;
@@ -156,8 +155,8 @@ MediaQueryTracker.prototype.remove = function() {
  * @param {string} newValue The value of the media query after the change.
  * @return {string} The formatted event label.
  */
-MediaQueryTracker.prototype.changeTemplate = function(oldValue, newValue) {
-  return oldValue + ' => ' + newValue;
+MediaQueryTracker.prototype.changeTemplate = function changeTemplate(oldValue, newValue) {
+  return `${oldValue} => ${newValue}`;
 };
 
 

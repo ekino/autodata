@@ -14,7 +14,7 @@ import * as tealium from './tealium';
  */
 export default function getInstance(config) {
   const {tms} = config;
-  let defaultConfig = {};
+  const defaultConfig = {};
 
   if (!tms) {
     throw new Error(errors.NO_DRIVER_PROVIDED);

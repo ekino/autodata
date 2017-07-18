@@ -15,9 +15,9 @@
  */
 
 
-var defaults = require('../utils/utilities').defaults;
-var delegate = require('delegate');
-var utilities = require('../utils/utilities');
+const defaults = require('../utils/utilities').defaults;
+const delegate = require('delegate');
+const utilities = require('../utils/utilities');
 
 
 /**
@@ -27,12 +27,11 @@ var utilities = require('../utils/utilities');
  * @param {?Object} opts Passed by the require command.
  */
 function OutboundFormTracker(tracker, opts) {
-
   // Feature detects to prevent errors in unsupporting browsers.
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    shouldTrackOutboundForm: this.shouldTrackOutboundForm
+    shouldTrackOutboundForm: this.shouldTrackOutboundForm,
   });
 
   this.tracker = tracker;
@@ -50,26 +49,24 @@ function OutboundFormTracker(tracker, opts) {
  * action is prevented and re-emitted after the hit is sent.
  * @param {Event} event The DOM submit event.
  */
-OutboundFormTracker.prototype.handleFormSubmits = function(event) {
-
-  var form = event.delegateTarget;
-  var action = form.getAttribute('action');
-  var fieldsObj = {transport: 'beacon'};
+OutboundFormTracker.prototype.handleFormSubmits = function handleFormSubmits(event) {
+  const form = event.delegateTarget;
+  const action = form.getAttribute('action');
+  const fieldsObj = {transport: 'beacon'};
 
   if (this.opts.shouldTrackOutboundForm(form)) {
-
     if (!navigator.sendBeacon) {
       // Stops the submit and waits until the hit is complete (with timeout)
       // for browsers that don't support beacon.
       event.preventDefault();
-      fieldsObj.hitCallback = utilities.withTimeout(function() {
+      fieldsObj.hitCallback = utilities.withTimeout(() => {
         form.submit();
       });
     }
 
     this.tracker.send('outbound-form', {
       action,
-      fieldsObj
+      fieldsObj,
     });
   }
 };
@@ -82,8 +79,8 @@ OutboundFormTracker.prototype.handleFormSubmits = function(event) {
  * @param {Element} form The form that was submitted.
  * @return {boolean} Whether or not the form should be tracked.
  */
-OutboundFormTracker.prototype.shouldTrackOutboundForm = function(form) {
-  var action = form.getAttribute('action');
+OutboundFormTracker.prototype.shouldTrackOutboundForm = function shouldTrackOutboundForm(form) {
+  const action = form.getAttribute('action');
   return action &&
       action.indexOf('http') === 0 &&
       action.indexOf(location.hostname) < 0;
@@ -93,7 +90,7 @@ OutboundFormTracker.prototype.shouldTrackOutboundForm = function(form) {
 /**
  * Removes all event listeners and instance properties.
  */
- OutboundFormTracker.prototype.remove = function() {
+OutboundFormTracker.prototype.remove = function remove() {
   this.delegate.destroy();
   this.delegate = null;
   this.tracker = null;

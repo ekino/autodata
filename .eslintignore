@@ -1,2 +1,3 @@
 src/demo/assets/**/*.js
 src/demo/vendors/**/*.js
+node_modules/**/*

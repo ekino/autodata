@@ -5,7 +5,7 @@
  */
 
 const $log = name => (...args) => console.log(
-  `%c GTM:${name}`, 'color: white; background: blue', ...args
+  `%c GTM:${name}`, 'color: white; background: blue', ...args,
 );
 const dataLayer = [];
 const oldPush = dataLayer.push;

@@ -7,8 +7,8 @@ import * as tagTypes from '../constants/tagTypes';
 export const config = {
   eventTracker: {
     trigger: 'obj',
-    attributes: ['act', 'desc', 'val']
-  }
+    attributes: ['act', 'desc', 'val'],
+  },
 };
 
 /**
@@ -40,6 +40,8 @@ export const parser = (type, data = {}) => {
  * @param {object} tag - parsed tag to be sent
  */
 export const sender = (tag) => {
-  const layer = window.dataLayer = window.dataLayer || [];
-  layer.push(tag);
+  if (!window.dataLayer) {
+    window.dataLayer = [];
+  }
+  window.dataLayer.push(tag);
 };

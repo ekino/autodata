@@ -15,8 +15,8 @@
  */
 
 
-var delegate = require('delegate');
-var defaults = require('../utils/utilities').defaults;
+const delegate = require('delegate');
+const defaults = require('../utils/utilities').defaults;
 
 
 /**
@@ -26,20 +26,19 @@ var defaults = require('../utils/utilities').defaults;
  * @param {?Object} opts Passed by the require command.
  */
 function EventTracker(tracker, opts) {
-
   // Feature detects to prevent errors in unsupporting browsers.
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
     attributePrefix: 'data-event-',
     trigger: 'obj',
-    attributes: ['act', 'desc', 'val']
+    attributes: ['act', 'desc', 'val'],
   });
 
   this.tracker = tracker;
 
-  var prefix = this.opts.attributePrefix;
-  var selector = `[${prefix}${this.opts.trigger}]`;
+  const prefix = this.opts.attributePrefix;
+  const selector = `[${prefix}${this.opts.trigger}]`;
 
   this.delegate = delegate(document, selector,
       'click', this.handleEventClicks.bind(this));
@@ -50,14 +49,13 @@ function EventTracker(tracker, opts) {
  * Handles all clicks on elements with event attributes.
  * @param {Event} event The DOM click event.
  */
-EventTracker.prototype.handleEventClicks = function(event) {
-
+EventTracker.prototype.handleEventClicks = function handleEventClicks(event) {
   const link = event.delegateTarget;
   const {attributePrefix, trigger, attributes} = this.opts;
   const data = {};
 
-  [...attributes, trigger ]
-    .forEach(attrName => {
+  [...attributes, trigger]
+    .forEach((attrName) => {
       const attrValue = link.getAttribute(`${attributePrefix}${attrName}`);
       if (attrValue) {
         data[attrName] = attrValue;
@@ -71,7 +69,7 @@ EventTracker.prototype.handleEventClicks = function(event) {
 /**
  * Removes all event listeners and instance properties.
  */
-EventTracker.prototype.remove = function() {
+EventTracker.prototype.remove = function remove() {
   this.delegate.destroy();
   this.delegate = null;
   this.tracker = null;

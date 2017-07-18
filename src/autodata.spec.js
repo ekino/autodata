@@ -22,7 +22,7 @@ const defaultConfig = {
 
 describe('Autodata', () => {
   it('should export the API on window object', () => {
-    expect(autoData).to.be.ok;
+    expect(!!autoData).equals(true);
   });
 
   it('should provide init function', () => {
@@ -55,7 +55,7 @@ describe('Autodata', () => {
       expect(tmsSpy.calledWith(tagTypes.VIRTUAL_PAGEVIEW, {
         page: 'blank',
         title: '',
-        foo: 'bar'
+        foo: 'bar',
       })).equals(true);
     });
 

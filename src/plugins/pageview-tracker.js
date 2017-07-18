@@ -10,13 +10,13 @@ export default class InitialPageview {
    * @param {object} tracker - tracker instance
    * @param {object} opts - configuration
    */
-  constructor (tracker, opts) {
+  constructor(tracker, opts) {
     this.opts = defaults(opts, {
       attributePrefix: 'data-pageview-',
       trigger: 'page',
       attributes: ['title'],
       withQueryString: true,
-      hotReload: false
+      hotReload: false,
     });
 
     this.tracker = tracker;
@@ -100,7 +100,7 @@ export default class InitialPageview {
     if ($trigger) {
       [...attributes, trigger]
         .filter(name => $trigger.hasAttribute(`${attributePrefix}${name}`))
-        .forEach(name => {
+        .forEach((name) => {
           data[name] = $trigger.getAttribute(`${attributePrefix}${name}`);
         });
     }
