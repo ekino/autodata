@@ -281,7 +281,59 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="DEV.html">
+        <li class="chapter " data-level="1.5" data-path="DATALAYER.html">
+            
+                <a href="DATALAYER.html">
+            
+                    
+                    Data layer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="FAQ.html">
+            
+                <a href="FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="DEBUG.html">
+            
+                <a href="DEBUG.html">
+            
+                    
+                    Debug
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="IMPLEMENTATION.html">
+            
+                <a href="IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="DEV.html">
             
                 <a href="DEV.html#development">
             
@@ -295,7 +347,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="dev/TMS.html">
             
                 <a href="dev/TMS.html">
             
@@ -308,7 +360,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="DEV.html">
             
                 <a href="DEV.html#rules">
             
@@ -371,10 +423,27 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="wip-autodata">WIP (Autodata)</h1>
-<p>Autodata is a forked from <a href="https://github.com/googleanalytics/autotrack" target="_blank">googleanalytics/autotrack</a>.
-Its original purpose was to keep automatic tracking logic from &quot;autotrack&quot; but open its TMS possibilities to
-multiple ones.</p>
+                                <h1 id="autodata">Autodata</h1>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#browser-support-and-compatibilities">Browser support and compatibilities</a></li>
+<li><a href="#plugins">Plugins</a></li>
+<li><a href="#installation-and-usage">Installation and usage</a></li>
+<li><a href="#advanced-configuration">Advanced configuration</a></li>
+<li><a href="#License">License</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>autoData is an agnostic Javascript Library which simplify analytics tags implementation and automatize data sending to Tag Management System (TMS).</p>
+<p>Its original purpose was to keep automatic tracking logic from the library <a href="https://github.com/googleanalytics/autotrack" target="_blank">autotrack</a> but open its possibilities to work with any Tag Management System (TMS), not exclusively Google Analytics.</p>
+<p>Generally, each developer needs to write their tracking code using specific syntax, provided by the TMS. Also, each tag needs generally a listener and a dedicated Javascript code, particularly on a lot of simple events of user interaction. autoData is here to simplify these tasks by using a simple approach, the use of HTML data attributes and, if needed, a data object (i.e. data layer).</p>
+<p>This library is simple to use, but not limited : developer can configure default parameters and override easily how data is parsed, enhanced or sent to TMS (which can become any data collector).</p>
+<p>TMS taken into account by autoData :</p>
+<ul>
+<li>Google Tag Manager</li>
+<li>Tealium</li>
+<li>Custom tag collector (see <a href="dev/TMS.html">TMS</a>)</li>
+</ul>
+<p>Global documentation is hosted here : <a href="https://github.com/ekino/autodata" target="_blank">https://github.com/ekino/autodata</a></p>
 <p>In this documentation you will find every information about the library</p>
 <ul>
 <li>Its demo page</li>
@@ -382,6 +451,84 @@ multiple ones.</p>
 <li>Plugins description and explanation</li>
 <li>Development rules if you want to contribute</li>
 </ul>
+<h2 id="browser-support-and-compatibilities">Browser support and compatibilities</h2>
+<p>Like autotrack, autoData will safely run in any browser without errors, as feature detection is always used with any potentially unsupported code. However, autoData will only track features supported in the browser running it. For example, a user running Internet Explorer 8 will not be able to track media query usage, as media queries themselves aren&apos;t supported in Internet Explorer 8.</p>
+<p>All autotrack plugins are tested in the following browsers :</p>
+<ul>
+<li>Chrome</li>
+<li>Firefox</li>
+<li>Safari 6+</li>
+<li>IE Edge</li>
+<li>IE9+</li>
+<li>Opera</li>
+</ul>
+<p>autoData could be integrated on a hybrid mobile app with some tricks but was not designed for.</p>
+<h2 id="plugins">Plugins</h2>
+<p>The autodata.min.js built file is small (25ko) and comes with all plugins included. The following table briefly explains what each plugin does, their usage is detailled <a href="https://ekino.github.io/autodata/PLUGINS.html" target="_blank">here</a> :</p>
+<table>
+<thead>
+<tr>
+<th>Plugin name</th>
+<th>Plugin description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>eventTracker</strong></td>
+<td>Enables declarative event tracking, via HTML attributes in the markup.</td>
+</tr>
+<tr>
+<td><strong>pageviewTracker</strong></td>
+<td>Enables automatic/overridden pageview tracking.</td>
+</tr>
+<tr>
+<td><strong>mediaQueryTracker</strong></td>
+<td>Enables tracking media query matching and media query changes.</td>
+</tr>
+<tr>
+<td><strong>outboundFormTracker</strong></td>
+<td>Automatically tracks form submits to external domains.</td>
+</tr>
+<tr>
+<td><strong>outboundLinkTracker</strong></td>
+<td>Automatically tracks link clicks to external domains.</td>
+</tr>
+<tr>
+<td><strong>jwplayerTracker</strong></td>
+<td>Automatically tracks events from <a href="https://www.jwplayer.com" target="_blank">jwplayer</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="installation-and-usage">Installation and usage</h2>
+<p>To add autoData to your site, you have to do two things:</p>
+<ul>
+<li>Load the autodata.min.js built script file on your page</li>
+</ul>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&apos;text/javascript&apos;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&apos;/path-to/autodata.min.js&apos;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<ul>
+<li>Initialize autoData with needed plugins</li>
+</ul>
+<pre><code class="lang-js">autoData.init({
+  plugins: {
+    eventTracker: {},
+    pageviewTracker: {}
+  }
+});
+</code></pre>
+<p>See documentation for more details : <a href="https://ekino.github.io/autodata/" target="_blank">https://ekino.github.io/autodata/</a></p>
+<h2 id="advanced-configuration">Advanced configuration</h2>
+<p>autoData comes with a default configuration for tms and plugins. It can be overriden if needed. Also, autoData can be customized easily to fit with tag implementation needs. See documentation to learn how : <a href="https://ekino.github.io/autodata/" target="_blank">https://ekino.github.io/autodata/</a></p>
+<h2 id="license">License</h2>
+<p>autoData is initially a forked version of  <a href="https://github.com/googleanalytics/autotrack" target="_blank">googleanalytics/autotrack</a>.</p>
+<p>It inherits the same Apache license, Version 2.0</p>
+<p>You may not use this file except in compliance with the License.
+You may obtain a copy of the License at <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
 
                                 
                                 </section>
@@ -421,7 +568,7 @@ multiple ones.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Demo page","level":"1.2","depth":1,"path":"DEMO.md","ref":"DEMO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2017-07-01T12:54:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T08:54:53.413Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Demo page","level":"1.2","depth":1,"path":"DEMO.md","ref":"DEMO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2017-07-17T17:16:57.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
@@ -429,6 +576,10 @@ multiple ones.</p>
         
     <script src="gitbook/gitbook.js"></script>
     <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
     
         
         <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>

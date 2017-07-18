@@ -283,7 +283,59 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="../DEV.html">
+        <li class="chapter " data-level="1.5" data-path="../DATALAYER.html">
+            
+                <a href="../DATALAYER.html">
+            
+                    
+                    Data layer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../FAQ.html">
+            
+                <a href="../FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../DEBUG.html">
+            
+                <a href="../DEBUG.html">
+            
+                    
+                    Debug
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -297,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.5.1" data-path="TMS.html">
+        <li class="chapter active" data-level="1.9.1" data-path="TMS.html">
             
                 <a href="TMS.html">
             
@@ -310,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -374,9 +426,10 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="tms---tag-management-system">TMS - Tag management system</h1>
-<p>This page is aimed to help you understand how to create a new driver inside the project</p>
+<p>This page is aimed to help you understand how to create a new TMS driver inside the project.</p>
+<p>autoData has been designed to work with a TMS, but cutom driver override allows sending data to any data collector with the same logic (parsing, enhancing, sending).</p>
 <h2 id="structure">Structure</h2>
-<p>A tms is an export of 3 elements.</p>
+<p>A TMS is an export of 4 elements.</p>
 <h3 id="config">config</h3>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> config = {
   eventTracker: {
@@ -386,19 +439,26 @@
 };
 </code></pre>
 <p>This config is plugin-dedicated, it will allow you to set a specific configuration for the plugins.
-The rest of the configuration is still on charge of the final user (tms for example)</p>
+The rest of the configuration is still on charge of the final user (TMS for example).</p>
 <h2 id="parser">parser</h2>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parser = (type, data = {}) =&gt; {
-  <span class="hljs-comment">// tms parsing logic</span>
+  <span class="hljs-comment">// TMS parsing logic</span>
 };
 </code></pre>
-<p>The parser must return an object representing the final tag that will be sent</p>
+<p>The parser must return an object representing the final tag that will be sent.</p>
+<h2 id="enhancer">enhancer</h2>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> enhancer = (tag) =&gt; {
+<span class="hljs-comment">// TMS enhancing logic</span>
+<span class="hljs-comment">// ...tag, ...window.utag_data</span>
+};
+</code></pre>
+<p>The enhancer must return an object representing the enriched final tag provided by parser.</p>
 <h2 id="sender">sender</h2>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> sender = (parsedTag) =&gt; {
-  <span class="hljs-comment">// tms sending logic</span>
+  <span class="hljs-comment">// TMS sending logic</span>
 };
 </code></pre>
-<p>Sender have the parsed tag as an argument and it&apos;s in your charge to send it</p>
+<p>Sender have the parsed tag as an argument and it&apos;s in your charge to send it to a TMS or any data collector system.</p>
 
                                 
                                 </section>
@@ -442,7 +502,7 @@ The rest of the configuration is still on charge of the final user (tms for exam
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"TMS","level":"1.5.1","depth":2,"next":{"title":"Rules","level":"1.5.2","depth":2,"anchor":"#rules","path":"DEV.md","ref":"DEV.md#rules","articles":[]},"previous":{"title":"Development","level":"1.5","depth":1,"anchor":"#development","path":"DEV.md","ref":"DEV.md#development","articles":[{"title":"TMS","level":"1.5.1","depth":2,"path":"dev/TMS.md","ref":"./dev/TMS.md","articles":[]},{"title":"Rules","level":"1.5.2","depth":2,"anchor":"#rules","path":"DEV.md","ref":"DEV.md#rules","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"dev/TMS.md","mtime":"2017-07-01T12:54:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T08:54:53.413Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TMS","level":"1.9.1","depth":2,"next":{"title":"Rules","level":"1.9.2","depth":2,"anchor":"#rules","path":"DEV.md","ref":"DEV.md#rules","articles":[]},"previous":{"title":"Development","level":"1.9","depth":1,"anchor":"#development","path":"DEV.md","ref":"DEV.md#development","articles":[{"title":"TMS","level":"1.9.1","depth":2,"path":"dev/TMS.md","ref":"./dev/TMS.md","articles":[]},{"title":"Rules","level":"1.9.2","depth":2,"anchor":"#rules","path":"DEV.md","ref":"DEV.md#rules","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"dev/TMS.md","mtime":"2017-07-13T13:53:36.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -450,6 +510,10 @@ The rest of the configuration is still on charge of the final user (tms for exam
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>

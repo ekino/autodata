@@ -283,7 +283,59 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="../DEV.html">
+        <li class="chapter " data-level="1.5" data-path="../DATALAYER.html">
+            
+                <a href="../DATALAYER.html">
+            
+                    
+                    Data layer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../FAQ.html">
+            
+                <a href="../FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../DEBUG.html">
+            
+                <a href="../DEBUG.html">
+            
+                    
+                    Debug
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../IMPLEMENTATION.html">
+            
+                <a href="../IMPLEMENTATION.html">
+            
+                    
+                    Implementation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../DEV.html">
             
                 <a href="../DEV.html#development">
             
@@ -297,7 +349,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="../dev/TMS.html">
+        <li class="chapter " data-level="1.9.1" data-path="../dev/TMS.html">
             
                 <a href="../dev/TMS.html">
             
@@ -310,7 +362,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="../DEV.html">
+        <li class="chapter " data-level="1.9.2" data-path="../DEV.html">
             
                 <a href="../DEV.html#rules">
             
@@ -374,28 +426,45 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="pageview-plugin">Pageview plugin</h1>
-<p>This plugin is aimed to tag automatically the pageview data.
-It will collect all the information on the html tag you will configure
-inside your page.</p>
-<h2 id="initialization-ans-usage">Initialization ans usage</h2>
+<p>This plugin is aimed to tag automatically the pageview data.</p>
+<p>If set, it will collect all the informations on the html tag added to the page.</p>
+<h2 id="initialization-and-usage">Initialization and usage</h2>
+<p>pageview plugin needs to be declared to be taken into account by autoData.</p>
 <pre><code class="lang-js">autoData.init({
   plugins: {
     pageviewTracker: {
       <span class="hljs-comment">// your configuration here</span>
+      attributePrefix: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">//data atrribute prefix as string</span>
+      trigger: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">//data attribute name as string without prefix</span>
+      attributes: [], <span class="hljs-comment">//object</span>
+      withQueryString: <span class="hljs-number">0</span>, <span class="hljs-comment">//boolean</span>
+      hotReload: <span class="hljs-number">0</span> <span class="hljs-comment">//boolean</span>
+      <span class="hljs-comment">// if not set, default configuration is applied</span>
     }
   }
 });
 </code></pre>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ANY</span> <span class="hljs-attr">data-pageview-page</span>=<span class="hljs-string">&quot;/home&quot;</span> <span class="hljs-attr">data-pageview-title</span>=<span class="hljs-string">&quot;Homepage&quot;</span> /&gt;</span>
+<p>All elements are optional, so pageview plugin can be declared empty.</p>
+<pre><code class="lang-js">autoData.init({
+  plugins: {
+    eventTracker: {}
+  }
+});
 </code></pre>
-<p><strong>NOTE</strong>
-By default, the &quot;page&quot; and &quot;title&quot; information will be collected from the browser
-information so the creation of the HTML tag is not mandatory !</p>
-<pre><code class="lang-js">{
-  page: location.pathname + location.search,
-  title: history.state.title || <span class="hljs-built_in">document</span>.title
-}
-</code></pre>
+<h3 id="attributeprefix-optional">attributePrefix (optional)</h3>
+<p>Attribute prefix used for DOM selection</p>
+<h3 id="trigger-optional">trigger (optional)</h3>
+<p>Attribute used for DOM selection by the plugin</p>
+<h3 id="attributes-optional">attributes (optional)</h3>
+<p>Set of attributes that should be collected on the trigger element in order
+to build the tag</p>
+<h3 id="withquerystring-optional">withQueryString (optional)</h3>
+<p>Specify if you want to include the query string in the page property of the
+default pageview</p>
+<h3 id="hotreload-wip">hotReload (WIP)</h3>
+<p>This feature will listen for url changes by history pushState in order
+to send the pageview tag again.
+You will need to update the DOM in order to collect the new page information !</p>
 <h2 id="default-configuration">Default configuration</h2>
 <pre><code class="lang-js">{
   attributePrefix: <span class="hljs-string">&apos;data-pageview-&apos;</span>,
@@ -405,20 +474,16 @@ information so the creation of the HTML tag is not mandatory !</p>
   hotReload: <span class="hljs-literal">false</span>
 }
 </code></pre>
-<h3 id="attributeprefix">attributePrefix</h3>
-<p>Attribute prefix used for DOM selection</p>
-<h3 id="trigger">trigger</h3>
-<p>Attribute used for DOM selection by the plugin</p>
-<h3 id="attributes">attributes</h3>
-<p>Set of attributes that should be collected on the trigger element in order
-to build the tag</p>
-<h3 id="withquerystring">withQueryString</h3>
-<p>Specify if you want to include the query string in the page property of the
-default pageview</p>
-<h3 id="hotreload-wip">hotReload (WIP)</h3>
-<p>This feature will listen for url changes by history pushState in order
-to send the pageview tag again.
-You will need to update the DOM in order to collect the new page information !</p>
+<p>Targeted DOM element have to carry data attributes, at least trigger attribute</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ANY</span> <span class="hljs-attr">data-pageview-page</span>=<span class="hljs-string">&quot;/home&quot;</span> <span class="hljs-attr">data-pageview-title</span>=<span class="hljs-string">&quot;Homepage&quot;</span> /&gt;</span>
+</code></pre>
+<p><strong>NOTE</strong>
+By default, the &quot;page&quot; and &quot;title&quot; information will be collected from the browser information so the creation of the HTML tag is not mandatory !</p>
+<pre><code class="lang-js">{
+  page: location.pathname + location.search,
+  title: history.state.title || <span class="hljs-built_in">document</span>.title
+}
+</code></pre>
 
                                 
                                 </section>
@@ -462,7 +527,7 @@ You will need to update the DOM in order to collect the new page information !</
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"pageviewTracker","level":"1.4.2","depth":2,"next":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},"previous":{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/PAGEVIEW-TRACKER.md","mtime":"2017-07-01T12:54:55.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-05T08:54:53.413Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"pageviewTracker","level":"1.4.2","depth":2,"next":{"title":"mediaQueryTracker","level":"1.4.3","depth":2,"path":"plugins/MEDIA-QUERY-TRACKER.md","ref":"./plugins/MEDIA-QUERY-TRACKER.md","articles":[]},"previous":{"title":"eventTracker","level":"1.4.1","depth":2,"path":"plugins/EVENT-TRACKER.md","ref":"./plugins/EVENT-TRACKER.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"plugins/PAGEVIEW-TRACKER.md","mtime":"2017-07-13T15:51:11.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-07-17T17:21:48.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -470,6 +535,10 @@ You will need to update the DOM in order to collect the new page information !</
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>

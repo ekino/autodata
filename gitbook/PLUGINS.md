@@ -1,6 +1,6 @@
 # Plugins
 
-This section will provide all the information for configuring the plugins
+This section will provide all the information to configure each plugin
 
 ## Organization
 

@@ -1,4 +1,4 @@
-# WIP (Autodata)
+# Summary
 
 - [Demo page](DEMO.md)
 - [API](API.md#autodata-api)
@@ -13,6 +13,10 @@
     - [outboundFormTracker](./plugins/OUTBOUND-FORM-TRACKER.md)
     - [outboundLinkTracker](./plugins/OUTBOUND-LINK-TRACKER.md)
     - [jwplayerTracker](./plugins/JWPLAYER-TRACKER.MD)
+- [Data layer](DATALAYER.md)
+- [FAQ](FAQ.md)
+- [Debug](DEBUG.md)
+- [Implementation](IMPLEMENTATION.md)
 - [Development](DEV.md#development)
     - [TMS](./dev/TMS.md)
     - [Rules](DEV.md#rules)
