@@ -1,10 +1,10 @@
 {
   "name": "autodata",
   "version": "1.0.0",
-  "main": "dist/autotrack.js",
+  "main": "dist/autodata.js",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf ./dist ./doc",
+    "clean": "rimraf ./dist ./docs",
     "build:dev": "babel-node ./node_modules/.bin/webpack --config webpack.config.js",
     "build:prod": "NODE_ENV=prod babel-node ./node_modules/.bin/webpack --config webpack.config.js",
     "build:doc": "gitbook build ./gitbook ./docs",
@@ -14,7 +14,7 @@
     "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
     "precommit": "yarn run lint",
     "prepush": "yarn test",
-    "preversion": "make build && git add -A ./dist ./doc"
+    "preversion": "make prepare && git add -A ./dist ./docs"
   },
   "engines": {
     "node": ">=6.9.0 <7.0.0"

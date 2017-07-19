@@ -6,7 +6,7 @@ install:
 	yarn
 
 # Lint and test
-test:
+lint_test:
 	yarn lint
 	yarn test
 
@@ -19,6 +19,11 @@ build:
 	yarn build:doc
 	yarn build:dev
 	yarn build:prod
+
+# Prepare for release
+prepare:
+	make lint_test
+	make build
 
 kill:
 	docker rm -f autodata
