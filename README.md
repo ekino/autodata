@@ -8,6 +8,7 @@ You can find the project documentation at [ekino.github.io/autodata](https://eki
 
 ## Table of contents
 - [Requirements](#requirements)
+- [Getting started](#getting-started)
 - [Setup](#setup)
   - [Installation](#installation)
   - [Setup requirements](#setup-requirements)
@@ -21,6 +22,24 @@ You can find the project documentation at [ekino.github.io/autodata](https://eki
 # Requirements
 
 - [Yarn](https://yarnpkg.com/)
+
+# Getting started
+
+Autodata library can be installed with 2 options :
+
+## npm
+
+```
+$ npm install autodata
+```
+
+## unpkg cdn
+
+```
+<script src="https://unpkg.com/autodata@latest"></script>
+```
+
+All the documentation and examples are available on the project's gitbook : [ekino.github.io/autodata](https://ekino.github.io/autodata/)
 
 # Setup
 
