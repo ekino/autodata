@@ -1,7 +1,7 @@
 {
   "name": "autodata",
   "version": "1.0.0",
-  "main": "dist/autotrack.js",
+  "main": "dist/autodata.js",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf ./dist ./doc",
@@ -14,7 +14,7 @@
     "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
     "precommit": "yarn run lint",
     "prepush": "yarn test",
-    "preversion": "make build && git add -A ./dist ./doc"
+    "preversion": "make prepare && git add -A ./dist ./doc"
   },
   "engines": {
     "node": ">=6.9.0 <7.0.0"
