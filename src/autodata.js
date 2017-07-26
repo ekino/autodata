@@ -2,13 +2,17 @@ import * as plugins from './plugins';
 import * as tagTypes from './constants/tagTypes';
 import getInstance from './drivers';
 import {getBrowserPageview} from './utils/utilities';
-import {warn, log} from './utils/logger';
+import {warn, log, enableDebug} from './utils/logger';
 
 let driver;
 
 const init = (config = {}) => {
   if (!driver) {
     driver = getInstance(config);
+  }
+
+  if (config.debug === true) {
+    enableDebug();
   }
 
   if (!config.plugins) {
@@ -22,10 +26,8 @@ const init = (config = {}) => {
           ...(config.plugins[pluginName] || {}),         // user plugin config
         };
 
-        if (__DEV__) {
-          log(`Config for plugin : ${pluginName}`);
-          console.log(pluginConfig);
-        }
+        log(`Config for plugin : ${pluginName}`);
+        log(pluginConfig);
 
         new plugins[pluginName](driver.instance, pluginConfig);
       });

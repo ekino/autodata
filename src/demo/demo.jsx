@@ -25,6 +25,7 @@ const htmlLogger = (tag) => {
 };
 
 autoData.init({
+  debug: true,
   tms: {
     name: 'gtm',
     sender: htmlLogger,
