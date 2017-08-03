@@ -1,4 +1,4 @@
-import {defaults, getBrowserPageview, isObject, areDifferent} from '../utils/utilities';
+import {defaults, getBrowserPageview, isObject, areDifferent, camelize} from '../utils/utilities';
 import {warn} from '../utils/logger';
 
 /**
@@ -101,7 +101,7 @@ export default class InitialPageview {
       [...attributes, trigger]
         .filter(name => $trigger.hasAttribute(`${attributePrefix}${name}`))
         .forEach((name) => {
-          data[name] = $trigger.getAttribute(`${attributePrefix}${name}`);
+          data[camelize(name)] = $trigger.getAttribute(`${attributePrefix}${name}`);
         });
     }
 

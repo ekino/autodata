@@ -120,6 +120,24 @@ It can be overridden by using dedicated data attribute.
       data-event-val="value"/>
 ```
 
+### Camelized attributes
+Every attribute that is picked-up will be camelized by default, please look at the following example :
+
+```html
+<ANY  data-event-obj="interacted object"
+      data-event-custom-action-attribute="action"
+      data-event-val="value"/>
+```
+
+**Result**
+```js
+{
+  obj: 'interacted object',
+  customActionAttribute: 'action',
+  val: 'value'
+}
+```
+
 ### Manual tracking
 
 If an event cannot be tracked automatically using data attributes, it can be handled by using a dedicated function from autodata API.
