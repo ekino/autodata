@@ -1,4 +1,4 @@
-import {error} from './logger';
+import logger from './logger';
 
 /**
  * Accepts a function and returns a wrapped version of the function that is
@@ -136,7 +136,7 @@ export const includes = (arr, value) => arr.indexOf(value) !== -1;
  */
 export const camelize = (str = '') => {
   if (typeof str !== 'string') {
-    error('Camelize needs a string as argument');
+    logger.error('Camelize needs a string as argument');
     return str;
   }
   // eslint-disable-next-line no-unused-vars

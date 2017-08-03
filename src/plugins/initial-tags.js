@@ -1,4 +1,4 @@
-import {warn} from '../utils/logger';
+import logger from '../utils/logger';
 import {defaults} from '../utils/utilities';
 
 export const DEFAULT_EVENT = 'click';
@@ -49,7 +49,7 @@ InitialTags.prototype.parseInitialTags = function parseInitialTags() {
       try {
         return allTags.concat(JSON.parse(scriptTag.innerText));
       } catch (err) {
-        warn('Script tag parsing failed', err);
+        logger.warn('Script tag parsing failed', err);
         return allTags;
       }
     }, []),

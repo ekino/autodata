@@ -1,33 +1,46 @@
 /* eslint-disable no-confusing-arrow */
-let debug = __DEV__;
+const log = {};
+const noop = () => {};
 
 const prepareArgs = args => args.map(
   value => typeof value === 'string' ? value : JSON.stringify(value),
 ).join(' ');
 
-export const error = (...args) => {
-  if (debug) {
-    console.log(`%c ${prepareArgs(args)}`, 'background: red; padding: 3px 0; color: white;');
+const levels = [
+  {level: 'debug', background: '#c0f2ef', color: 'black'},
+  {level: 'info', background: '#8490f2', color: 'black'},
+  {level: 'warn', background: '#ffc765', color: 'white'},
+  {level: 'error', background: '#ff3f3a', color: 'white'},
+].map(({level, background, color}) => ({
+  level,
+  background,
+  color,
+  logFn: (...args) => {
+    console[level](
+      `%c ${prepareArgs(args)}`,
+      `background: ${background}; padding: 3px 0; color: ${color};`,
+    );
+  },
+}));
+const bindLevels = (target, enabled = true) => {
+  target.forEach(({level, logFn}) => {
+    log[level] = enabled === true ? logFn : noop;
+  });
+};
+
+export const setLevel = (levelName) => {
+  const levelIndex = levels.findIndex(({level}) => level === levelName);
+
+  if (levelIndex !== -1) {
+    bindLevels(levels.slice(0, levelIndex), false);
+    bindLevels(levels.slice(levelIndex, levels.length), true);
+  } else {
+    // TODO : warn about disable
+    bindLevels(levels, false);
   }
 };
 
-export const warn = (...args) => {
-  if (debug) {
-    console.log(`%c ${prepareArgs(args)}`, 'background: orange; padding: 3px 0; color: white;');
-  }
-};
+// Default logger level is warn
+setLevel('warn');
 
-export const log = (...args) => {
-  if (debug) {
-    console.log(`%c ${prepareArgs(args)}`, 'background: #8cdcf2; padding: 3px 0; color: black;');
-  }
-};
-
-export const enableDebug = () => {
-  debug = true;
-};
-
-export const disableDebug = () => {
-  debug = false;
-};
-
+export default log;

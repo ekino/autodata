@@ -1,5 +1,5 @@
 import {defaults, getBrowserPageview, isObject, areDifferent, camelize} from '../utils/utilities';
-import {warn} from '../utils/logger';
+import logger from '../utils/logger';
 
 /**
  * @class InitialPageview
@@ -23,7 +23,7 @@ export default class InitialPageview {
     this.currentData = {};
 
     if (this.opts.hotReload) {
-      warn('hotReload feature is not really well tested, be careful with its usage');
+      logger.warn('hotReload feature is not really well tested, be careful with its usage');
       this.startHotReload();
     }
 

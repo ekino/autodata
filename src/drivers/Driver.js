@@ -1,5 +1,5 @@
 import {isObject} from '../utils/utilities';
-import {log} from '../utils/logger';
+import logger from '../utils/logger';
 
 /**
  * @class Driver
@@ -34,9 +34,7 @@ export default class Driver {
       // Send tag
       this.senders.forEach(sender => sender(enhancedTag));
 
-      if (__DEV__) {
-        log(type, JSON.stringify(enhancedTag, null, 2));
-      }
+      logger.debug(type, JSON.stringify(enhancedTag, null, 2));
     } catch (err) {
       throw err;
     }

@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import React, {Component} from 'react';
-import {error} from '../../utils/logger';
+import logger from '../../utils/logger';
 
 require('../vendors/jwplayer/jwplayer');
 
@@ -53,7 +53,7 @@ export default class JwplayerTracker extends Component {
       players.pop();
       this.setState({instances, players});
     } catch (err) {
-      error(err);
+      logger.error(err);
     }
   }
 
