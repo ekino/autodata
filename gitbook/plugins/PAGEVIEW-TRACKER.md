@@ -85,3 +85,21 @@ By default, the "page" and "title" information will be collected from the browse
   title: history.state.title || document.title
 }
 ```
+
+### Camelized attributes
+Every attribute that is picked-up will be camelized by default, please look at the following example :
+
+```html
+<ANY  data-event-obj="interacted object"
+      data-event-custom-action-attribute="action"
+      data-event-val="value"/>
+```
+
+**Result**
+```js
+{
+  obj: 'interacted object',
+  customActionAttribute: 'action',
+  val: 'value'
+}
+```

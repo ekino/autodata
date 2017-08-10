@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import {
   getBrowserPageview,
   areDifferent,
+  camelize,
 } from './utilities';
 
 describe('(Utils) utilities', () => {
@@ -38,6 +39,18 @@ describe('(Utils) utilities', () => {
         {foo: 'bar'},
         {foo: 'baz'},
       )).equals(true);
+    });
+  });
+
+  context('camelize', () => {
+    it('should return a camelized string', () => {
+      expect(camelize(
+        'i-should-be-camelized',
+      )).equals('iShouldBeCamelized');
+    });
+
+    it('should return the original value without trying to camelize it', () => {
+      expect(camelize(123)).equals(123);
     });
   });
 });

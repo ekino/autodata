@@ -16,7 +16,7 @@
 
 
 const delegate = require('delegate');
-const defaults = require('../utils/utilities').defaults;
+const {defaults, camelize} = require('../utils/utilities');
 
 
 /**
@@ -58,7 +58,7 @@ EventTracker.prototype.handleEventClicks = function handleEventClicks(event) {
     .forEach((attrName) => {
       const attrValue = link.getAttribute(`${attributePrefix}${attrName}`);
       if (attrValue) {
-        data[attrName] = attrValue;
+        data[camelize(attrName)] = attrValue;
       }
     });
 

@@ -31,7 +31,9 @@ autoData.init({
     sender: htmlLogger,
   },
   plugins: {
-    eventTracker: null,
+    eventTracker: {
+      attributes: ['act', 'desc', 'val', 'i-should-be-camelized'],
+    },
     mediaQueryTracker: {
       mediaQueryDefinitions: [
         {

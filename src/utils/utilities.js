@@ -1,3 +1,5 @@
+import {error} from './logger';
+
 /**
  * Accepts a function and returns a wrapped version of the function that is
  * expected to be called elsewhere in the system. If it's not called
@@ -124,3 +126,19 @@ export const getBrowserPageview = (withQueryString = true) => {
  * @return {boolean} - bool state of Array.includes
  */
 export const includes = (arr, value) => arr.indexOf(value) !== -1;
+
+/**
+ * * Camelize given string, it will search for following separators
+ * - '-'
+ * - '_'
+ * @param {string} str - string to camelize
+ * @returns {string} - camelized string
+ */
+export const camelize = (str = '') => {
+  if (typeof str !== 'string') {
+    error('Camelize needs a string as argument');
+    return str;
+  }
+  // eslint-disable-next-line no-unused-vars
+  return str.replace(/[-|_|.](.)/gi, (match, char) => char.toUpperCase());
+};
