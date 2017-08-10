@@ -1,5 +1,5 @@
 import {defaults, includes} from '../utils/utilities';
-import {warn} from '../utils/logger';
+import logger from '../utils/logger';
 
 export const NO_API_PROVIDED = 'No JwPlayer instance was provided';
 export const UNSUPPORTED_EVENT = 'The event: %s is not supported';
@@ -55,7 +55,7 @@ export default class {
      *   because our configuration could be overriden
      */
     if (this.opts.autoDetect) {
-      warn(
+      logger.warn(
         'jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration'
         + 'and it could be overridden so be careful with its use !',
       );

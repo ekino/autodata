@@ -2,17 +2,27 @@
 
 autoData can be debugged easily to check data parsing to data sending.
 
-This can be done by setting the following flag in the initial configuration :
+This can be done by setting the following property in the initial configuration :
 
 ```js
 autoData.init({
-    debug: true, // false by default
+    debug: 'debug', // 'warn' by default
     // ... rest of the configuration
 });
 ```
 
-After that, every log, warning or error will be visible in the browser's console.
-This value is setted to "false" by default.
+After that, every debug, info, warning or error will be visible in the browser's console.
+This value is set to "warn" by default.
+
+Here are the different levels of log that you can configure :
+
+|Value|Description|
+|-----|------------|
+|debug|all logs from debug to errors|
+|info|won't log debug and log from info to errors|
+|warn|won't log debug, info and log from warn to errors|
+|error|only errors|
+|none|disable all logs|
 
 ## Debug context
 

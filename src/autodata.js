@@ -2,7 +2,7 @@ import * as plugins from './plugins';
 import * as tagTypes from './constants/tagTypes';
 import getInstance from './drivers';
 import {getBrowserPageview} from './utils/utilities';
-import {warn, log, enableDebug} from './utils/logger';
+import logger, {setLevel} from './utils/logger';
 
 let driver;
 
@@ -11,12 +11,10 @@ const init = (config = {}) => {
     driver = getInstance(config);
   }
 
-  if (config.debug === true) {
-    enableDebug();
-  }
+  setLevel(config.debug || 'none');
 
   if (!config.plugins) {
-    warn('No plugins provided');
+    logger.warn('No plugins provided');
   } else {
     Object.keys(config.plugins)
       .filter(pluginName => plugins[pluginName])
@@ -26,8 +24,8 @@ const init = (config = {}) => {
           ...(config.plugins[pluginName] || {}),         // user plugin config
         };
 
-        log(`Config for plugin : ${pluginName}`);
-        log(pluginConfig);
+        logger.debug(`Config for plugin : ${pluginName}`);
+        logger.debug(pluginConfig);
 
         new plugins[pluginName](driver.instance, pluginConfig);
       });
