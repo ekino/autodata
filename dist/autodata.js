@@ -86,8 +86,15 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.camelize = exports.includes = exports.getBrowserPageview = exports.toArray = exports.isArray = exports.areDifferent = exports.isObject = exports.capitalize = exports.defaults = exports.withTimeout = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _logger = __webpack_require__(1);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Accepts a function and returns a wrapped version of the function that is
@@ -232,6 +239,26 @@ var includes = exports.includes = function includes(arr, value) {
   return arr.indexOf(value) !== -1;
 };
 
+/**
+ * * Camelize given string, it will search for following separators
+ * - '-'
+ * - '_'
+ * @param {string} str - string to camelize
+ * @returns {string} - camelized string
+ */
+var camelize = exports.camelize = function camelize() {
+  var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+  if (typeof str !== 'string') {
+    _logger2.default.error('Camelize needs a string as argument');
+    return str;
+  }
+  // eslint-disable-next-line no-unused-vars
+  return str.replace(/[-|_|.](.)/gi, function (match, char) {
+    return char.toUpperCase();
+  });
+};
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -242,31 +269,63 @@ var includes = exports.includes = function includes(arr, value) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+/* eslint-disable no-confusing-arrow */
+var log = {};
 var noop = function noop() {};
 
-var log = exports.log =  true ? function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
+var prepareArgs = function prepareArgs(args) {
+  return args.map(function (value) {
+    return typeof value === 'string' ? value : JSON.stringify(value);
+  }).join(' ');
+};
+
+var levels = [{ level: 'debug', background: '#c0f2ef', color: 'black' }, { level: 'info', background: '#8490f2', color: 'black' }, { level: 'warn', background: '#ffc765', color: 'white' }, { level: 'error', background: '#ff3f3a', color: 'white' }].map(function (_ref) {
+  var level = _ref.level,
+      background = _ref.background,
+      color = _ref.color;
+  return {
+    level: level,
+    background: background,
+    color: color,
+    logFn: function logFn() {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      console[level]('%c ' + prepareArgs(args), 'background: ' + background + '; padding: 3px 0; color: ' + color + ';');
+    }
+  };
+});
+var bindLevels = function bindLevels(target) {
+  var enabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+  target.forEach(function (_ref2) {
+    var level = _ref2.level,
+        logFn = _ref2.logFn;
+
+    log[level] = enabled === true ? logFn : noop;
+  });
+};
+
+var setLevel = exports.setLevel = function setLevel(levelName) {
+  var levelIndex = levels.findIndex(function (_ref3) {
+    var level = _ref3.level;
+    return level === levelName;
+  });
+
+  if (levelIndex !== -1) {
+    bindLevels(levels.slice(0, levelIndex), false);
+    bindLevels(levels.slice(levelIndex, levels.length), true);
+  } else {
+    // TODO : warn about disable
+    bindLevels(levels, false);
   }
+};
 
-  return console.log('%c ' + args.join(' '), 'background: #8cdcf2; padding: 3px 0; color: black;');
-} : noop;
+// Default logger level is warn
+setLevel('warn');
 
-var error = exports.error =  true ? function () {
-  for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    args[_key2] = arguments[_key2];
-  }
-
-  return console.log('%c ' + args.join(' '), 'background: red; padding: 3px 0; color: white;');
-} : noop;
-
-var warn = exports.warn =  true ? function () {
-  for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    args[_key3] = arguments[_key3];
-  }
-
-  return console.log('%c ' + args.join(' '), 'background: orange; padding: 3px 0; color: white;');
-} : noop;
+exports.default = log;
 
 /***/ }),
 /* 2 */
@@ -548,6 +607,10 @@ var _utilities = __webpack_require__(0);
 
 var _logger = __webpack_require__(1);
 
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
@@ -599,9 +662,7 @@ var Driver = function () {
           return sender(enhancedTag);
         });
 
-        if (true) {
-          (0, _logger.log)(type, JSON.stringify(enhancedTag, null, 2));
-        }
+        _logger2.default.debug(type, JSON.stringify(enhancedTag, null, 2));
       } catch (err) {
         throw err;
       }
@@ -826,7 +887,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
  */
 
 var delegate = __webpack_require__(2);
-var defaults = __webpack_require__(0).defaults;
+
+var _require = __webpack_require__(0),
+    defaults = _require.defaults,
+    camelize = _require.camelize;
 
 /**
  * Registers declarative event tracking.
@@ -834,6 +898,8 @@ var defaults = __webpack_require__(0).defaults;
  * @param {Object} tracker Passed internally by analytics.js
  * @param {?Object} opts Passed by the require command.
  */
+
+
 function EventTracker(tracker, opts) {
   // Feature detects to prevent errors in unsupporting browsers.
   if (!window.addEventListener) return;
@@ -868,7 +934,7 @@ EventTracker.prototype.handleEventClicks = function handleEventClicks(event) {
   [].concat(_toConsumableArray(attributes), [trigger]).forEach(function (attrName) {
     var attrValue = link.getAttribute('' + attributePrefix + attrName);
     if (attrValue) {
-      data[attrName] = attrValue;
+      data[camelize(attrName)] = attrValue;
     }
   });
 
@@ -903,7 +969,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _logger = __webpack_require__(1);
 
+var _logger2 = _interopRequireDefault(_logger);
+
 var _utilities = __webpack_require__(0);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -952,7 +1022,7 @@ InitialTags.prototype.parseInitialTags = function parseInitialTags() {
     try {
       return allTags.concat(JSON.parse(scriptTag.innerText));
     } catch (err) {
-      (0, _logger.warn)('Script tag parsing failed', err);
+      _logger2.default.warn('Script tag parsing failed', err);
       return allTags;
     }
   }, [])));
@@ -980,6 +1050,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _utilities = __webpack_require__(0);
 
 var _logger = __webpack_require__(1);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1032,7 +1106,7 @@ var _class = function () {
      *   because our configuration could be overriden
      */
     if (this.opts.autoDetect) {
-      (0, _logger.warn)('jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration' + 'and it could be overridden so be careful with its use !');
+      _logger2.default.warn('jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration' + 'and it could be overridden so be careful with its use !');
       // Prevent empty config case
       if (!jwplayer.defaults) {
         jwplayer.defaults = {};
@@ -1557,6 +1631,10 @@ var _utilities = __webpack_require__(0);
 
 var _logger = __webpack_require__(1);
 
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1587,7 +1665,7 @@ var InitialPageview = function () {
     this.currentData = {};
 
     if (this.opts.hotReload) {
-      (0, _logger.warn)('hotReload feature is not really well tested, be careful with its usage');
+      _logger2.default.warn('hotReload feature is not really well tested, be careful with its usage');
       this.startHotReload();
     }
 
@@ -1699,7 +1777,7 @@ var InitialPageview = function () {
         [].concat(_toConsumableArray(attributes), [trigger]).filter(function (name) {
           return $trigger.hasAttribute('' + attributePrefix + name);
         }).forEach(function (name) {
-          data[name] = $trigger.getAttribute('' + attributePrefix + name);
+          data[(0, _utilities.camelize)(name)] = $trigger.getAttribute('' + attributePrefix + name);
         });
       }
 
@@ -2235,6 +2313,8 @@ var _utilities = __webpack_require__(0);
 
 var _logger = __webpack_require__(1);
 
+var _logger2 = _interopRequireDefault(_logger);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -2248,18 +2328,18 @@ var init = function init() {
     driver = (0, _drivers2.default)(config);
   }
 
+  (0, _logger.setLevel)(config.debug || 'none');
+
   if (!config.plugins) {
-    (0, _logger.warn)('No plugins provided');
+    _logger2.default.warn('No plugins provided');
   } else {
     Object.keys(config.plugins).filter(function (pluginName) {
       return plugins[pluginName];
     }).forEach(function (pluginName) {
       var pluginConfig = _extends({}, driver.defaultConfig[pluginName] || {}, config.plugins[pluginName] || {});
 
-      if (true) {
-        (0, _logger.log)('Config for plugin : ' + pluginName);
-        console.log(pluginConfig);
-      }
+      _logger2.default.debug('Config for plugin : ' + pluginName);
+      _logger2.default.debug(pluginConfig);
 
       new plugins[pluginName](driver.instance, pluginConfig);
     });
