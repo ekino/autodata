@@ -41,6 +41,7 @@ export const parser = (type, data = {}) => {
  * @param {object} tag - parsed tag to be sent
  */
 export const sender = (tag) => {
+  const clonedTag = {...tag};
   const {utag} = window;
 
   if (!utag) {
@@ -50,10 +51,10 @@ export const sender = (tag) => {
   switch (tag.event) {
     case 'pageview':
     case 'virtualpageview':
-      utag.view(tag);
+      utag.view(clonedTag);
       break;
     default:
-      utag.link(tag);
+      utag.link(clonedTag);
       break;
   }
 };
