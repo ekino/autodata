@@ -838,6 +838,7 @@ var parser = exports.parser = function parser(type) {
  * @param {object} tag - parsed tag to be sent
  */
 var sender = exports.sender = function sender(tag) {
+  var clonedTag = _extends({}, tag);
   var _window = window,
       utag = _window.utag;
 
@@ -849,10 +850,10 @@ var sender = exports.sender = function sender(tag) {
   switch (tag.event) {
     case 'pageview':
     case 'virtualpageview':
-      utag.view(tag);
+      utag.view(clonedTag);
       break;
     default:
-      utag.link(tag);
+      utag.link(clonedTag);
       break;
   }
 };
