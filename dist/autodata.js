@@ -11,41 +11,38 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -56,7 +53,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -65,15 +62,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -331,7 +328,7 @@ exports.default = log;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var closest = __webpack_require__(21);
+var closest = __webpack_require__(7);
 
 /**
  * Delegates event to a selector.
@@ -403,78 +400,94 @@ var VIRTUAL_PAGEVIEW = exports.VIRTUAL_PAGEVIEW = 'virtualpageview';
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getInstance;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _errors = __webpack_require__(6);
+var _plugins = __webpack_require__(5);
 
-var errors = _interopRequireWildcard(_errors);
+var plugins = _interopRequireWildcard(_plugins);
 
-var _Driver = __webpack_require__(7);
+var _tagTypes = __webpack_require__(3);
 
-var _Driver2 = _interopRequireDefault(_Driver);
+var tagTypes = _interopRequireWildcard(_tagTypes);
 
-var _gtm = __webpack_require__(8);
+var _drivers = __webpack_require__(17);
 
-var gtm = _interopRequireWildcard(_gtm);
+var _drivers2 = _interopRequireDefault(_drivers);
 
-var _tealium = __webpack_require__(9);
+var _utilities = __webpack_require__(0);
 
-var tealium = _interopRequireWildcard(_tealium);
+var _logger = __webpack_require__(1);
+
+var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var driver = void 0;
+
+var init = function init() {
+  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  if (!driver) {
+    driver = (0, _drivers2.default)(config);
+  }
+
+  (0, _logger.setLevel)(config.debug || 'none');
+
+  if (!config.plugins) {
+    _logger2.default.warn('No plugins provided');
+  } else {
+    Object.keys(config.plugins).filter(function (pluginName) {
+      return plugins[pluginName];
+    }).forEach(function (pluginName) {
+      var pluginConfig = _extends({}, driver.defaultConfig[pluginName] || {}, config.plugins[pluginName] || {});
+
+      _logger2.default.debug('Config for plugin : ' + pluginName);
+      _logger2.default.debug(pluginConfig);
+
+      new plugins[pluginName](driver.instance, pluginConfig);
+    });
+  }
+};
+
 /**
- * retrieves the desired driver and instanciates it
- * @param {object} config - user config
- * @returns {{instance: Driver, defaultConfig: {}}} - instance and defaultConfig
+ * send virtualpageview event to driver
+ * @param {object} data - pageview data
+ * @param {string} data.page - page name
+ * @param {string} data.title - page title
  */
+var sendVirtualPageView = function sendVirtualPageView(data) {
+  driver.instance.send(tagTypes.VIRTUAL_PAGEVIEW, _extends({}, (0, _utilities.getBrowserPageview)(), data));
+};
 
+/**
+ * send pageview event to driver
+ * @param {object} data - data to be sent
+ * @param {string} data.page - page name
+ * @param {string} data.title - page title
+ */
+var sendPageView = function sendPageView(data) {
+  driver.instance.send(tagTypes.PAGEVIEW, _extends({}, (0, _utilities.getBrowserPageview)(), data));
+};
 
-// Drivers
-function getInstance(config) {
-  var tms = config.tms;
+/**
+ * send custom event
+ * @param {object} data - data to be sent
+ */
+var sendEvent = function sendEvent(data) {
+  driver.instance.send(tagTypes.EVENT, data);
+};
 
-  var defaultConfig = {};
+var autoData = {
+  init: init,
+  sendVirtualPageView: sendVirtualPageView,
+  sendPageView: sendPageView,
+  sendEvent: sendEvent,
+  tagTypes: tagTypes
+};
 
-  if (!tms) {
-    throw new Error(errors.NO_DRIVER_PROVIDED);
-  }
-
-  var parsers = [];
-  var senders = [];
-
-  switch (tms.name) {
-    case 'gtm':
-      parsers.push(gtm.parser);
-      senders.push(gtm.sender);
-      break;
-    case 'tealium':
-      parsers.push(tealium.parser);
-      senders.push(tealium.sender);
-      break;
-    default:
-      break;
-  }
-
-  if (tms.parser) parsers.push(tms.parser);
-  if (tms.sender) senders.push(tms.sender);
-
-  return {
-    instance: new _Driver2.default({
-      parsers: parsers,
-      enhancer: tms.enhancer,
-      senders: senders
-    }),
-    defaultConfig: defaultConfig
-  };
-}
-
-// Driver class
+module.exports = autoData;
 
 /***/ }),
 /* 5 */
@@ -487,7 +500,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _eventTracker = __webpack_require__(10);
+var _eventTracker = __webpack_require__(6);
 
 Object.defineProperty(exports, 'eventTracker', {
   enumerable: true,
@@ -496,7 +509,7 @@ Object.defineProperty(exports, 'eventTracker', {
   }
 });
 
-var _initialTags = __webpack_require__(11);
+var _initialTags = __webpack_require__(8);
 
 Object.defineProperty(exports, 'initialTags', {
   enumerable: true,
@@ -505,7 +518,7 @@ Object.defineProperty(exports, 'initialTags', {
   }
 });
 
-var _mediaQueryTracker = __webpack_require__(13);
+var _mediaQueryTracker = __webpack_require__(9);
 
 Object.defineProperty(exports, 'mediaQueryTracker', {
   enumerable: true,
@@ -514,7 +527,7 @@ Object.defineProperty(exports, 'mediaQueryTracker', {
   }
 });
 
-var _outboundFormTracker = __webpack_require__(14);
+var _outboundFormTracker = __webpack_require__(11);
 
 Object.defineProperty(exports, 'outboundFormTracker', {
   enumerable: true,
@@ -523,7 +536,7 @@ Object.defineProperty(exports, 'outboundFormTracker', {
   }
 });
 
-var _outboundLinkTracker = __webpack_require__(15);
+var _outboundLinkTracker = __webpack_require__(12);
 
 Object.defineProperty(exports, 'outboundLinkTracker', {
   enumerable: true,
@@ -532,7 +545,7 @@ Object.defineProperty(exports, 'outboundLinkTracker', {
   }
 });
 
-var _socialTracker = __webpack_require__(17);
+var _socialTracker = __webpack_require__(13);
 
 Object.defineProperty(exports, 'socialTracker', {
   enumerable: true,
@@ -541,7 +554,7 @@ Object.defineProperty(exports, 'socialTracker', {
   }
 });
 
-var _urlChangeTracker = __webpack_require__(18);
+var _urlChangeTracker = __webpack_require__(14);
 
 Object.defineProperty(exports, 'urlChangeTracker', {
   enumerable: true,
@@ -550,7 +563,7 @@ Object.defineProperty(exports, 'urlChangeTracker', {
   }
 });
 
-var _pageviewTracker = __webpack_require__(16);
+var _pageviewTracker = __webpack_require__(15);
 
 Object.defineProperty(exports, 'pageviewTracker', {
   enumerable: true,
@@ -559,7 +572,7 @@ Object.defineProperty(exports, 'pageviewTracker', {
   }
 });
 
-var _jwplayerTracker = __webpack_require__(12);
+var _jwplayerTracker = __webpack_require__(16);
 
 Object.defineProperty(exports, 'jwplayerTracker', {
   enumerable: true,
@@ -572,294 +585,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/* eslint-disable max-len */
-
-var NO_DRIVER_PROVIDED = exports.NO_DRIVER_PROVIDED = 'No driver was provided';
-var NO_DRIVER_INSTANCE = exports.NO_DRIVER_INSTANCE = 'There is no driver instance';
-var DRIVER_NOT_FOUND = exports.DRIVER_NOT_FOUND = 'Driver not found';
-var PLUGIN_NOT_FOUND = exports.PLUGIN_NOT_FOUND = 'Plugin not found';
-var MISSING_PROPERTY = exports.MISSING_PROPERTY = 'Missing property';
-var NO_PARSER_PROVIDED = exports.NO_PARSER_PROVIDED = 'You need to provide a parser function if you do not use a default tms';
-var NO_SENDER_PROVIDED = exports.NO_SENDER_PROVIDED = 'You need to provide a sender function if you do not use a default tms';
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utilities = __webpack_require__(0);
-
-var _logger = __webpack_require__(1);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * @class Driver
- */
-var Driver = function () {
-  /**
-   * @constructor
-   * @param {function|string} driver - desired driver, can be either
-   *  - string for provided driver selection
-   *  - function for custom driver selection
-   * @param {object} data - initial driver data
-   */
-  function Driver(_ref) {
-    var senders = _ref.senders,
-        parsers = _ref.parsers,
-        enhancer = _ref.enhancer;
-
-    _classCallCheck(this, Driver);
-
-    this.parsers = parsers;
-    this.enhancer = enhancer || function (tag) {
-      return tag;
-    };
-    this.senders = senders;
-
-    this.data = {};
-  }
-
-  /**
-   * Parse and send the tag to TMS
-   * @param {string} type - tag type
-   * @param {object} data - generic autoData information
-   */
-
-
-  _createClass(Driver, [{
-    key: 'send',
-    value: function send(type, data) {
-      try {
-        // Parsed tags
-        var parsedTag = this.parsers.reduce(function (currentTag, parser) {
-          return parser(type, currentTag);
-        }, data);
-        // Enhanced tag
-        var enhancedTag = this.enhancer(parsedTag);
-        // Send tag
-        this.senders.forEach(function (sender) {
-          return sender(enhancedTag);
-        });
-
-        _logger2.default.debug(type, JSON.stringify(enhancedTag, null, 2));
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    /**
-     * Get the asked stored property inside the tracker
-     * @param {string} property - the property name
-     * @returns {*} the value of the asked property
-     */
-
-  }, {
-    key: 'get',
-    value: function get(property) {
-      return this.data[property];
-    }
-
-    /**
-     * Set the given property inside the tracker
-     * @param {object|string} propertyOrData - this can be a prorperty name
-     *  or directly a configuration object
-     * @param {*} value - the property value
-     */
-
-  }, {
-    key: 'set',
-    value: function set(propertyOrData, value) {
-      var _this = this;
-
-      if ((0, _utilities.isObject)(propertyOrData)) {
-        Object.keys(propertyOrData).forEach(function (propertyName) {
-          _this.set(propertyName, propertyOrData[propertyName]);
-        });
-      } else {
-        this.data[propertyOrData] = value;
-      }
-    }
-  }]);
-
-  return Driver;
-}();
-
-exports.default = Driver;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sender = exports.parser = exports.config = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _tagTypes = __webpack_require__(3);
-
-var tagTypes = _interopRequireWildcard(_tagTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * default plugin's configuration object
- * @type {{plugins: {eventTracker: {trigger: string, attributes: [*]}}}}
- */
-var config = exports.config = {
-  eventTracker: {
-    trigger: 'obj',
-    attributes: ['act', 'desc', 'val']
-  }
-};
-
-/**
- * Tags sending function
- * @param {string} type - tag type (usually plugins)
- * @param {object} data - data for the current tag
- * @returns {object} - parsed tag
- */
-var parser = exports.parser = function parser(type) {
-  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  switch (type) {
-    case tagTypes.EVENT:
-      return _extends({ event: 'click' }, data);
-    case tagTypes.VIRTUAL_PAGEVIEW:
-      return _extends({ event: 'virtualpageview' }, data);
-    case tagTypes.PAGEVIEW:
-      return _extends({ event: 'pageview' }, data);
-    case tagTypes.MEDIA_QUERY: // TODO
-    case tagTypes.OUTBOUND_FORM: // TODO
-    case tagTypes.OUTBOUND_LINK: // TODO
-    case tagTypes.SOCIAL: // TODO
-    case tagTypes.INITIAL_TAGS: // TODO
-    default:
-      return _extends({ event: type }, data);
-  }
-};
-
-/**
- * Send the parsed tag to dataLayer
- * @param {object} tag - parsed tag to be sent
- */
-var sender = exports.sender = function sender(tag) {
-  if (!window.dataLayer) {
-    window.dataLayer = [];
-  }
-  window.dataLayer.push(tag);
-};
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sender = exports.parser = exports.config = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _tagTypes = __webpack_require__(3);
-
-var tagTypes = _interopRequireWildcard(_tagTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * default plugin's configuration object
- * @type {{plugins: {eventTracker: {trigger: string, attributes: [*]}}}}
- */
-var config = exports.config = {
-  eventTracker: {
-    trigger: 'obj',
-    attributes: ['act', 'desc', 'val']
-  }
-};
-
-/**
- * Tags sending function
- * @param {string} type - tag type (usually plugins)
- * @param {object} data - data for the current tag
- * @returns {object} - parsed tag
- */
-var parser = exports.parser = function parser(type) {
-  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  // TODO : identification in sender
-  switch (type) {
-    case tagTypes.EVENT:
-      return _extends({ event: 'click' }, data);
-    case tagTypes.VIRTUAL_PAGEVIEW:
-      return _extends({ event: 'virtualpageview' }, data);
-    case tagTypes.PAGEVIEW:
-      return _extends({ event: 'pageview' }, data);
-    case tagTypes.MEDIA_QUERY: // TODO
-    case tagTypes.OUTBOUND_FORM: // TODO
-    case tagTypes.OUTBOUND_LINK: // TODO
-    case tagTypes.SOCIAL: // TODO
-    case tagTypes.INITIAL_TAGS: // TODO
-    default:
-      return _extends({ event: type }, data);
-  }
-};
-
-/**
- * Send the parsed tag to dataLayer
- * @param {object} tag - parsed tag to be sent
- */
-var sender = exports.sender = function sender(tag) {
-  var clonedTag = _extends({}, tag);
-  var _window = window,
-      utag = _window.utag;
-
-
-  if (!utag) {
-    throw new Error('TEALIUM SENDER REQUIRES utag GLOBAL');
-  }
-
-  switch (tag.event) {
-    case 'pageview':
-    case 'virtualpageview':
-      utag.view(clonedTag);
-      break;
-    default:
-      utag.link(clonedTag);
-      break;
-  }
-};
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -955,7 +680,46 @@ EventTracker.prototype.remove = function remove() {
 exports.default = EventTracker;
 
 /***/ }),
-/* 11 */
+/* 7 */
+/***/ (function(module, exports) {
+
+var DOCUMENT_NODE_TYPE = 9;
+
+/**
+ * A polyfill for Element.matches()
+ */
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
+    var proto = Element.prototype;
+
+    proto.matches = proto.matchesSelector ||
+                    proto.mozMatchesSelector ||
+                    proto.msMatchesSelector ||
+                    proto.oMatchesSelector ||
+                    proto.webkitMatchesSelector;
+}
+
+/**
+ * Finds the closest parent that matches a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @return {Function}
+ */
+function closest (element, selector) {
+    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
+        if (typeof element.matches === 'function' &&
+            element.matches(selector)) {
+          return element;
+        }
+        element = element.parentNode;
+    }
+}
+
+module.exports = closest;
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1033,213 +797,7 @@ InitialTags.prototype.parseInitialTags = function parseInitialTags() {
 exports.default = InitialTags;
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.UNSUPPORTED_EVENT = exports.NO_API_PROVIDED = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utilities = __webpack_require__(0);
-
-var _logger = __webpack_require__(1);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var NO_API_PROVIDED = exports.NO_API_PROVIDED = 'No JwPlayer instance was provided';
-var UNSUPPORTED_EVENT = exports.UNSUPPORTED_EVENT = 'The event: %s is not supported';
-
-/**
- * Track JWPlayer activity.
- */
-
-var _class = function () {
-  /**
-   * constructor
-   * @param {object} tracker - tracker instance
-   * @param {object} opts - plugin configuration
-   */
-  function _class(tracker, opts) {
-    var _this = this;
-
-    _classCallCheck(this, _class);
-
-    this.opts = (0, _utilities.defaults)(opts, {
-      jwplayer: null,
-      events: ['playlistItem', 'play', 'pause', 'complete', 'error', 'seek', 'mute', 'volume', 'fullscreen', 'resize', 'audioTrackChanged', 'displayClick'],
-      autoDetect: false
-    });
-
-    if (!this.opts.jwplayer) {
-      throw new Error(NO_API_PROVIDED);
-    }
-
-    this.tracker = tracker;
-    this.instances = [];
-
-    var jwplayer = this.opts.jwplayer;
-
-
-    if ((0, _utilities.includes)(this.opts.events, 'all')) {
-      throw new Error(UNSUPPORTED_EVENT.replace('%s', 'all'));
-    }
-
-    jwplayer.api.registerPlugin('autoData', '6.0', function (instance) {
-      return _this.setInstance(instance);
-    });
-
-    /**
-     * Add autoData plugin to default configuration
-     * FIXME : configuration override risk
-     * - we need to provide a warning or an exception
-     *   because our configuration could be overriden
-     */
-    if (this.opts.autoDetect) {
-      _logger2.default.warn('jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration' + 'and it could be overridden so be careful with its use !');
-      // Prevent empty config case
-      if (!jwplayer.defaults) {
-        jwplayer.defaults = {};
-      }
-      // Prevent empty plugins config case
-      if (!jwplayer.defaults.plugins) {
-        jwplayer.defaults.plugins = {};
-      }
-      // Do the override
-      jwplayer.defaults.plugins = _extends({}, jwplayer.defaults.plugins, { // Keep existing configuration
-        autoData: {}
-      });
-    }
-  }
-
-  /**
-   * onEvent - send event information to tracker
-   * @param {object} instance - current jwplayer instance
-   * @param {string} eventName - configuration event name
-   * @param {object} data* - optional data for 'all' event case
-   */
-
-
-  _createClass(_class, [{
-    key: 'onEvent',
-    value: function onEvent(instance, eventName) {
-      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      var tag = {};
-
-      switch (eventName) {
-        case 'playlistItem':
-          tag = { act: 'load', desc: data.item.title, val: data.index };
-          break;
-        case 'play':
-          tag = { act: 'play', desc: data.oldstate };
-          break;
-        case 'pause':
-          tag = { act: 'pause', desc: data.oldstate };
-          break;
-        case 'complete':
-          {
-            var _instance$getPlaylist = instance.getPlaylistItem(),
-                _instance$getPlaylist2 = _instance$getPlaylist.title,
-                title = _instance$getPlaylist2 === undefined ? '' : _instance$getPlaylist2;
-
-            tag = { act: 'complete', desc: title };
-            break;
-          }
-        case 'error':
-          tag = { act: 'error', desc: data.message };
-          break;
-        case 'seek':
-          tag = { act: 'seek', desc: data.position + '|' + data.offset };
-          break;
-        case 'mute':
-          tag = { act: 'mute', desc: data.mute };
-          break;
-        case 'volume':
-          tag = { act: 'volume', desc: data.volume };
-          break;
-        case 'fullscreen':
-          tag = { act: 'fullscreen', desc: data.fullscreen };
-          break;
-        case 'resize':
-          tag = { act: 'resize', desc: data.width + '|' + data.height };
-          break;
-        case 'audioTrackChanged':
-          // TODO : find a way to reproduce this
-          tag = _extends({ act: 'playlist' }, data);
-          break;
-        case 'displayClick':
-          tag = { act: 'clic' };
-          break;
-        default:
-          break;
-      }
-
-      this.tracker.send('jwplayer', tag);
-    }
-
-    /**
-     * setInstance - keep instance reference and bind events
-     * @param {object} instance - jwplayer instance
-     */
-
-  }, {
-    key: 'setInstance',
-    value: function setInstance(instance) {
-      var _this2 = this;
-
-      this.opts.events.forEach(function (name) {
-        instance.on(name, function () {
-          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
-
-          return _this2.onEvent.apply(_this2, [instance, name].concat(args));
-        });
-      });
-      instance.on('remove', function () {
-        return _this2.unsetInstance(instance);
-      });
-
-      this.instances.push(instance.uniqueId);
-      this.tracker.send('jwplayer', { obj: 'instance', val: instance.uniqueId });
-    }
-
-    /**
-     * unsetInstance - remove the destroyed instance reference
-     * @param {object} instance - the jwplayer instance
-     */
-
-  }, {
-    key: 'unsetInstance',
-    value: function unsetInstance(instance) {
-      var instanceId = this.instances.indexOf(instance.uniqueId);
-
-      if (instanceId !== -1) {
-        this.instances.splice(instanceId, 1);
-        this.tracker.send('jwplayer', { obj: 'remove', val: instance.uniqueId });
-      }
-    }
-  }]);
-
-  return _class;
-}();
-
-exports.default = _class;
-
-/***/ }),
-/* 13 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1264,7 +822,7 @@ Object.defineProperty(exports, "__esModule", {
  * limitations under the License.
  */
 
-var debounce = __webpack_require__(20);
+var debounce = __webpack_require__(10);
 var defaults = __webpack_require__(0).defaults;
 var isObject = __webpack_require__(0).isObject;
 var toArray = __webpack_require__(0).toArray;
@@ -1420,7 +978,69 @@ function getMediaListener(media) {
 exports.default = MediaQueryTracker;
 
 /***/ }),
-/* 14 */
+/* 10 */
+/***/ (function(module, exports) {
+
+/**
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing. The function also has a property 'clear' 
+ * that is a function which will clear the timer to prevent previously scheduled executions. 
+ *
+ * @source underscore.js
+ * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+ * @param {Function} function to wrap
+ * @param {Number} timeout in ms (`100`)
+ * @param {Boolean} whether to execute at the beginning (`false`)
+ * @api public
+ */
+
+module.exports = function debounce(func, wait, immediate){
+  var timeout, args, context, timestamp, result;
+  if (null == wait) wait = 100;
+
+  function later() {
+    var last = Date.now() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+    }
+  };
+
+  var debounced = function(){
+    context = this;
+    args = arguments;
+    timestamp = Date.now();
+    var callNow = immediate && !timeout;
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = args = null;
+    }
+
+    return result;
+  };
+
+  debounced.clear = function() {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  return debounced;
+};
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1523,7 +1143,7 @@ OutboundFormTracker.prototype.remove = function remove() {
 exports.default = OutboundFormTracker;
 
 /***/ }),
-/* 15 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1616,183 +1236,7 @@ OutboundLinkTracker.prototype.remove = function remove() {
 exports.default = OutboundLinkTracker;
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utilities = __webpack_require__(0);
-
-var _logger = __webpack_require__(1);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * @class InitialPageview
- */
-var InitialPageview = function () {
-  /**
-   * InitialPageview constructor
-   * @param {object} tracker - tracker instance
-   * @param {object} opts - configuration
-   */
-  function InitialPageview(tracker, opts) {
-    var _this = this;
-
-    _classCallCheck(this, InitialPageview);
-
-    this.opts = (0, _utilities.defaults)(opts, {
-      attributePrefix: 'data-pageview-',
-      trigger: 'page',
-      attributes: ['title'],
-      withQueryString: true,
-      hotReload: false
-    });
-
-    this.tracker = tracker;
-    this.currentData = {};
-
-    if (this.opts.hotReload) {
-      _logger2.default.warn('hotReload feature is not really well tested, be careful with its usage');
-      this.startHotReload();
-    }
-
-    // Wait for DOM to be ready before calling it
-    document.addEventListener('DOMContentLoaded', function () {
-      // Initial pageview send
-      _this.send();
-    });
-  }
-
-  /**
-   * Hot reload mechanism, this will listen for history state
-   * changes and send pageview automatically
-   *
-   * FIXME:
-   * - DOM updates for SPA. How to avoid setTimeout in order
-   *   to retrieve the pageview information on the trigger tag
-   * - No destroy mechanism. The events and history pushState / replaceState
-   *   overrides are never restored, it could be interesting for performance
-   */
-
-
-  _createClass(InitialPageview, [{
-    key: 'startHotReload',
-    value: function startHotReload() {
-      var _this2 = this;
-
-      // Overrides history.pushState.
-      var _history = history,
-          pushState = _history.pushState,
-          replaceState = _history.replaceState;
-
-      var onHistoryChanges = function onHistoryChanges() {
-        return setTimeout(_this2.send.bind(_this2), 100);
-      };
-
-      history.pushState = function () {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        var state = args[0],
-            title = args[1];
-
-        // Manually set state.title
-
-        if ((0, _utilities.isObject)(state) && title) state.title = title;
-
-        pushState.apply(history, args);
-        onHistoryChanges();
-      };
-
-      // Overrides history.repaceState.
-      history.replaceState = function () {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        var state = args[0],
-            title = args[1];
-
-        // Manually set state.title
-
-        if ((0, _utilities.isObject)(state) && title) state.title = title;
-
-        replaceState.apply(history, args);
-        onHistoryChanges();
-      };
-
-      // Handles URL changes via user interaction.
-      window.addEventListener('popstate', onHistoryChanges);
-    }
-
-    /**
-     * send the new pageView if the data has changed
-     */
-
-  }, {
-    key: 'send',
-    value: function send() {
-      var data = this.getPageView();
-
-      if ((0, _utilities.areDifferent)(data, this.currentData)) {
-        this.currentData = data;
-
-        this.tracker.send('pageview', data);
-      }
-    }
-
-    /**
-     * retrieve the pageview information for the current page
-     * @returns {{page: string, title: (boolean|string)}} - pageview data
-     */
-
-  }, {
-    key: 'getPageView',
-    value: function getPageView() {
-      var _opts = this.opts,
-          attributePrefix = _opts.attributePrefix,
-          trigger = _opts.trigger,
-          attributes = _opts.attributes,
-          withQueryString = _opts.withQueryString;
-      // TODO : we could store this tag in constructor but there is a risk if it is not rendered yet
-
-      var $trigger = document.querySelector('[' + attributePrefix + trigger + ']');
-      var data = (0, _utilities.getBrowserPageview)(withQueryString);
-
-      if ($trigger) {
-        [].concat(_toConsumableArray(attributes), [trigger]).filter(function (name) {
-          return $trigger.hasAttribute('' + attributePrefix + name);
-        }).forEach(function (name) {
-          data[(0, _utilities.camelize)(name)] = $trigger.getAttribute('' + attributePrefix + name);
-        });
-      }
-
-      return data;
-    }
-  }]);
-
-  return InitialPageview;
-}();
-
-exports.default = InitialPageview;
-
-/***/ }),
-/* 17 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2025,7 +1469,7 @@ SocialTracker.prototype.remove = function remove() {
 exports.default = SocialTracker;
 
 /***/ }),
-/* 18 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2184,131 +1628,17 @@ function getPath() {
 exports.default = UrlChangeTracker;
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-module.exports = Date.now || now
-
-function now() {
-    return new Date().getTime()
-}
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Module dependencies.
- */
-
-var now = __webpack_require__(19);
-
-/**
- * Returns a function, that, as long as it continues to be invoked, will not
- * be triggered. The function will be called after it stops being called for
- * N milliseconds. If `immediate` is passed, trigger the function on the
- * leading edge, instead of the trailing.
- *
- * @source underscore.js
- * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
- * @param {Function} function to wrap
- * @param {Number} timeout in ms (`100`)
- * @param {Boolean} whether to execute at the beginning (`false`)
- * @api public
- */
-
-module.exports = function debounce(func, wait, immediate){
-  var timeout, args, context, timestamp, result;
-  if (null == wait) wait = 100;
-
-  function later() {
-    var last = now() - timestamp;
-
-    if (last < wait && last > 0) {
-      timeout = setTimeout(later, wait - last);
-    } else {
-      timeout = null;
-      if (!immediate) {
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      }
-    }
-  };
-
-  return function debounced() {
-    context = this;
-    args = arguments;
-    timestamp = now();
-    var callNow = immediate && !timeout;
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) {
-      result = func.apply(context, args);
-      context = args = null;
-    }
-
-    return result;
-  };
-};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-var DOCUMENT_NODE_TYPE = 9;
-
-/**
- * A polyfill for Element.matches()
- */
-if (Element && !Element.prototype.matches) {
-    var proto = Element.prototype;
-
-    proto.matches = proto.matchesSelector ||
-                    proto.mozMatchesSelector ||
-                    proto.msMatchesSelector ||
-                    proto.oMatchesSelector ||
-                    proto.webkitMatchesSelector;
-}
-
-/**
- * Finds the closest parent that matches a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @return {Function}
- */
-function closest (element, selector) {
-    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
-        if (element.matches(selector)) return element;
-        element = element.parentNode;
-    }
-}
-
-module.exports = closest;
-
-
-/***/ }),
-/* 22 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var _plugins = __webpack_require__(5);
-
-var plugins = _interopRequireWildcard(_plugins);
-
-var _tagTypes = __webpack_require__(3);
-
-var tagTypes = _interopRequireWildcard(_tagTypes);
-
-var _drivers = __webpack_require__(4);
-
-var _drivers2 = _interopRequireDefault(_drivers);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _utilities = __webpack_require__(0);
 
@@ -2318,72 +1648,734 @@ var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var driver = void 0;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var init = function init() {
-  var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+/**
+ * @class InitialPageview
+ */
+var InitialPageview = function () {
+  /**
+   * InitialPageview constructor
+   * @param {object} tracker - tracker instance
+   * @param {object} opts - configuration
+   */
+  function InitialPageview(tracker, opts) {
+    var _this = this;
 
-  if (!driver) {
-    driver = (0, _drivers2.default)(config);
-  }
+    _classCallCheck(this, InitialPageview);
 
-  (0, _logger.setLevel)(config.debug || 'none');
+    this.opts = (0, _utilities.defaults)(opts, {
+      attributePrefix: 'data-pageview-',
+      trigger: 'page',
+      attributes: ['title'],
+      withQueryString: true,
+      hotReload: false
+    });
 
-  if (!config.plugins) {
-    _logger2.default.warn('No plugins provided');
-  } else {
-    Object.keys(config.plugins).filter(function (pluginName) {
-      return plugins[pluginName];
-    }).forEach(function (pluginName) {
-      var pluginConfig = _extends({}, driver.defaultConfig[pluginName] || {}, config.plugins[pluginName] || {});
+    this.tracker = tracker;
+    this.currentData = {};
 
-      _logger2.default.debug('Config for plugin : ' + pluginName);
-      _logger2.default.debug(pluginConfig);
+    if (this.opts.hotReload) {
+      _logger2.default.warn('hotReload feature is not really well tested, be careful with its usage');
+      this.startHotReload();
+    }
 
-      new plugins[pluginName](driver.instance, pluginConfig);
+    // Wait for DOM to be ready before calling it
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initial pageview send
+      _this.send();
     });
   }
+
+  /**
+   * Hot reload mechanism, this will listen for history state
+   * changes and send pageview automatically
+   *
+   * FIXME:
+   * - DOM updates for SPA. How to avoid setTimeout in order
+   *   to retrieve the pageview information on the trigger tag
+   * - No destroy mechanism. The events and history pushState / replaceState
+   *   overrides are never restored, it could be interesting for performance
+   */
+
+
+  _createClass(InitialPageview, [{
+    key: 'startHotReload',
+    value: function startHotReload() {
+      var _this2 = this;
+
+      // Overrides history.pushState.
+      var _history = history,
+          pushState = _history.pushState,
+          replaceState = _history.replaceState;
+
+      var onHistoryChanges = function onHistoryChanges() {
+        return setTimeout(_this2.send.bind(_this2), 100);
+      };
+
+      history.pushState = function () {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        var state = args[0],
+            title = args[1];
+
+        // Manually set state.title
+
+        if ((0, _utilities.isObject)(state) && title) state.title = title;
+
+        pushState.apply(history, args);
+        onHistoryChanges();
+      };
+
+      // Overrides history.repaceState.
+      history.replaceState = function () {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        var state = args[0],
+            title = args[1];
+
+        // Manually set state.title
+
+        if ((0, _utilities.isObject)(state) && title) state.title = title;
+
+        replaceState.apply(history, args);
+        onHistoryChanges();
+      };
+
+      // Handles URL changes via user interaction.
+      window.addEventListener('popstate', onHistoryChanges);
+    }
+
+    /**
+     * send the new pageView if the data has changed
+     */
+
+  }, {
+    key: 'send',
+    value: function send() {
+      var data = this.getPageView();
+
+      if ((0, _utilities.areDifferent)(data, this.currentData)) {
+        this.currentData = data;
+
+        this.tracker.send('pageview', data);
+      }
+    }
+
+    /**
+     * retrieve the pageview information for the current page
+     * @returns {{page: string, title: (boolean|string)}} - pageview data
+     */
+
+  }, {
+    key: 'getPageView',
+    value: function getPageView() {
+      var _opts = this.opts,
+          attributePrefix = _opts.attributePrefix,
+          trigger = _opts.trigger,
+          attributes = _opts.attributes,
+          withQueryString = _opts.withQueryString;
+      // TODO : we could store this tag in constructor but there is a risk if it is not rendered yet
+
+      var $trigger = document.querySelector('[' + attributePrefix + trigger + ']');
+      var data = (0, _utilities.getBrowserPageview)(withQueryString);
+
+      if ($trigger) {
+        [].concat(_toConsumableArray(attributes), [trigger]).filter(function (name) {
+          return $trigger.hasAttribute('' + attributePrefix + name);
+        }).forEach(function (name) {
+          data[(0, _utilities.camelize)(name)] = $trigger.getAttribute('' + attributePrefix + name);
+        });
+      }
+
+      return data;
+    }
+  }]);
+
+  return InitialPageview;
+}();
+
+exports.default = InitialPageview;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UNSUPPORTED_EVENT = exports.NO_API_PROVIDED = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utilities = __webpack_require__(0);
+
+var _logger = __webpack_require__(1);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var NO_API_PROVIDED = exports.NO_API_PROVIDED = 'No JwPlayer instance was provided';
+var UNSUPPORTED_EVENT = exports.UNSUPPORTED_EVENT = 'The event: %s is not supported';
+
+/**
+ * Track JWPlayer activity.
+ */
+
+var _class = function () {
+  /**
+   * constructor
+   * @param {object} tracker - tracker instance
+   * @param {object} opts - plugin configuration
+   */
+  function _class(tracker, opts) {
+    var _this = this;
+
+    _classCallCheck(this, _class);
+
+    this.opts = (0, _utilities.defaults)(opts, {
+      jwplayer: null,
+      events: ['playlistItem', 'play', 'pause', 'complete', 'error', 'seek', 'mute', 'volume', 'fullscreen', 'resize', 'audioTrackChanged', 'displayClick'],
+      autoDetect: false
+    });
+
+    if (!this.opts.jwplayer) {
+      throw new Error(NO_API_PROVIDED);
+    }
+
+    this.tracker = tracker;
+    this.instances = [];
+
+    var jwplayer = this.opts.jwplayer;
+
+
+    if ((0, _utilities.includes)(this.opts.events, 'all')) {
+      throw new Error(UNSUPPORTED_EVENT.replace('%s', 'all'));
+    }
+
+    jwplayer.api.registerPlugin('autoData', '6.0', function (instance) {
+      return _this.setInstance(instance);
+    });
+
+    /**
+     * Add autoData plugin to default configuration
+     * FIXME : configuration override risk
+     * - we need to provide a warning or an exception
+     *   because our configuration could be overriden
+     */
+    if (this.opts.autoDetect) {
+      _logger2.default.warn('jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration' + 'and it could be overridden so be careful with its use !');
+      // Prevent empty config case
+      if (!jwplayer.defaults) {
+        jwplayer.defaults = {};
+      }
+      // Prevent empty plugins config case
+      if (!jwplayer.defaults.plugins) {
+        jwplayer.defaults.plugins = {};
+      }
+      // Do the override
+      jwplayer.defaults.plugins = _extends({}, jwplayer.defaults.plugins, { // Keep existing configuration
+        autoData: {}
+      });
+    }
+  }
+
+  /**
+   * onEvent - send event information to tracker
+   * @param {object} instance - current jwplayer instance
+   * @param {string} eventName - configuration event name
+   * @param {object} data* - optional data for 'all' event case
+   */
+
+
+  _createClass(_class, [{
+    key: 'onEvent',
+    value: function onEvent(instance, eventName) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      var tag = {};
+
+      switch (eventName) {
+        case 'playlistItem':
+          tag = { act: 'load', desc: data.item.title, val: data.index };
+          break;
+        case 'play':
+          tag = { act: 'play', desc: data.oldstate };
+          break;
+        case 'pause':
+          tag = { act: 'pause', desc: data.oldstate };
+          break;
+        case 'complete':
+          {
+            var _instance$getPlaylist = instance.getPlaylistItem(),
+                _instance$getPlaylist2 = _instance$getPlaylist.title,
+                title = _instance$getPlaylist2 === undefined ? '' : _instance$getPlaylist2;
+
+            tag = { act: 'complete', desc: title };
+            break;
+          }
+        case 'error':
+          tag = { act: 'error', desc: data.message };
+          break;
+        case 'seek':
+          tag = { act: 'seek', desc: data.position + '|' + data.offset };
+          break;
+        case 'mute':
+          tag = { act: 'mute', desc: data.mute };
+          break;
+        case 'volume':
+          tag = { act: 'volume', desc: data.volume };
+          break;
+        case 'fullscreen':
+          tag = { act: 'fullscreen', desc: data.fullscreen };
+          break;
+        case 'resize':
+          tag = { act: 'resize', desc: data.width + '|' + data.height };
+          break;
+        case 'audioTrackChanged':
+          // TODO : find a way to reproduce this
+          tag = _extends({ act: 'playlist' }, data);
+          break;
+        case 'displayClick':
+          tag = { act: 'clic' };
+          break;
+        default:
+          break;
+      }
+
+      this.tracker.send('jwplayer', tag);
+    }
+
+    /**
+     * setInstance - keep instance reference and bind events
+     * @param {object} instance - jwplayer instance
+     */
+
+  }, {
+    key: 'setInstance',
+    value: function setInstance(instance) {
+      var _this2 = this;
+
+      this.opts.events.forEach(function (name) {
+        instance.on(name, function () {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          return _this2.onEvent.apply(_this2, [instance, name].concat(args));
+        });
+      });
+      instance.on('remove', function () {
+        return _this2.unsetInstance(instance);
+      });
+
+      this.instances.push(instance.uniqueId);
+      this.tracker.send('jwplayer', { obj: 'instance', val: instance.uniqueId });
+    }
+
+    /**
+     * unsetInstance - remove the destroyed instance reference
+     * @param {object} instance - the jwplayer instance
+     */
+
+  }, {
+    key: 'unsetInstance',
+    value: function unsetInstance(instance) {
+      var instanceId = this.instances.indexOf(instance.uniqueId);
+
+      if (instanceId !== -1) {
+        this.instances.splice(instanceId, 1);
+        this.tracker.send('jwplayer', { obj: 'remove', val: instance.uniqueId });
+      }
+    }
+  }]);
+
+  return _class;
+}();
+
+exports.default = _class;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getInstance;
+
+var _errors = __webpack_require__(18);
+
+var errors = _interopRequireWildcard(_errors);
+
+var _Driver = __webpack_require__(19);
+
+var _Driver2 = _interopRequireDefault(_Driver);
+
+var _gtm = __webpack_require__(20);
+
+var gtm = _interopRequireWildcard(_gtm);
+
+var _tealium = __webpack_require__(21);
+
+var tealium = _interopRequireWildcard(_tealium);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * retrieves the desired driver and instanciates it
+ * @param {object} config - user config
+ * @returns {{instance: Driver, defaultConfig: {}}} - instance and defaultConfig
+ */
+
+
+// Drivers
+function getInstance(config) {
+  var tms = config.tms;
+
+  var defaultConfig = {};
+
+  if (!tms) {
+    throw new Error(errors.NO_DRIVER_PROVIDED);
+  }
+
+  var parsers = [];
+  var senders = [];
+
+  switch (tms.name) {
+    case 'gtm':
+      parsers.push(gtm.parser);
+      senders.push(gtm.sender);
+      break;
+    case 'tealium':
+      parsers.push(tealium.parser);
+      senders.push(tealium.sender);
+      break;
+    default:
+      break;
+  }
+
+  if (tms.parser) parsers.push(tms.parser);
+  if (tms.sender) senders.push(tms.sender);
+
+  return {
+    instance: new _Driver2.default({
+      parsers: parsers,
+      enhancer: tms.enhancer,
+      senders: senders
+    }),
+    defaultConfig: defaultConfig
+  };
+}
+
+// Driver class
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/* eslint-disable max-len */
+
+var NO_DRIVER_PROVIDED = exports.NO_DRIVER_PROVIDED = 'No driver was provided';
+var NO_DRIVER_INSTANCE = exports.NO_DRIVER_INSTANCE = 'There is no driver instance';
+var DRIVER_NOT_FOUND = exports.DRIVER_NOT_FOUND = 'Driver not found';
+var PLUGIN_NOT_FOUND = exports.PLUGIN_NOT_FOUND = 'Plugin not found';
+var MISSING_PROPERTY = exports.MISSING_PROPERTY = 'Missing property';
+var NO_PARSER_PROVIDED = exports.NO_PARSER_PROVIDED = 'You need to provide a parser function if you do not use a default tms';
+var NO_SENDER_PROVIDED = exports.NO_SENDER_PROVIDED = 'You need to provide a sender function if you do not use a default tms';
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utilities = __webpack_require__(0);
+
+var _logger = __webpack_require__(1);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * @class Driver
+ */
+var Driver = function () {
+  /**
+   * @constructor
+   * @param {function|string} driver - desired driver, can be either
+   *  - string for provided driver selection
+   *  - function for custom driver selection
+   * @param {object} data - initial driver data
+   */
+  function Driver(_ref) {
+    var senders = _ref.senders,
+        parsers = _ref.parsers,
+        enhancer = _ref.enhancer;
+
+    _classCallCheck(this, Driver);
+
+    this.parsers = parsers;
+    this.enhancer = enhancer || function (tag) {
+      return tag;
+    };
+    this.senders = senders;
+
+    this.data = {};
+  }
+
+  /**
+   * Parse and send the tag to TMS
+   * @param {string} type - tag type
+   * @param {object} data - generic autoData information
+   */
+
+
+  _createClass(Driver, [{
+    key: 'send',
+    value: function send(type, data) {
+      try {
+        // Parsed tags
+        var parsedTag = this.parsers.reduce(function (currentTag, parser) {
+          return parser(type, currentTag);
+        }, data);
+        // Enhanced tag
+        var enhancedTag = this.enhancer(parsedTag);
+        // Send tag
+        this.senders.forEach(function (sender) {
+          return sender(enhancedTag);
+        });
+
+        _logger2.default.debug(type, JSON.stringify(enhancedTag, null, 2));
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    /**
+     * Get the asked stored property inside the tracker
+     * @param {string} property - the property name
+     * @returns {*} the value of the asked property
+     */
+
+  }, {
+    key: 'get',
+    value: function get(property) {
+      return this.data[property];
+    }
+
+    /**
+     * Set the given property inside the tracker
+     * @param {object|string} propertyOrData - this can be a prorperty name
+     *  or directly a configuration object
+     * @param {*} value - the property value
+     */
+
+  }, {
+    key: 'set',
+    value: function set(propertyOrData, value) {
+      var _this = this;
+
+      if ((0, _utilities.isObject)(propertyOrData)) {
+        Object.keys(propertyOrData).forEach(function (propertyName) {
+          _this.set(propertyName, propertyOrData[propertyName]);
+        });
+      } else {
+        this.data[propertyOrData] = value;
+      }
+    }
+  }]);
+
+  return Driver;
+}();
+
+exports.default = Driver;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sender = exports.parser = exports.config = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _tagTypes = __webpack_require__(3);
+
+var tagTypes = _interopRequireWildcard(_tagTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * default plugin's configuration object
+ * @type {{plugins: {eventTracker: {trigger: string, attributes: [*]}}}}
+ */
+var config = exports.config = {
+  eventTracker: {
+    trigger: 'obj',
+    attributes: ['act', 'desc', 'val']
+  }
 };
 
 /**
- * send virtualpageview event to driver
- * @param {object} data - pageview data
- * @param {string} data.page - page name
- * @param {string} data.title - page title
+ * Tags sending function
+ * @param {string} type - tag type (usually plugins)
+ * @param {object} data - data for the current tag
+ * @returns {object} - parsed tag
  */
-var sendVirtualPageView = function sendVirtualPageView(data) {
-  driver.instance.send(tagTypes.VIRTUAL_PAGEVIEW, _extends({}, (0, _utilities.getBrowserPageview)(), data));
+var parser = exports.parser = function parser(type) {
+  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (type) {
+    case tagTypes.EVENT:
+      return _extends({ event: 'click' }, data);
+    case tagTypes.VIRTUAL_PAGEVIEW:
+      return _extends({ event: 'virtualpageview' }, data);
+    case tagTypes.PAGEVIEW:
+      return _extends({ event: 'pageview' }, data);
+    case tagTypes.MEDIA_QUERY: // TODO
+    case tagTypes.OUTBOUND_FORM: // TODO
+    case tagTypes.OUTBOUND_LINK: // TODO
+    case tagTypes.SOCIAL: // TODO
+    case tagTypes.INITIAL_TAGS: // TODO
+    default:
+      return _extends({ event: type }, data);
+  }
 };
 
 /**
- * send pageview event to driver
- * @param {object} data - data to be sent
- * @param {string} data.page - page name
- * @param {string} data.title - page title
+ * Send the parsed tag to dataLayer
+ * @param {object} tag - parsed tag to be sent
  */
-var sendPageView = function sendPageView(data) {
-  driver.instance.send(tagTypes.PAGEVIEW, _extends({}, (0, _utilities.getBrowserPageview)(), data));
+var sender = exports.sender = function sender(tag) {
+  if (!window.dataLayer) {
+    window.dataLayer = [];
+  }
+  window.dataLayer.push(tag);
+};
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sender = exports.parser = exports.config = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _tagTypes = __webpack_require__(3);
+
+var tagTypes = _interopRequireWildcard(_tagTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * default plugin's configuration object
+ * @type {{plugins: {eventTracker: {trigger: string, attributes: [*]}}}}
+ */
+var config = exports.config = {
+  eventTracker: {
+    trigger: 'obj',
+    attributes: ['act', 'desc', 'val']
+  }
 };
 
 /**
- * send custom event
- * @param {object} data - data to be sent
+ * Tags sending function
+ * @param {string} type - tag type (usually plugins)
+ * @param {object} data - data for the current tag
+ * @returns {object} - parsed tag
  */
-var sendEvent = function sendEvent(data) {
-  driver.instance.send(tagTypes.EVENT, data);
+var parser = exports.parser = function parser(type) {
+  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  // TODO : identification in sender
+  switch (type) {
+    case tagTypes.EVENT:
+      return _extends({ event: 'click' }, data);
+    case tagTypes.VIRTUAL_PAGEVIEW:
+      return _extends({ event: 'virtualpageview' }, data);
+    case tagTypes.PAGEVIEW:
+      return _extends({ event: 'pageview' }, data);
+    case tagTypes.MEDIA_QUERY: // TODO
+    case tagTypes.OUTBOUND_FORM: // TODO
+    case tagTypes.OUTBOUND_LINK: // TODO
+    case tagTypes.SOCIAL: // TODO
+    case tagTypes.INITIAL_TAGS: // TODO
+    default:
+      return _extends({ event: type }, data);
+  }
 };
 
-var autoData = {
-  init: init,
-  sendVirtualPageView: sendVirtualPageView,
-  sendPageView: sendPageView,
-  sendEvent: sendEvent,
-  tagTypes: tagTypes
-};
+/**
+ * Send the parsed tag to dataLayer
+ * @param {object} tag - parsed tag to be sent
+ */
+var sender = exports.sender = function sender(tag) {
+  var clonedTag = _extends({}, tag);
+  var _window = window,
+      utag = _window.utag;
 
-module.exports = autoData;
+
+  if (!utag) {
+    throw new Error('TEALIUM SENDER REQUIRES utag GLOBAL');
+  }
+
+  switch (tag.event) {
+    case 'pageview':
+    case 'virtualpageview':
+      utag.view(clonedTag);
+      break;
+    default:
+      utag.link(clonedTag);
+      break;
+  }
+};
 
 /***/ })
 /******/ ]);
