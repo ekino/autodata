@@ -17,7 +17,7 @@
     "preversion": "make prepare && git add -A ./dist ./docs"
   },
   "engines": {
-    "node": ">=6.9.0 <7.0.0"
+    "node": ">=6.9.0"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
