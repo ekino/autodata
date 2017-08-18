@@ -1,18 +1,9 @@
 /* setup.js */
 
-const jsdom = require('jsdom').jsdom;
+const {JSDOM} = require('jsdom');
 
-global.__DEV__ = false;
-
-global.document = jsdom('');
-global.window = document.defaultView;
-global.Element = window.Element;
-global.location = window.location;
-global.history = window.history;
-
-global.navigator = {
-  userAgent: 'node.js',
-};
+const {window} = new JSDOM('<!doctype html><html><body></body></html>');
+const {document, Element, location, history} = window;
 
 // allows to add tests for the Carousel
 window.matchMedia = window.matchMedia || function () {
@@ -22,3 +13,12 @@ window.matchMedia = window.matchMedia || function () {
     removeListener() {},
   };
 };
+
+Object.assign(global, {
+  window,
+  document,
+  Element,
+  location,
+  history,
+  navigator: {userAgent: 'node.js'},
+});

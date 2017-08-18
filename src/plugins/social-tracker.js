@@ -55,7 +55,7 @@ function SocialTracker(tracker, opts) {
   this.handleUnlikeEvents = this.handleUnlikeEvents.bind(this);
 
   this.delegate = delegate(document, selector,
-      'click', this.handleSocialClicks);
+    'click', this.handleSocialClicks);
 
   if (document.readyState !== 'complete') {
     // Adds the widget listeners after the window's `load` event fires.

@@ -20,8 +20,8 @@ const init = (config = {}) => {
       .filter(pluginName => plugins[pluginName])
       .forEach((pluginName) => {
         const pluginConfig = {
-          ...(driver.defaultConfig[pluginName] || {}),  // driver default config
-          ...(config.plugins[pluginName] || {}),         // user plugin config
+          ...(driver.defaultConfig[pluginName] || {}), // driver default config
+          ...(config.plugins[pluginName] || {}), // user plugin config
         };
 
         logger.debug(`Config for plugin : ${pluginName}`);

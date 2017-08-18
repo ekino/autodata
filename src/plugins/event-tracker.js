@@ -41,7 +41,7 @@ function EventTracker(tracker, opts) {
   const selector = `[${prefix}${this.opts.trigger}]`;
 
   this.delegate = delegate(document, selector,
-      'click', this.handleEventClicks.bind(this));
+    'click', this.handleEventClicks.bind(this));
 }
 
 

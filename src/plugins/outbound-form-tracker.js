@@ -37,7 +37,7 @@ function OutboundFormTracker(tracker, opts) {
   this.tracker = tracker;
 
   this.delegate = delegate(document, 'form',
-      'submit', this.handleFormSubmits.bind(this));
+    'submit', this.handleFormSubmits.bind(this));
 }
 
 

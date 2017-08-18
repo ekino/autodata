@@ -27,7 +27,7 @@ describe('(Plugin) InitialTags', () => {
   context('with dom tags', () => {
     let stubQuerySelectorAll;
     beforeEach(() => {
-      stubQuerySelectorAll = stub(document, 'querySelectorAll', (selector) => {
+      stubQuerySelectorAll = stub(document, 'querySelectorAll').callsFake((selector) => {
         if (selector === '[data-initial-tags]') {
           return [{innerText: JSON.stringify([{
             event: 'foo-dom',

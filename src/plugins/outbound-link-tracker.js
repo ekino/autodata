@@ -36,7 +36,7 @@ function OutboundLinkTracker(tracker, opts) {
   this.tracker = tracker;
 
   this.delegate = delegate(document, 'a',
-      'click', this.handleLinkClicks.bind(this));
+    'click', this.handleLinkClicks.bind(this));
 }
 
 

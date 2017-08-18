@@ -31,6 +31,8 @@
     "comma-spacing": [2, {"before": false, "after": true}],
     "eol-last": [0],
     "jsx-quotes": [2, "prefer-double"],
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
     "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
     "linebreak-style": [2, "unix"],
     "max-len": [2, 100, {"ignoreUrls": true}],
