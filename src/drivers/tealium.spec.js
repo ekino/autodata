@@ -11,7 +11,7 @@ const utag = {
 window.utag = utag;
 
 // Tiny driver for test
-const tealium = (type, data) => sender(parser(type, data));
+const tealium = (type, data) => sender(parser(type, data), type);
 
 describe('(Driver) tealium', () => {
   it('should respect the correct default config', () => {

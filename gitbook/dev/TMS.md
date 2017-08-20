@@ -35,20 +35,21 @@ The parser must return an object representing the final tag that will be sent.
 ## enhancer
 
 ```js
-export const enhancer = (tag) => {
+export const enhancer = (tag, type) => {
 // TMS enhancing logic
 // ...tag, ...window.utag_data
 };
 ```
 
 The enhancer must return an object representing the enriched final tag provided by parser.
+The type is provided for any conditional needs
 
 ## sender
 
 ```js
-export const sender = (parsedTag) => {
+export const sender = (parsedTag, tag) => {
   // TMS sending logic
 };
 ```
 
-Sender have the parsed tag as an argument and it's in your charge to send it to a TMS or any data collector system.
+Sender have the parsed tag and type as arguments and it's in your charge to send it to a TMS or any data collector system.

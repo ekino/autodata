@@ -5,7 +5,7 @@ import {config, parser, sender} from './gtm';
 // Return last pushed layer
 const lastLayer = () => window.dataLayer.pop();
 // Tiny driver for test
-const gtm = (type, data) => sender(parser(type, data));
+const gtm = (type, data) => sender(parser(type, data), type);
 
 describe('(Driver) gtm', () => {
   it('should respect the correct default config', () => {

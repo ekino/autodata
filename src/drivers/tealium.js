@@ -39,8 +39,9 @@ export const parser = (type, data = {}) => {
 /**
  * Send the parsed tag to dataLayer
  * @param {object} tag - parsed tag to be sent
+ * @param {string} type - autoData tag type
  */
-export const sender = (tag) => {
+export const sender = (tag, type) => {
   const clonedTag = {...tag};
   const {utag} = window;
 
@@ -48,9 +49,9 @@ export const sender = (tag) => {
     throw new Error('TEALIUM SENDER REQUIRES utag GLOBAL');
   }
 
-  switch (tag.event) {
-    case 'pageview':
-    case 'virtualpageview':
+  switch (type) {
+    case tagTypes.PAGEVIEW:
+    case tagTypes.VIRTUAL_PAGEVIEW:
       utag.view(clonedTag);
       break;
     default:

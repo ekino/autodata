@@ -38,8 +38,9 @@ export const parser = (type, data = {}) => {
 /**
  * Send the parsed tag to dataLayer
  * @param {object} tag - parsed tag to be sent
+ * @param {string} type - autoData tag type
  */
-export const sender = (tag) => {
+export const sender = (tag, type) => { // eslint-disable-line no-unused-vars
   if (!window.dataLayer) {
     window.dataLayer = [];
   }

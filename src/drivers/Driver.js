@@ -30,9 +30,9 @@ export default class Driver {
       // Parsed tags
       const parsedTag = this.parsers.reduce((currentTag, parser) => parser(type, currentTag), data);
       // Enhanced tag
-      const enhancedTag = this.enhancer(parsedTag);
+      const enhancedTag = this.enhancer(parsedTag, type);
       // Send tag
-      this.senders.forEach(sender => sender(enhancedTag));
+      this.senders.forEach(sender => sender(enhancedTag, type));
 
       logger.debug(type, JSON.stringify(enhancedTag, null, 2));
     } catch (err) {
