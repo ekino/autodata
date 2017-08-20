@@ -32,8 +32,7 @@ autoData.init({
   },
   plugins: {
     eventTracker: {
-      // FIXME : wrong attribute for camelization demo
-      attributes: ['act', 'desc', 'val', 'i-should-be-camelized'],
+      attributes: ['act', 'desc', 'val', 'i_should-be-camelized'],
     },
     mediaQueryTracker: {
       mediaQueryDefinitions: [
