@@ -36,7 +36,7 @@ export default class Driver {
 
       logger.debug(type, JSON.stringify(enhancedTag, null, 2));
     } catch (err) {
-      throw err;
+      logger.error(err.stack);
     }
   }
 
