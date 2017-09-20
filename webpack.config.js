@@ -1,6 +1,7 @@
 import {resolve} from 'path';
 import webpack from 'webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import rules from './webpack.loaders';
 import ENV from './ENV.json';
 
@@ -44,6 +45,7 @@ if (LOCAL) {
 if (NODE_ENV === 'prod') {
   plugins = plugins.concat([
     new webpack.optimize.UglifyJsPlugin(),
+    new BundleAnalyzerPlugin(),
   ]);
 }
 

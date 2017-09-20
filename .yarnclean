@@ -24,7 +24,7 @@ Makefile
 Gulpfile.js
 Gruntfile.js
 
-# configs
+# config
 .tern-project
 .gitattributes
 .editorconfig

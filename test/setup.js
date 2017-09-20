@@ -3,7 +3,7 @@
 const {JSDOM} = require('jsdom');
 
 const {window} = new JSDOM('<!doctype html><html><body></body></html>');
-const {document, Element, location, history} = window;
+const {document, Element, HTMLElement, location, history} = window;
 
 // allows to add tests for the Carousel
 window.matchMedia = window.matchMedia || function () {
@@ -18,6 +18,7 @@ Object.assign(global, {
   window,
   document,
   Element,
+  HTMLElement,
   location,
   history,
   navigator: {userAgent: 'node.js'},

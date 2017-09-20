@@ -7,16 +7,16 @@ import autoData from './autodata';
 import Driver from './drivers/Driver';
 import * as tagTypes from './constants/tagTypes';
 
-// const {autoData} = window;
-
 const initSpy = spy(autoData, 'init');
 const tmsSpy = spy(Driver.prototype, 'send');
 
 const defaultConfig = {
-  attributePrefix: 'data-',
-  tms: {
-    parser: spy(),
-    sender: spy(),
+  common: {
+    attributePrefix: 'data-',
+    tms: {
+      parser: spy(),
+      sender: spy(),
+    },
   },
 };
 
@@ -42,9 +42,18 @@ describe('Autodata', () => {
   });
 
   context('init', () => {
+    const config = autoData.init(defaultConfig);
+
     it('should be called with the given config', () => {
-      autoData.init(defaultConfig);
       expect(initSpy.calledWith(defaultConfig)).equals(true);
+    });
+
+    it('should use the common config', () => {
+      expect(config).eql(defaultConfig.common);
+    });
+
+    it('should throw if multiple init', () => {
+      expect(autoData.init).to.throw();
     });
   });
 
