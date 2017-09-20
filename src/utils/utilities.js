@@ -142,3 +142,28 @@ export const camelize = (str = '') => {
   // eslint-disable-next-line no-unused-vars
   return str.replace(/[-|_|.](.)/gi, (match, char) => char.toUpperCase());
 };
+
+/**
+ * Get the optional config from DOM node
+ * @param {object} configs - configuration list
+ * @returns {*} - optional configuration target
+ */
+export const getOptionalConfig = (configs) => {
+  const configAttributeName = 'data-autodata-config';
+  const $configTag = document.querySelector(`[${configAttributeName}]`);
+
+  if (!$configTag) {
+    return {};
+  }
+
+  const configName = $configTag.getAttribute(configAttributeName);
+  const optionalConfig = configs[configName];
+
+  if (optionalConfig && typeof optionalConfig === 'object') {
+    return optionalConfig;
+  }
+
+  logger.warn(`No configuration was found for ${configName}`);
+
+  return {};
+};

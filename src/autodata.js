@@ -1,15 +1,23 @@
+import defaultsDeep from 'lodash/defaultsDeep';
 import * as plugins from './plugins';
 import * as tagTypes from './constants/tagTypes';
+import * as errors from './constants/errors';
 import getInstance from './drivers';
-import {getBrowserPageview} from './utils/utilities';
+import {getBrowserPageview, getOptionalConfig} from './utils/utilities';
 import logger, {setLevel} from './utils/logger';
 
 let driver;
 
-const init = (config = {}) => {
-  if (!driver) {
-    driver = getInstance(config);
+// TODO : refactor this not enough splitted, hard to test...
+const futureInit = ({common, ...rest}) => {
+  if (driver) {
+    throw new Error(errors.NO_MULTIPLE_INIT);
   }
+
+  // Merge optional config with common
+  const config = defaultsDeep(getOptionalConfig(rest), common);
+
+  driver = getInstance(config);
 
   setLevel(config.debug || 'none');
 
@@ -30,6 +38,25 @@ const init = (config = {}) => {
         new plugins[pluginName](driver.instance, pluginConfig);
       });
   }
+
+  // FIXME : tmp return for tests
+  return config;
+};
+
+const init = (config = {}) => {
+  if (!config.common) {
+    config = {
+      common: config,
+    };
+
+    logger.warn(`
+      Deprecation warning: configuration object will change in future version of autoData.
+      Please look at the documentation https://ekino.github.io/autodata/API.html#init for more
+      information.
+    `);
+  }
+
+  return futureInit(config);
 };
 
 /**

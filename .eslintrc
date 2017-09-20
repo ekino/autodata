@@ -9,7 +9,8 @@
     "__DEV__": false,
     "__ENV__": false,
     "utag": true,
-    "utag_data": true
+    "utag_data": true,
+    "jwplayer": false
   },
   "extends": "airbnb",
   "parser": "babel-eslint",
