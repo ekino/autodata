@@ -3,6 +3,8 @@ npm-debug.log
 .DS_Store
 .idea
 
+# Report files
+report/
 
 # Env vars
 ENV.json

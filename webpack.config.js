@@ -45,7 +45,11 @@ if (LOCAL) {
 if (NODE_ENV === 'prod') {
   plugins = plugins.concat([
     new webpack.optimize.UglifyJsPlugin(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: true,
+      reportFilename: resolve(__dirname, 'report/bundle-analyzer.html'),
+    }),
   ]);
 }
 
