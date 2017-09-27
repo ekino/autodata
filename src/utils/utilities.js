@@ -167,3 +167,19 @@ export const getOptionalConfig = (configs) => {
 
   return {};
 };
+
+/**
+ * As the library can be loaded async we need this helper to condition some logic
+ * only if the DOM is ready.
+ * But if it is loaded synchronously the callback will be triggered immediately
+ * @param {function} callback - callback
+ */
+export const waitForDomToBeReady = (callback) => {
+  if (document.readyState === 'complete') {
+    callback();
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      callback();
+    });
+  }
+};

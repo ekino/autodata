@@ -1,4 +1,6 @@
-import {defaults, getBrowserPageview, isObject, areDifferent, camelize} from '../utils/utilities';
+import {
+  defaults, getBrowserPageview, isObject, areDifferent, camelize, waitForDomToBeReady,
+} from '../utils/utilities';
 import logger from '../utils/logger';
 
 /**
@@ -27,11 +29,8 @@ export default class InitialPageview {
       this.startHotReload();
     }
 
-    // Wait for DOM to be ready before calling it
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initial pageview send
-      this.send();
-    });
+    // Wait for DOM to be ready before sending the first pageview
+    waitForDomToBeReady(() => this.send());
   }
 
   /**
