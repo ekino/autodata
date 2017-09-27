@@ -195,7 +195,7 @@ autoData.init({
 <head data-autodata-config="contact" />
 ```
 
-**Note**: The use of the <head /> tag here is done as an example purpose,
+**Note**: The use of the ```<head />``` tag here is done as an example purpose,
 you can choose any tag that you want on your page.
 
 The previous example will load the contact configuration and merge it with common when autoData is loaded on a page
