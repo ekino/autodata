@@ -1,3 +1,23 @@
+#### 0.9.6 (2017-09-27)
+
+##### Chores
+
+* **changelog:** add npm package generate-changelog (695d5e9a)
+* **tests:** Driver tests (d2011905)
+
+##### New Features
+
+* **optionalConfig:** add multiple config possibility (4c47df37)
+
+##### Bug Fixes
+
+* **release:**
+  * postversion script (0a8172e9)
+  * changelog step (904bbea4)
+* **build:** bundle analyzer config (0fa7b9b4)
+* **demo:** wrong camelize config (d3ca144a)
+* **Driver:** provide type for enhancer / sender (4de67429)
+
 #### 0.9.5 (2017-09-27)
 
 ##### Chores

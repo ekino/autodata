@@ -1,6 +1,6 @@
 {
   "name": "autodata",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "main": "dist/autodata.js",
   "license": "MIT",
   "scripts": {
