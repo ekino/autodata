@@ -2175,15 +2175,15 @@ var Driver = function () {
           return parser(type, currentTag);
         }, data);
         // Enhanced tag
-        var enhancedTag = this.enhancer(parsedTag);
+        var enhancedTag = this.enhancer(parsedTag, type);
         // Send tag
         this.senders.forEach(function (sender) {
-          return sender(enhancedTag);
+          return sender(enhancedTag, type);
         });
 
         _logger2.default.debug(type, JSON.stringify(enhancedTag, null, 2));
       } catch (err) {
-        throw err;
+        _logger2.default.error(err.stack);
       }
     }
 
@@ -2286,8 +2286,10 @@ var parser = exports.parser = function parser(type) {
 /**
  * Send the parsed tag to dataLayer
  * @param {object} tag - parsed tag to be sent
+ * @param {string} type - autoData tag type
  */
-var sender = exports.sender = function sender(tag) {
+var sender = exports.sender = function sender(tag, type) {
+  // eslint-disable-line no-unused-vars
   if (!window.dataLayer) {
     window.dataLayer = [];
   }
@@ -2355,8 +2357,9 @@ var parser = exports.parser = function parser(type) {
 /**
  * Send the parsed tag to dataLayer
  * @param {object} tag - parsed tag to be sent
+ * @param {string} type - autoData tag type
  */
-var sender = exports.sender = function sender(tag) {
+var sender = exports.sender = function sender(tag, type) {
   var clonedTag = _extends({}, tag);
   var _window = window,
       utag = _window.utag;
@@ -2366,9 +2369,9 @@ var sender = exports.sender = function sender(tag) {
     throw new Error('TEALIUM SENDER REQUIRES utag GLOBAL');
   }
 
-  switch (tag.event) {
-    case 'pageview':
-    case 'virtualpageview':
+  switch (type) {
+    case tagTypes.PAGEVIEW:
+    case tagTypes.VIRTUAL_PAGEVIEW:
       utag.view(clonedTag);
       break;
     default:
