@@ -14,8 +14,9 @@
     "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
     "precommit": "yarn run lint",
     "prepush": "yarn test",
-    "preversion": "make prepare && git add -A ./dist ./docs",
-    "postversion": "git push && git push --tags"
+    "preversion": "make prepare",
+    "version": "generate-changelog && git add -A ./dist ./docs ./CHANGELOG.md",
+    "postversion": "git --no-verify push && git --no-verify push --tags"
   },
   "engines": {
     "node": ">=6.9.0"

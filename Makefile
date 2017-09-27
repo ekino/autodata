@@ -22,7 +22,6 @@ build:
 
 # Prepare for release
 prepare:
-	yarn generate-changelog
 	make lint_test
 	make build
 
