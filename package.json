@@ -16,7 +16,7 @@
     "prepush": "yarn test",
     "preversion": "make prepare",
     "version": "generate-changelog && git add -A ./dist ./docs ./CHANGELOG.md",
-    "postversion": "git --no-verify push && git --no-verify push --tags"
+    "postversion": "git push --no-verify && git push --no-verify --tags"
   },
   "engines": {
     "node": ">=6.9.0"
