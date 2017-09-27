@@ -22,4 +22,21 @@ Script inclusion then initialization script can be written inside a custom Javas
 
 Otherwise, script inclusion can be done on application side, and initialization on TMS side. This approach is recommended for analytics performance : autoData is loaded before TMS and initialized after TMS loading, which prevents asynchronous problems and data loss.
 
-## NPM (WIP)
+## NPM dependency
+
+autoData is [published on npm](https://www.npmjs.com/package/autodata),
+you can include it as a regular npm dependency in your project.
+
+**For example**
+
+```sh
+$ npm install -D autodata
+```
+
+```js
+import autoData from 'autodata';
+
+autoData.init({
+  // config
+});
+```

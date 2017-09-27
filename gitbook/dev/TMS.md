@@ -47,7 +47,7 @@ The type is provided for any conditional needs
 ## sender
 
 ```js
-export const sender = (parsedTag, tag) => {
+export const sender = (parsedTag, type) => {
   // TMS sending logic
 };
 ```
