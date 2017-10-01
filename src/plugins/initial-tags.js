@@ -1,5 +1,5 @@
 import logger from '../utils/logger';
-import {defaults} from '../utils/utilities';
+import {defaults, waitForDomToBeReady} from '../utils/utilities';
 
 export const DEFAULT_EVENT = 'click';
 
@@ -19,8 +19,8 @@ function InitialTags(tracker, opts) {
   this.tracker = tracker;
   this.tagSelector = `[${this.opts.attributePrefix}initial-tags]`;
 
-  // Wait for DOM to be ready before calling it
-  document.addEventListener('DOMContentLoaded', () => {
+  // Wait for DOM to be ready before parsing initial tags
+  waitForDomToBeReady(() => {
     setTimeout(this.parseInitialTags.bind(this), this.opts.initialTagsDelay);
   });
 }
