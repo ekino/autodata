@@ -43,14 +43,14 @@ describe('(Plugin) jwplayer tracker', () => {
       instance = getInstance({jwplayer});
     });
 
-    it('should track "all" event case', () => {
-      instance.onEvent('all', 'foo', {bar: 'baz'});
-      expect(tracker.send.calledWith('jwplayer', {obj: 'foo', bar: 'baz'}));
+    it('should not track "all" event case', () => {
+      instance.onEvent(instance, 'all', {bar: 'baz'});
+      expect(tracker.send.called).equals(false);
     });
 
-    it('should track "default" event case', () => {
-      instance.onEvent('foo', {bar: 'baz'});
-      expect(tracker.send.calledWith('jwplayer', {obj: 'foo', bar: 'baz'}));
+    it('should track "play" event case', () => {
+      instance.onEvent(instance, 'play', {oldstate: 'foo'});
+      expect(tracker.send.calledWith('jwplayer', {act: 'play', desc: 'foo'})).equals(true);
     });
   });
 
@@ -110,7 +110,7 @@ describe('(Plugin) jwplayer tracker', () => {
     });
 
     it('should track the removed instance', () => {
-      expect(tracker.send.calledWith('jwplayer', {obj: 'remove', val: 'foo'}));
+      expect(tracker.send.calledWith('jwplayer', {obj: 'remove', val: 'foo'})).equals(true);
     });
   });
 });

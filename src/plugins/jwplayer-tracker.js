@@ -82,7 +82,7 @@ export default class {
    * @param {object} data* - optional data for 'all' event case
    */
   onEvent(instance, eventName, data = {}) {
-    let tag = {};
+    let tag = null;
 
     switch (eventName) {
       case 'playlistItem':
@@ -128,7 +128,9 @@ export default class {
         break;
     }
 
-    this.tracker.send('jwplayer', tag);
+    if (tag) {
+      this.tracker.send('jwplayer', tag);
+    }
   }
 
   /**
