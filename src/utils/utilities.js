@@ -175,7 +175,7 @@ export const getOptionalConfig = (configs) => {
  * @param {function} callback - callback
  */
 export const waitForDomToBeReady = (callback) => {
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     callback();
   } else {
     document.addEventListener('DOMContentLoaded', () => {
