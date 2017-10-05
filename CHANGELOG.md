@@ -1,3 +1,15 @@
+#### 0.9.7 (2017-10-05)
+
+##### Documentation Changes
+
+* **implementation:** add npm spec (7d297fac)
+
+##### Bug Fixes
+
+* **jwlpayer:** restrain events scope (5d9e34ca)
+* **utilities:** dom ready state helper (b6ef640a)
+* **doc:** typo in autodata initialization (7f3bd62a)
+
 #### 0.9.6 (2017-09-27)
 
 ##### Chores

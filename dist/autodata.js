@@ -83,7 +83,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getOptionalConfig = exports.camelize = exports.includes = exports.getBrowserPageview = exports.toArray = exports.isArray = exports.areDifferent = exports.isObject = exports.capitalize = exports.defaults = exports.withTimeout = undefined;
+exports.waitForDomToBeReady = exports.getOptionalConfig = exports.camelize = exports.includes = exports.getBrowserPageview = exports.toArray = exports.isArray = exports.areDifferent = exports.isObject = exports.capitalize = exports.defaults = exports.withTimeout = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -279,6 +279,22 @@ var getOptionalConfig = exports.getOptionalConfig = function getOptionalConfig(c
   _logger2.default.warn('No configuration was found for ' + configName);
 
   return {};
+};
+
+/**
+ * As the library can be loaded async we need this helper to condition some logic
+ * only if the DOM is ready.
+ * But if it is loaded synchronously the callback will be triggered immediately
+ * @param {function} callback - callback
+ */
+var waitForDomToBeReady = exports.waitForDomToBeReady = function waitForDomToBeReady(callback) {
+  if (document.readyState === 'complete') {
+    callback();
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      callback();
+    });
+  }
 };
 
 /***/ }),
@@ -3923,8 +3939,8 @@ function InitialTags(tracker, opts) {
   this.tracker = tracker;
   this.tagSelector = '[' + this.opts.attributePrefix + 'initial-tags]';
 
-  // Wait for DOM to be ready before calling it
-  document.addEventListener('DOMContentLoaded', function () {
+  // Wait for DOM to be ready before parsing initial tags
+  (0, _utilities.waitForDomToBeReady)(function () {
     setTimeout(_this.parseInitialTags.bind(_this), _this.opts.initialTagsDelay);
   });
 }
@@ -4843,10 +4859,9 @@ var InitialPageview = function () {
       this.startHotReload();
     }
 
-    // Wait for DOM to be ready before calling it
-    document.addEventListener('DOMContentLoaded', function () {
-      // Initial pageview send
-      _this.send();
+    // Wait for DOM to be ready before sending the first pageview
+    (0, _utilities.waitForDomToBeReady)(function () {
+      return _this.send();
     });
   }
 
@@ -5068,7 +5083,7 @@ var _class = function () {
     value: function onEvent(instance, eventName) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var tag = {};
+      var tag = null;
 
       switch (eventName) {
         case 'playlistItem':
@@ -5118,7 +5133,9 @@ var _class = function () {
           break;
       }
 
-      this.tracker.send('jwplayer', tag);
+      if (tag) {
+        this.tracker.send('jwplayer', tag);
+      }
     }
 
     /**
