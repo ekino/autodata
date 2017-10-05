@@ -288,7 +288,7 @@ var getOptionalConfig = exports.getOptionalConfig = function getOptionalConfig(c
  * @param {function} callback - callback
  */
 var waitForDomToBeReady = exports.waitForDomToBeReady = function waitForDomToBeReady(callback) {
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     callback();
   } else {
     document.addEventListener('DOMContentLoaded', function () {

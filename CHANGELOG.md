@@ -1,3 +1,9 @@
+#### 0.9.8 (2017-10-05)
+
+##### Bug Fixes
+
+* **waitForDomToBeReady:** dom ready detection (1e3d45b1)
+
 #### 0.9.7 (2017-10-05)
 
 ##### Documentation Changes
