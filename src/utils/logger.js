@@ -1,4 +1,6 @@
 /* eslint-disable no-confusing-arrow */
+import findIndex from 'lodash/findIndex';
+
 const log = {};
 const noop = () => {};
 
@@ -29,7 +31,7 @@ const bindLevels = (target, enabled = true) => {
 };
 
 export const setLevel = (levelName) => {
-  const levelIndex = levels.findIndex(({level}) => level === levelName);
+  const levelIndex = findIndex(levels, ({level}) => level === levelName);
 
   if (levelIndex !== -1) {
     bindLevels(levels.slice(0, levelIndex), false);
