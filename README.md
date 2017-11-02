@@ -21,7 +21,8 @@ You can find the project documentation at [ekino.github.io/autodata](https://eki
 
 # Requirements
 
-- [Yarn](https://yarnpkg.com/)
+- [NodeJS](https://nodejs.org/en/) - v8.x.x
+- [Yarn](https://yarnpkg.com/) - v1.x.x
 
 # Getting started
 
