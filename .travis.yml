@@ -11,6 +11,8 @@ cache:
 script:
   - yarn lint
   - yarn test
+  - NODE_ENV=development yarn build
+  - NODE_ENV=production yarn build
 
 deploy:
   provider: npm

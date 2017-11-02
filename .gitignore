@@ -8,3 +8,7 @@ report/
 
 # Env vars
 ENV.json
+
+# Build files
+dist/
+.tmp
