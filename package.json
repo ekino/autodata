@@ -1,6 +1,6 @@
 {
   "name": "autodata",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "main": "dist/autodata.js",
   "license": "MIT",
   "scripts": {
@@ -15,7 +15,7 @@
     "precommit": "lint-staged",
     "preversion": "yarn doc:build",
     "version": "generate-changelog && git add -A ./docs ./CHANGELOG.md",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push --follow-tags"
   },
   "lint-staged": {
     "src/**/*.js": [
