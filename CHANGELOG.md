@@ -1,3 +1,20 @@
+#### 0.10.0 (2017-11-03)
+
+##### Chores
+
+* **node:** update node version (eb407a3d)
+* **ENV:** add postinstall script (6c888aa1)
+* **hooks:** use lint-staged and remove prepush (98e4761b)
+* **travis:** add npm deploy config (4f36783a)
+
+##### Bug Fixes
+
+* **logger:** use lodash findIndex (be417ec7)
+
+##### Refactors
+
+* **build:** move to CI (1a5f73f1)
+
 #### 0.9.8 (2017-10-05)
 
 ##### Bug Fixes

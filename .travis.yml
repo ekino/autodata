@@ -15,11 +15,13 @@ script:
   - NODE_ENV=development yarn build
   - NODE_ENV=production yarn build
 
+before_deploy: "ls -al dist"
 deploy:
   provider: npm
-  email: $NPM_EMAIL
+  email: opensource@ekino.com
+  skip_cleanup: true
   api_key:
-    secure: $NPM_AUTH_TOKEN
+    secure: oeF0VvsI+WjRspdVYh8DvnTyV+utl/4baW6NNnz2KsPttAcRGZr/R6tggmZ7tSIUN5xBggNr8TpcvYO6s8WLU01/VEVQthNyC+dzfh2glVnqDhE6R+rFljA0Sthxk9qJGYSSvlqssQLNie8vj8KyDPsBz+xNW5PrugH3Ps/VYoG6y4yPi4zx+yw3fE/sBIeizjhRB8VZa/7lSeqPiN/rRo+r1m4Bui6aisn6yZ98PMCL7ayRFe3zgDUyzs71hB9qePJZO7ku0IArg81cQCX1gnETbff+YPgv9h07q+X5htc5ejyJMq1FgAtURG0HCqjSLqqy3arCS4s+Z0XeO8Jj9K6Bb9meWUkd/4880kEqCPxFKtjxeFYKhit8rdmNVphe/O68cTDp2YJ+LqpAcldMV1PDSNN7KaY5lLqwxaQFdfgKeRFhgb+FiAVjqPsSqJ4Ja0564gvQtlfZrEvExonW9s5Mkw+NCB3v0OfTDy3tLWey3BosZsZm3Wy9o/gpoT7OKcVAl+y7e9dbmeoCSm4aP6wLhlEIIMock/AJUoC9z+uB9th5V4zHMCNoa5QxiddKn6ccpCSg1SGEyPsn6xtowOlavstcodeAOuERHvwdvHrgiDxUMouf1Kwg6UjBKzSPu8sGuzJWrEYzsQEvIDtY1/H30oF5q16Yu8M27FNJ5PM=
   on:
     tags: true
     repo: ekino/autodata
