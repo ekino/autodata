@@ -21,7 +21,8 @@ You can find the project documentation at [ekino.github.io/autodata](https://eki
 
 # Requirements
 
-- [Yarn](https://yarnpkg.com/)
+- [NodeJS](https://nodejs.org/en/) - v8.x.x
+- [Yarn](https://yarnpkg.com/) - v1.x.x
 
 # Getting started
 
@@ -46,7 +47,7 @@ All the documentation and examples are available on the project's gitbook : [eki
 ## Installation
 
  - ``git clone git@github.com:ekino/autodata.git``
- - ``make install``
+ - ``yarn``
 
 ## Setup requirements
 
@@ -63,7 +64,7 @@ Every running script of autodata is listed here : demo page, unit tests, documen
 Execute the following command to start autodata demo page
 
 ```
-$ make dev
+$ yarn start
 ```
 
 After what the demo page will be started at this url
@@ -75,7 +76,7 @@ After what the demo page will be started at this url
 Execute the following command to start autodata unit tests
 
 ```
-$ make test
+$ yarn test
 ```
 
 ## Running documentation
@@ -93,12 +94,12 @@ $ yarn doc
 Execute the following command to build autodata
 
 ```
-$ make build
+$ NODE_ENV=(development|production) yarn build
 ```
 
-Build will create 2 scripts
-- autodata.js will keep log and unminified code
-- autodata.min.js will remove log and minify code
+It will create a script depending on NODE_ENV
+- NODE_ENV=development -> autodata.js will keep log and unminified code
+- NODE_ENV=production -> autodata.min.js will remove log and uglify code
 
 # Release autodata
 

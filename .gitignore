@@ -2,9 +2,14 @@ node_modules
 npm-debug.log
 .DS_Store
 .idea
+package-lock.json # Yarn is used
 
 # Report files
 report/
 
 # Env vars
 ENV.json
+
+# Build files
+dist/
+.tmp

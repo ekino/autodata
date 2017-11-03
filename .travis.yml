@@ -1,16 +1,19 @@
 language: node_js
 
 node_js:
-  "6"
+  "8"
 
 cache:
   yarn: true
   directories:
     - node_modules
+    - dist
 
 script:
   - yarn lint
   - yarn test
+  - NODE_ENV=development yarn build
+  - NODE_ENV=production yarn build
 
 deploy:
   provider: npm

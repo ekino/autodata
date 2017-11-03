@@ -5,21 +5,26 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf ./dist ./docs",
-    "build:dev": "babel-node ./node_modules/.bin/webpack --config webpack.config.js",
-    "build:prod": "NODE_ENV=prod babel-node ./node_modules/.bin/webpack --config webpack.config.js",
-    "build:doc": "gitbook build ./gitbook ./docs",
-    "start": "LOCAL=true babel-node ./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --config webpack.config.js",
-    "doc": "gitbook serve ./gitbook ./docs",
+    "build": "NODE_ENV=${NODE_ENV:=development} babel-node ./node_modules/.bin/webpack --config webpack.config.js",
+    "start": "NODE_ENV=local babel-node ./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --config webpack.config.js",
+    "doc": "gitbook serve ./gitbook .tmp",
+    "doc:build": "gitbook build ./gitbook ./docs",
     "lint": "eslint src",
     "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
-    "precommit": "yarn run lint",
-    "prepush": "yarn test",
-    "preversion": "make prepare",
-    "version": "generate-changelog && git add -A ./dist ./docs ./CHANGELOG.md",
-    "postversion": "git push --no-verify && git push --no-verify --tags"
+    "postinstall": "ls ENV.json||cp ENV.json.example ENV.json",
+    "precommit": "lint-staged",
+    "preversion": "yarn doc:build",
+    "version": "generate-changelog && git add -A ./docs ./CHANGELOG.md",
+    "postversion": "git push && git push --tags"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=8.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -40,6 +45,7 @@
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
     "jsdom": "^11.1.0",
+    "lint-staged": "^4.3.0",
     "mocha": "^3.5.0",
     "react-helmet": "^5.1.3",
     "rimraf": "^2.6.1",

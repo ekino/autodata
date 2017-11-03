@@ -5,7 +5,9 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import rules from './webpack.loaders';
 import ENV from './ENV.json';
 
-const {NODE_ENV = 'dev', LOCAL = false} = process.env;
+const [isProd, isDev, isLocal] = [
+  'production', 'development', 'local',
+].map(env => process.env.NODE_ENV === env);
 
 // Format vars for webpack ENV process
 const formatVars = (VARS) => {
@@ -18,8 +20,8 @@ const formatVars = (VARS) => {
 
 let plugins = [
   new webpack.DefinePlugin({
-    __DEV__: NODE_ENV === 'dev',
-    __ENV__: LOCAL ? {
+    __DEV__: isDev || isLocal,
+    __ENV__: isLocal ? {
       ...formatVars(ENV),
     } : false,
   }),
@@ -28,7 +30,7 @@ let entry = {
   autodata: './src/autodata.js',
 };
 
-if (LOCAL) {
+if (isLocal) {
   entry = {
     demo: './src/demo/demo.jsx',
   };
@@ -42,7 +44,7 @@ if (LOCAL) {
   ]);
 }
 
-if (NODE_ENV === 'prod') {
+if (isProd) {
   plugins = plugins.concat([
     new webpack.optimize.UglifyJsPlugin(),
     new BundleAnalyzerPlugin({
@@ -57,7 +59,7 @@ export default {
   entry,
   output: {
     path: resolve(`${__dirname}/dist`),
-    filename: NODE_ENV === 'prod' ? '[name].min.js' : '[name].js',
+    filename: isProd ? '[name].min.js' : '[name].js',
     library: 'autoData',
     libraryTarget: 'umd',
   },
