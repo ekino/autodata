@@ -11,7 +11,7 @@
     "doc:build": "gitbook build ./gitbook ./docs",
     "lint": "eslint src",
     "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
-    "postinstall": "ls ENV.json||cp ENV.json.example ENV.json",
+    "postinstall": "ls ENV.json||cp ENV.json.example ENV.json||echo 'production mode'",
     "precommit": "lint-staged",
     "preversion": "yarn doc:build",
     "version": "generate-changelog && git add -A ./docs ./CHANGELOG.md",
