@@ -1,3 +1,9 @@
+#### 0.11.0 (2018-01-03)
+
+##### Bug Fixes
+
+* **package:** postinstall script (6f513056)
+
 #### 0.10.0 (2017-11-03)
 
 ##### Chores
