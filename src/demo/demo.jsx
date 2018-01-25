@@ -26,7 +26,6 @@ const htmlLogger = (tag) => {
 
 autoData.init({
   common: {
-    debug: 'debug',
     tms: {
       name: 'gtm',
     },
@@ -100,6 +99,7 @@ autoData.init({
     },
   },
   demo: {
+    debug: 'debug',
     tms: {
       sender: htmlLogger,
     },
