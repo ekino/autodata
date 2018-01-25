@@ -1,4 +1,4 @@
-import defaultsDeep from 'lodash/defaultsDeep';
+import deepMerge from 'deepmerge';
 import * as plugins from './plugins';
 import * as tagTypes from './constants/tagTypes';
 import * as errors from './constants/errors';
@@ -14,8 +14,8 @@ const futureInit = ({common, ...rest}) => {
     throw new Error(errors.NO_MULTIPLE_INIT);
   }
 
-  // Merge optional config with common
-  const config = defaultsDeep(getOptionalConfig(rest), common);
+  // Merge deeply optional config with common
+  const config = deepMerge(getOptionalConfig(rest), common);
 
   driver = getInstance(config);
 
