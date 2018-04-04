@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf ./dist ./docs",
     "build": "NODE_ENV=${NODE_ENV:=development} babel-node ./node_modules/.bin/webpack --config webpack.config.js",
-    "start": "NODE_ENV=local babel-node ./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --config webpack.config.js",
+    "start": "NODE_ENV=local babel-node ./node_modules/.bin/webpack-dev-server --allowed-hosts .local --config webpack.config.js",
     "doc": "gitbook serve ./gitbook .tmp",
     "doc:build": "gitbook build ./gitbook ./docs",
     "lint": "eslint src",
