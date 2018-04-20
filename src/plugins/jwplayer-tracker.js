@@ -1,4 +1,4 @@
-import {defaults, includes} from '../utils/utilities';
+import {defaults, includes, getPlaybackPercentage} from '../utils/utilities';
 import logger from '../utils/logger';
 
 export const NO_API_PROVIDED = 'No JwPlayer instance was provided';
@@ -17,12 +17,14 @@ export default class {
     this.opts = defaults(opts, {
       jwplayer: null,
       events: [
+        'firstFrame',
         'playlistItem',
         'play',
         'pause',
         'complete',
         'error',
         'seek',
+        'time',
         'mute',
         'volume',
         'fullscreen',
@@ -31,6 +33,7 @@ export default class {
         'displayClick',
       ],
       autoDetect: false,
+      cuepoints: [],
     });
 
     if (!this.opts.jwplayer) {
@@ -39,6 +42,14 @@ export default class {
 
     this.tracker = tracker;
     this.instances = [];
+
+    if (this.opts.cuepoints) {
+      // Unreached cuepoints
+      this.uc = {
+        percentages: this.opts.cuepoints.percentages || [],
+        thresholds: this.opts.cuepoints.thresholds || [],
+      };
+    }
 
     const {jwplayer} = this.opts;
 
@@ -76,17 +87,40 @@ export default class {
   }
 
   /**
+   * calculateUnreachedCuepoints - remove all values before the position
+   * @param {number} position - position that has been requested to seek to in secondes
+   * @param {number} duration - duration of the current playlist item in seconds.
+   */
+  calculateUnreachedCuepoints(position, duration) {
+    this.uc = Object.assign({}, this.opts.cuepoints);
+    if (this.uc.thresholds) {
+      this.uc.thresholds =
+        this.uc.thresholds.filter(value => position < value);
+    }
+    if (this.uc.percentages) {
+      const percentage = getPlaybackPercentage(position, duration);
+      this.uc.percentages =
+        this.uc.percentages.filter(value => percentage < value);
+    }
+  }
+
+  /**
    * onEvent - send event information to tracker
    * @param {object} instance - current jwplayer instance
    * @param {string} eventName - configuration event name
    * @param {object} data* - optional data for 'all' event case
    */
   onEvent(instance, eventName, data = {}) {
+    const {title = '', file = '', id = ''} = instance.getPlaylistItem();
+    const itemInfo = {title, file, id};
     let tag = null;
 
     switch (eventName) {
+      case 'firstFrame':
+        tag = {act: 'mediaStarted'};
+        break;
       case 'playlistItem':
-        tag = {act: 'load', desc: data.item.title, val: data.index};
+        tag = {act: 'load', val: data.index};
         break;
       case 'play':
         tag = {act: 'play', desc: data.oldstate};
@@ -95,15 +129,18 @@ export default class {
         tag = {act: 'pause', desc: data.oldstate};
         break;
       case 'complete': {
-        const {title = ''} = instance.getPlaylistItem();
-        tag = {act: 'complete', desc: title};
+        tag = {act: 'mediaEnded'};
         break;
       }
       case 'error':
         tag = {act: 'error', desc: data.message};
         break;
       case 'seek':
-        tag = {act: 'seek', desc: `${data.position}|${data.offset}`};
+        this.calculateUnreachedCuepoints(data.offset, instance.getDuration());
+        tag = {act: 'cuepoint', cuepointType: 'threshold', cuepointValue: data.offset};
+        break;
+      case 'time':
+        tag = this.onTimeEvent(data);
         break;
       case 'mute':
         tag = {act: 'mute', desc: data.mute};
@@ -129,8 +166,46 @@ export default class {
     }
 
     if (tag) {
+      tag = {...tag, ...itemInfo};
       this.tracker.send('jwplayer', tag);
     }
+  }
+
+  /**
+   * onTimeEvent - send time event information to tracker
+   * @param {object} data - data for 'time' event case
+   * @returns {?object} - tag object
+   */
+  onTimeEvent(data) {
+    if (this.opts.cuepoints) {
+      if (this.opts.cuepoints.thresholds) {
+        const threshold = Math.trunc(data.position);
+        const foundValue = this.uc.thresholds.find(value => data.position >= value);
+        if (foundValue) {
+          this.uc.thresholds =
+            this.uc.thresholds.filter(value => value !== foundValue);
+          return {
+            act: 'cuepoint',
+            cuepointType: 'threshold',
+            cuepointValue: threshold,
+          };
+        }
+      }
+      if (this.opts.cuepoints.percentages) {
+        const percentage = getPlaybackPercentage(data.position, data.duration);
+        const foundValue = this.uc.percentages.find(value => percentage >= value);
+        if (foundValue) {
+          this.uc.percentages =
+            this.uc.percentages.filter(value => value !== foundValue);
+          return {
+            act: 'cuepoint',
+            cuepointType: 'percentage',
+            cuepointValue: percentage,
+          };
+        }
+      }
+    }
+    return null;
   }
 
   /**

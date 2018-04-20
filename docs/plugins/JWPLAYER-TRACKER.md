@@ -64,3 +64,18 @@ jwplayer('myDiv').setup({
 });
 }
 ```
+
+### cuepoints (optional)
+
+Launch an event when threshold or percent of video is reached.
+
+```
+{
+  cuepoints: {
+    thresholds: [10, 30, 60, 120],
+    percentages: [25, 50, 75],
+  }
+}
+```
+
+In the example above, an event is sent at each percent set in `percentages` and at each second set in `thresholds`.
