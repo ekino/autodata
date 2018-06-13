@@ -111,8 +111,8 @@ export default class {
    * @param {object} data* - optional data for 'all' event case
    */
   onEvent(instance, eventName, data = {}) {
-    const {title = '', file = '', id = ''} = instance.getPlaylistItem();
-    const itemInfo = {title, file, id};
+    const {title = '', file = '', mediaid = 'noid'} = instance.getPlaylistItem();
+    const itemInfo = {title, file, mediaid};
     let tag = null;
 
     switch (eventName) {
