@@ -79,3 +79,25 @@ Launch an event when threshold or percent of video is reached.
 ```
 
 In the example above, an event is sent at each percent set in `percentages` and at each second set in `thresholds`.
+
+### enhancer (optional)
+
+Idea is to merge and to transform tag to custom enhanced tag. You can add or overwrite easily any informations of the initial tag. 
+
+```
+{
+  enhancer: function enhancer(tag) {
+    switch (tag.act) {
+      case 'play':
+        return {
+          ...tag,
+          foo: 'bar'
+        };
+      default:
+        return tag;
+    }
+  },
+}
+```
+
+In the example above (with spread syntax), we add `foo: 'bar'` in the tag when a `play` event is triggered.

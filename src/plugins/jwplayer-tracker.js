@@ -33,7 +33,8 @@ export default class {
         'displayClick',
       ],
       autoDetect: false,
-      cuepoints: [],
+      cuepoints: {},
+      enhancer: tag => tag,
     });
 
     if (!this.opts.jwplayer) {
@@ -167,7 +168,7 @@ export default class {
 
     if (tag) {
       tag = {...tag, ...itemInfo};
-      this.tracker.send('jwplayer', tag);
+      this.tracker.send('jwplayer', this.opts.enhancer(tag));
     }
   }
 

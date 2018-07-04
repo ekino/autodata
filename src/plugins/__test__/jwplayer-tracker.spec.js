@@ -37,22 +37,47 @@ describe('(Plugin) jwplayer tracker', () => {
   });
 
   context('onEvent', () => {
-    let instance;
-    const itemInfos = {title: '', file: '', id: ''};
-
-    beforeEach(() => {
-      instance = getInstance({jwplayer});
-      instance.getPlaylistItem = () => itemInfos;
-    });
+    const itemInfos = {title: '', file: '', mediaid: 'noid'};
 
     it('should not track "all" event case', () => {
+      const instance = getInstance({jwplayer});
+      instance.getPlaylistItem = () => itemInfos;
+
       instance.onEvent(instance, 'all', {bar: 'baz'});
       expect(tracker.send.called).equals(false);
     });
 
     it('should track "play" event case', () => {
+      const instance = getInstance({jwplayer});
+      instance.getPlaylistItem = () => itemInfos;
+
       instance.onEvent(instance, 'play', {oldstate: 'foo'});
       expect(tracker.send.calledWith('jwplayer', {act: 'play', ...itemInfos, desc: 'foo'}))
+        .equals(true);
+    });
+
+    it('should have enhanced tag by the enhancer', () => {
+      const enhancer = (tag) => {
+        switch (tag.act) {
+          case 'pause':
+            return {
+              ...tag,
+              bar: 'barz',
+            };
+          default:
+            return tag;
+        }
+      };
+
+      const instance = getInstance({jwplayer, enhancer});
+      instance.getPlaylistItem = () => itemInfos;
+
+      instance.onEvent(instance, 'pause', {oldstate: 'foo'});
+      expect(tracker.send.calledWith(
+        'jwplayer',
+        {
+          act: 'pause', ...itemInfos, bar: 'barz', desc: 'foo',
+        }))
         .equals(true);
     });
   });
