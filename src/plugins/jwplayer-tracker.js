@@ -137,7 +137,6 @@ export default class {
         tag = {act: 'error', desc: data.message};
         break;
       case 'seek':
-        this.calculateUnreachedCuepoints(data.offset, instance.getDuration());
         tag = {act: 'cuepoint', cuepointType: 'threshold', cuepointValue: data.offset};
         break;
       case 'time':
@@ -180,7 +179,6 @@ export default class {
   onTimeEvent(data) {
     if (this.opts.cuepoints) {
       if (this.opts.cuepoints.thresholds) {
-        const threshold = Math.trunc(data.position);
         const foundValue = this.uc.thresholds.find(value => data.position >= value);
         if (foundValue) {
           this.uc.thresholds =
@@ -188,7 +186,7 @@ export default class {
           return {
             act: 'cuepoint',
             cuepointType: 'threshold',
-            cuepointValue: threshold,
+            cuepointValue: foundValue,
           };
         }
       }
@@ -201,7 +199,7 @@ export default class {
           return {
             act: 'cuepoint',
             cuepointType: 'percentage',
-            cuepointValue: percentage,
+            cuepointValue: foundValue,
           };
         }
       }

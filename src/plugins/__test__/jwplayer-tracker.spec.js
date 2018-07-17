@@ -109,7 +109,7 @@ describe('(Plugin) jwplayer tracker', () => {
       expect(instance.onTimeEvent(data)).deep.equals({
         act: 'cuepoint',
         cuepointType: 'threshold',
-        cuepointValue: 30,
+        cuepointValue: 20,
       });
     });
 
