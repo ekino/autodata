@@ -183,3 +183,12 @@ export const waitForDomToBeReady = (callback) => {
     });
   }
 };
+
+/**
+ * Get playback percentage of the playlist item
+ * @param {number} cuepointValue - value of the cuepoint in seconds
+ * @param {number} duration - duration of the current playlist item in seconds.
+ * @returns {number} percentage in absolute
+ */
+export const getPlaybackPercentage = (cuepointValue, duration) =>
+  Math.trunc((cuepointValue / duration) * 100);

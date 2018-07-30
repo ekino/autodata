@@ -37,22 +37,130 @@ describe('(Plugin) jwplayer tracker', () => {
   });
 
   context('onEvent', () => {
-    let instance;
-
-    beforeEach(() => {
-      instance = getInstance({jwplayer});
-    });
+    const itemInfos = {title: '', file: '', mediaid: 'noid'};
 
     it('should not track "all" event case', () => {
+      const instance = getInstance({jwplayer});
+      instance.getPlaylistItem = () => itemInfos;
+
       instance.onEvent(instance, 'all', {bar: 'baz'});
       expect(tracker.send.called).equals(false);
     });
 
     it('should track "play" event case', () => {
+      const instance = getInstance({jwplayer});
+      instance.getPlaylistItem = () => itemInfos;
+
       instance.onEvent(instance, 'play', {oldstate: 'foo'});
-      expect(tracker.send.calledWith('jwplayer', {act: 'play', desc: 'foo'})).equals(true);
+      expect(tracker.send.calledWith('jwplayer', {act: 'play', ...itemInfos, desc: 'foo'}))
+        .equals(true);
+    });
+
+    it('should have enhanced tag by the enhancer', () => {
+      const enhancer = (tag) => {
+        switch (tag.act) {
+          case 'pause':
+            return {
+              ...tag,
+              bar: 'barz',
+            };
+          default:
+            return tag;
+        }
+      };
+
+      const instance = getInstance({jwplayer, enhancer});
+      instance.getPlaylistItem = () => itemInfos;
+
+      instance.onEvent(instance, 'pause', {oldstate: 'foo'});
+      expect(tracker.send.calledWith(
+        'jwplayer',
+        {
+          act: 'pause', ...itemInfos, bar: 'barz', desc: 'foo',
+        }))
+        .equals(true);
     });
   });
+
+  context('onTimeEvent', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = getInstance({jwplayer});
+      instance.opts = {
+        cuepoints: {
+          percentages: [5, 50, 75],
+          thresholds: [20, 30, 60, 120],
+        },
+      };
+      instance.uc = {
+        percentages: [5, 50, 75],
+        thresholds: [20, 30, 60, 120],
+      };
+    });
+
+    it('should return null when no value is reached', () => {
+      const data = {position: 4, duration: 120};
+      expect(instance.onTimeEvent(data)).equals(null);
+    });
+
+    it('should return an object with correct cuepoint type (threshold)', () => {
+      const data = {position: 30, duration: 120};
+      expect(instance.onTimeEvent(data)).deep.equals({
+        act: 'cuepoint',
+        cuepointType: 'threshold',
+        cuepointValue: 20,
+      });
+    });
+
+    it('should return an object with correct cuepoint type (percentage)', () => {
+      const data = {position: 5, duration: 100};
+      expect(instance.onTimeEvent(data)).deep.equals({
+        act: 'cuepoint',
+        cuepointType: 'percentage',
+        cuepointValue: 5,
+      });
+    });
+  });
+
+  context('calculateUnreachedCuepoints', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = getInstance({jwplayer});
+      instance.opts = {
+        cuepoints: {
+          percentages: [25, 50, 75],
+          thresholds: [20, 30, 60, 120],
+        },
+      };
+      instance.uc = {
+        percentages: [25, 50, 75],
+        thresholds: [20, 30, 60, 120],
+      };
+    });
+
+    it('should return all cue points not reached', () => {
+      instance.calculateUnreachedCuepoints(0, 120);
+      expect(instance.uc).deep.equals({
+        percentages: [25, 50, 75],
+        thresholds: [20, 30, 60, 120],
+      });
+
+      instance.calculateUnreachedCuepoints(35, 100);
+      expect(instance.uc).deep.equals({
+        percentages: [50, 75],
+        thresholds: [60, 120],
+      });
+
+      instance.calculateUnreachedCuepoints(99, 100);
+      expect(instance.uc).deep.equals({
+        percentages: [],
+        thresholds: [120],
+      });
+    });
+  });
+
 
   context('setInstance', () => {
     let instance;
@@ -74,12 +182,14 @@ describe('(Plugin) jwplayer tracker', () => {
     });
 
     [
+      'firstFrame',
       'playlistItem',
       'play',
       'pause',
       'complete',
       'error',
       'seek',
+      'time',
       'mute',
       'volume',
       'fullscreen',

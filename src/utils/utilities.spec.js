@@ -4,6 +4,7 @@ import {
   getBrowserPageview,
   areDifferent,
   camelize,
+  getPlaybackPercentage,
 } from './utilities';
 
 describe('(Utils) utilities', () => {
@@ -51,6 +52,14 @@ describe('(Utils) utilities', () => {
 
     it('should return the original value without trying to camelize it', () => {
       expect(camelize(123)).equals(123);
+    });
+  });
+
+  context('getPlaybackPercentage', () => {
+    it('should return a correct percentage', () => {
+      expect(getPlaybackPercentage(30, 100)).equals(30);
+      expect(getPlaybackPercentage(30, 200)).equals(15);
+      expect(getPlaybackPercentage(87, 162)).equals(53);
     });
   });
 });
