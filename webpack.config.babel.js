@@ -46,7 +46,6 @@ if (isLocal) {
 
 if (isProd) {
   plugins = plugins.concat([
-    new webpack.optimize.UglifyJsPlugin(),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: true,
@@ -56,6 +55,7 @@ if (isProd) {
 }
 
 export default {
+  mode: isProd ? 'production' : 'development',
   entry,
   output: {
     path: resolve(`${__dirname}/dist`),
