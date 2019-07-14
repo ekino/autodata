@@ -10,7 +10,7 @@
     "doc": "gitbook serve ./gitbook .tmp",
     "doc:build": "gitbook build ./gitbook ./docs",
     "lint": "eslint src",
-    "test": "mocha -C -r ./test/setup.js --compilers js:babel-core/register \"src/**/*.spec.js\"",
+    "test": "mocha -C -r ./test/setup.js --compilers js:@babel/register \"src/**/*.spec.js\"",
     "postinstall": "ls ENV.json||cp ENV.json.example ENV.json||echo 'production mode'",
     "precommit": "lint-staged",
     "preversion": "yarn doc:build",
