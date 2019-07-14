@@ -93,12 +93,10 @@ const sendEvent = (data) => {
   driver.instance.send(tagTypes.EVENT, data);
 };
 
-const autoData = {
+export default {
   init,
   sendVirtualPageView,
   sendPageView,
   sendEvent,
   tagTypes,
 };
-
-module.exports = autoData;
