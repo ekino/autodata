@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-
-const defaults = require('../utils/utilities').defaults;
-const delegate = require('delegate');
-
+const delegate = require("delegate");
+const { defaults } = require("../utils/utilities");
 
 /**
  * Registers outbound link tracking on a tracker object.
@@ -30,15 +28,18 @@ function OutboundLinkTracker(tracker, opts) {
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    shouldTrackOutboundLink: this.shouldTrackOutboundLink,
+    shouldTrackOutboundLink: this.shouldTrackOutboundLink
   });
 
   this.tracker = tracker;
 
-  this.delegate = delegate(document, 'a',
-    'click', this.handleLinkClicks.bind(this));
+  this.delegate = delegate(
+    document,
+    "a",
+    "click",
+    this.handleLinkClicks.bind(this)
+  );
 }
-
 
 /**
  * Handles all clicks on link elements. A link is considered an outbound link
@@ -47,21 +48,22 @@ function OutboundLinkTracker(tracker, opts) {
  * ensure the hit can be sent.
  * @param {Event} event The DOM click event.
  */
-OutboundLinkTracker.prototype.handleLinkClicks = function handleLinkClicks(event) {
+OutboundLinkTracker.prototype.handleLinkClicks = function handleLinkClicks(
+  event
+) {
   const link = event.delegateTarget;
   if (this.opts.shouldTrackOutboundLink(link)) {
     // Opens outbound links in a new tab if the browser doesn't support
     // the beacon transport method.
     if (!navigator.sendBeacon) {
-      link.target = '_blank';
+      link.target = "_blank";
     }
-    this.tracker.send('outbound-link', {
+    this.tracker.send("outbound-link", {
       href: link.href,
-      transport: 'beacon',
+      transport: "beacon"
     });
   }
 };
-
 
 /**
  * Determines whether or not the tracker should send a hit when a link is
@@ -70,11 +72,14 @@ OutboundLinkTracker.prototype.handleLinkClicks = function handleLinkClicks(event
  * @param {Element} link The link that was clicked on.
  * @return {boolean} Whether or not the link should be tracked.
  */
-OutboundLinkTracker.prototype.shouldTrackOutboundLink = function shouldTrackOutboundLink(link) {
-  return link.hostname !== location.hostname &&
-      link.protocol.indexOf('http') === 0;
+OutboundLinkTracker.prototype.shouldTrackOutboundLink = function shouldTrackOutboundLink(
+  link
+) {
+  return (
+    link.hostname !== document.location.hostname &&
+    link.protocol.indexOf("http") === 0
+  );
 };
-
 
 /**
  * Removes all event listeners and instance properties.
@@ -85,6 +90,5 @@ OutboundLinkTracker.prototype.remove = function remove() {
   this.tracker = null;
   this.opts = null;
 };
-
 
 export default OutboundLinkTracker;

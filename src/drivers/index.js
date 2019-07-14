@@ -1,11 +1,11 @@
-import * as errors from '../constants/errors';
+import * as errors from "../constants/errors";
 
 // Driver class
-import Driver from './Driver';
+import Driver from "./Driver";
 
 // Drivers
-import * as gtm from './gtm';
-import * as tealium from './tealium';
+import * as gtm from "./gtm";
+import * as tealium from "./tealium";
 
 /**
  * retrieves the desired driver and instanciates it
@@ -13,7 +13,7 @@ import * as tealium from './tealium';
  * @returns {{instance: Driver, defaultConfig: {}}} - instance and defaultConfig
  */
 export default function getInstance(config) {
-  const {tms} = config;
+  const { tms } = config;
   const defaultConfig = {};
 
   if (!tms) {
@@ -24,11 +24,11 @@ export default function getInstance(config) {
   const senders = [];
 
   switch (tms.name) {
-    case 'gtm':
+    case "gtm":
       parsers.push(gtm.parser);
       senders.push(gtm.sender);
       break;
-    case 'tealium':
+    case "tealium":
       parsers.push(tealium.parser);
       senders.push(tealium.sender);
       break;
@@ -43,8 +43,8 @@ export default function getInstance(config) {
     instance: new Driver({
       parsers,
       enhancer: tms.enhancer,
-      senders,
+      senders
     }),
-    defaultConfig,
+    defaultConfig
   };
 }

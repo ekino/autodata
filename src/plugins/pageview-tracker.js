@@ -1,7 +1,12 @@
 import {
-  defaults, getBrowserPageview, isObject, areDifferent, camelize, waitForDomToBeReady,
-} from '../utils/utilities';
-import logger from '../utils/logger';
+  defaults,
+  getBrowserPageview,
+  isObject,
+  areDifferent,
+  camelize,
+  waitForDomToBeReady
+} from "../utils/utilities";
+import logger from "../utils/logger";
 
 /**
  * @class InitialPageview
@@ -14,18 +19,20 @@ export default class InitialPageview {
    */
   constructor(tracker, opts) {
     this.opts = defaults(opts, {
-      attributePrefix: 'data-pageview-',
-      trigger: 'page',
-      attributes: ['title'],
+      attributePrefix: "data-pageview-",
+      trigger: "page",
+      attributes: ["title"],
       withQueryString: true,
-      hotReload: false,
+      hotReload: false
     });
 
     this.tracker = tracker;
     this.currentData = {};
 
     if (this.opts.hotReload) {
-      logger.warn('hotReload feature is not really well tested, be careful with its usage');
+      logger.warn(
+        "hotReload feature is not really well tested, be careful with its usage"
+      );
       this.startHotReload();
     }
 
@@ -45,32 +52,32 @@ export default class InitialPageview {
    */
   startHotReload() {
     // Overrides history.pushState.
-    const {pushState, replaceState} = history;
+    const { pushState, replaceState } = window.history;
     const onHistoryChanges = () => setTimeout(this.send.bind(this), 100);
 
-    history.pushState = (...args) => {
+    window.history.pushState = (...args) => {
       const [state, title] = args;
 
       // Manually set state.title
       if (isObject(state) && title) state.title = title;
 
-      pushState.apply(history, args);
+      pushState.apply(window.history, args);
       onHistoryChanges();
     };
 
     // Overrides history.repaceState.
-    history.replaceState = (...args) => {
+    window.history.replaceState = (...args) => {
       const [state, title] = args;
 
       // Manually set state.title
       if (isObject(state) && title) state.title = title;
 
-      replaceState.apply(history, args);
+      replaceState.apply(window.history, args);
       onHistoryChanges();
     };
 
     // Handles URL changes via user interaction.
-    window.addEventListener('popstate', onHistoryChanges);
+    window.addEventListener("popstate", onHistoryChanges);
   }
 
   /**
@@ -82,7 +89,7 @@ export default class InitialPageview {
     if (areDifferent(data, this.currentData)) {
       this.currentData = data;
 
-      this.tracker.send('pageview', data);
+      this.tracker.send("pageview", data);
     }
   }
 
@@ -91,7 +98,7 @@ export default class InitialPageview {
    * @returns {{page: string, title: (boolean|string)}} - pageview data
    */
   getPageView() {
-    const {attributePrefix, trigger, attributes, withQueryString} = this.opts;
+    const { attributePrefix, trigger, attributes, withQueryString } = this.opts;
     // TODO : we could store this tag in constructor but there is a risk if it is not rendered yet
     const $trigger = document.querySelector(`[${attributePrefix}${trigger}]`);
     const data = getBrowserPageview(withQueryString);
@@ -99,8 +106,10 @@ export default class InitialPageview {
     if ($trigger) {
       [...attributes, trigger]
         .filter(name => $trigger.hasAttribute(`${attributePrefix}${name}`))
-        .forEach((name) => {
-          data[camelize(name)] = $trigger.getAttribute(`${attributePrefix}${name}`);
+        .forEach(name => {
+          data[camelize(name)] = $trigger.getAttribute(
+            `${attributePrefix}${name}`
+          );
         });
     }
 

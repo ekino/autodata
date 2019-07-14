@@ -12,8 +12,13 @@
     "utag_data": true,
     "jwplayer": false
   },
-  "extends": "airbnb",
+  "extends": ["plugin:react/recommended", "plugin:prettier/recommended"],
   "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "version": "detect" // React version. "detect" automatically picks the version you have installed.
+    }
+  },
   "rules": {
     // possible errors
     "no-new": 0,
@@ -22,34 +27,38 @@
     "no-cond-assign": 0,
     "no-empty": 0,
     "no-console": 0,
-    "valid-jsdoc": [2, {
-      "prefer": {"return": "return"},
-      "requireReturn": false
-    }],
+    "valid-jsdoc": [
+      2,
+      {
+        "prefer": { "return": "return" },
+        "requireReturn": false
+      }
+    ],
     // best practices
     "no-extra-bind": 2,
     // style
-    "comma-spacing": [2, {"before": false, "after": true}],
+    "comma-spacing": [2, { "before": false, "after": true }],
     "eol-last": [0],
     "jsx-quotes": [2, "prefer-double"],
-    "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
-    "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
+    "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
     "linebreak-style": [2, "unix"],
-    "max-len": [2, 100, {"ignoreUrls": true}],
-    "no-multiple-empty-lines": [2, {"max": 2}],
-    "no-unused-vars": ["error", {"vars": "all", "args": "all"}],
+    "max-len": [2, 100, { "ignoreUrls": true }],
+    "no-multiple-empty-lines": [2, { "max": 2 }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "all" }],
     "no-trailing-spaces": 2,
-    "object-curly-spacing": [2, "never"],
-    "quotes": [2, "single"],
-    "require-jsdoc": [2, {
-      "require": {
-        "FunctionDeclaration": true,
-        "MethodDefinition": true,
-        "ClassDeclaration": true
+    "require-jsdoc": [
+      2,
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true
+        }
       }
-    }],
+    ],
     "semi": [2, "always"],
-    "semi-spacing": [2, {"before": false, "after": true}],
+    "semi-spacing": [2, { "before": false, "after": true }],
+    "react/prop-types": 0,
+    "react/destructuring-assignment": 0
   }
 }

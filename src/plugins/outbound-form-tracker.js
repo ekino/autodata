@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-
-const defaults = require('../utils/utilities').defaults;
-const delegate = require('delegate');
-const utilities = require('../utils/utilities');
-
+const delegate = require("delegate");
+const { withTimeout, defaults } = require("../utils/utilities");
 
 /**
  * Registers outbound form tracking.
@@ -31,15 +28,18 @@ function OutboundFormTracker(tracker, opts) {
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    shouldTrackOutboundForm: this.shouldTrackOutboundForm,
+    shouldTrackOutboundForm: this.shouldTrackOutboundForm
   });
 
   this.tracker = tracker;
 
-  this.delegate = delegate(document, 'form',
-    'submit', this.handleFormSubmits.bind(this));
+  this.delegate = delegate(
+    document,
+    "form",
+    "submit",
+    this.handleFormSubmits.bind(this)
+  );
 }
-
 
 /**
  * Handles all submits on form elements. A form submit is considered outbound
@@ -49,28 +49,29 @@ function OutboundFormTracker(tracker, opts) {
  * action is prevented and re-emitted after the hit is sent.
  * @param {Event} event The DOM submit event.
  */
-OutboundFormTracker.prototype.handleFormSubmits = function handleFormSubmits(event) {
+OutboundFormTracker.prototype.handleFormSubmits = function handleFormSubmits(
+  event
+) {
   const form = event.delegateTarget;
-  const action = form.getAttribute('action');
-  const fieldsObj = {transport: 'beacon'};
+  const action = form.getAttribute("action");
+  const fieldsObj = { transport: "beacon" };
 
   if (this.opts.shouldTrackOutboundForm(form)) {
     if (!navigator.sendBeacon) {
       // Stops the submit and waits until the hit is complete (with timeout)
       // for browsers that don't support beacon.
       event.preventDefault();
-      fieldsObj.hitCallback = utilities.withTimeout(() => {
+      fieldsObj.hitCallback = withTimeout(() => {
         form.submit();
       });
     }
 
-    this.tracker.send('outbound-form', {
+    this.tracker.send("outbound-form", {
       action,
-      fieldsObj,
+      fieldsObj
     });
   }
 };
-
 
 /**
  * Determines whether or not the tracker should send a hit when a form is
@@ -79,13 +80,16 @@ OutboundFormTracker.prototype.handleFormSubmits = function handleFormSubmits(eve
  * @param {Element} form The form that was submitted.
  * @return {boolean} Whether or not the form should be tracked.
  */
-OutboundFormTracker.prototype.shouldTrackOutboundForm = function shouldTrackOutboundForm(form) {
-  const action = form.getAttribute('action');
-  return action &&
-      action.indexOf('http') === 0 &&
-      action.indexOf(location.hostname) < 0;
+OutboundFormTracker.prototype.shouldTrackOutboundForm = function shouldTrackOutboundForm(
+  form
+) {
+  const action = form.getAttribute("action");
+  return (
+    action &&
+    action.indexOf("http") === 0 &&
+    action.indexOf(document.location.hostname) < 0
+  );
 };
-
 
 /**
  * Removes all event listeners and instance properties.
@@ -96,6 +100,5 @@ OutboundFormTracker.prototype.remove = function remove() {
   this.tracker = null;
   this.opts = null;
 };
-
 
 export default OutboundFormTracker;

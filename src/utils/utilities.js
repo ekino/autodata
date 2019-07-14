@@ -1,4 +1,4 @@
-import logger from './logger';
+import logger from "./logger";
 
 /**
  * Accepts a function and returns a wrapped version of the function that is
@@ -21,7 +21,6 @@ export const withTimeout = (callback, wait) => {
   };
 };
 
-
 /**
  * Accepts an object of overrides and defaults and returns a new object
  * with the values merged. For each key in defaults, if there's a
@@ -33,20 +32,19 @@ export const withTimeout = (callback, wait) => {
 export const defaults = (overrides, values) => {
   const result = {};
 
-  if (typeof overrides !== 'object') {
+  if (typeof overrides !== "object") {
     overrides = {};
   }
 
-  if (typeof values !== 'object') {
+  if (typeof values !== "object") {
     values = {};
   }
 
-  Object.keys(values).forEach((key) => {
+  Object.keys(values).forEach(key => {
     result[key] = key in overrides ? overrides[key] : values[key];
   });
   return result;
 };
-
 
 /**
  * Capitalizes the first letter of a string.
@@ -55,13 +53,12 @@ export const defaults = (overrides, values) => {
  */
 export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
-
 /**
  * Indicates whether the passed constiable is a JavaScript object.
  * @param {*} value The input constiable to test.
  * @return {boolean} Whether or not the test is an object.
  */
-export const isObject = value => typeof value === 'object' && value !== null;
+export const isObject = value => typeof value === "object" && value !== null;
 
 /**
  * Compare to objects and determine if there first level of hierarchy is different
@@ -85,10 +82,11 @@ export const areDifferent = (obj1 = {}, obj2 = {}) => {
  * @param {*} value The input constiable to test.
  * @return {boolean} Whether or not the value is an array.
  */
-export const isArray = Array.isArray || function isArrayPolyfill(value) {
-  return Object.prototype.toString.call(value) === '[object Array]';
-};
-
+export const isArray =
+  Array.isArray ||
+  function isArrayPolyfill(value) {
+    return Object.prototype.toString.call(value) === "[object Array]";
+  };
 
 /**
  * Accepts a value that may or may not be an array. If it is not an array,
@@ -96,7 +94,7 @@ export const isArray = Array.isArray || function isArrayPolyfill(value) {
  * @param {*} value The value to convert to an array if it is not.
  * @return {Array} The array-ified value.
  */
-export const toArray = (value) => {
+export const toArray = value => {
   if (isArray(value)) {
     return value;
   }
@@ -110,12 +108,12 @@ export const toArray = (value) => {
  * @returns {{page: string, title: (boolean|string)}} - browser page and title
  */
 export const getBrowserPageview = (withQueryString = true) => {
-  const {pathname, search} = location;
-  const {title} = (history.state || document);
+  const { pathname, search } = document.location;
+  const { title } = window.history.state || document;
 
   return {
-    page: `${pathname}${withQueryString ? search : ''}`,
-    title,
+    page: `${pathname}${withQueryString ? search : ""}`,
+    title
   };
 };
 
@@ -134,9 +132,9 @@ export const includes = (arr, value) => arr.indexOf(value) !== -1;
  * @param {string} str - string to camelize
  * @returns {string} - camelized string
  */
-export const camelize = (str = '') => {
-  if (typeof str !== 'string') {
-    logger.error('Camelize needs a string as argument');
+export const camelize = (str = "") => {
+  if (typeof str !== "string") {
+    logger.error("Camelize needs a string as argument");
     return str;
   }
   // eslint-disable-next-line no-unused-vars
@@ -148,8 +146,8 @@ export const camelize = (str = '') => {
  * @param {object} configs - configuration list
  * @returns {*} - optional configuration target
  */
-export const getOptionalConfig = (configs) => {
-  const configAttributeName = 'data-autodata-config';
+export const getOptionalConfig = configs => {
+  const configAttributeName = "data-autodata-config";
   const $configTag = document.querySelector(`[${configAttributeName}]`);
 
   if (!$configTag) {
@@ -159,7 +157,7 @@ export const getOptionalConfig = (configs) => {
   const configName = $configTag.getAttribute(configAttributeName);
   const optionalConfig = configs[configName];
 
-  if (optionalConfig && typeof optionalConfig === 'object') {
+  if (optionalConfig && typeof optionalConfig === "object") {
     return optionalConfig;
   }
 
@@ -174,11 +172,11 @@ export const getOptionalConfig = (configs) => {
  * But if it is loaded synchronously the callback will be triggered immediately
  * @param {function} callback - callback
  */
-export const waitForDomToBeReady = (callback) => {
-  if (document.readyState !== 'loading') {
+export const waitForDomToBeReady = callback => {
+  if (document.readyState !== "loading") {
     callback();
   } else {
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
       callback();
     });
   }

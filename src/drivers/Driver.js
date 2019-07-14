@@ -1,5 +1,5 @@
-import {isObject} from '../utils/utilities';
-import logger from '../utils/logger';
+import { isObject } from "../utils/utilities";
+import logger from "../utils/logger";
 
 /**
  * @class Driver
@@ -12,7 +12,7 @@ export default class Driver {
    *  - function for custom driver selection
    * @param {object} data - initial driver data
    */
-  constructor({senders, parsers, enhancer}) {
+  constructor({ senders, parsers, enhancer }) {
     this.parsers = parsers;
     this.enhancer = enhancer || (tag => tag);
     this.senders = senders;
@@ -28,7 +28,10 @@ export default class Driver {
   send(type, data) {
     try {
       // Parsed tags
-      const parsedTag = this.parsers.reduce((currentTag, parser) => parser(type, currentTag), data);
+      const parsedTag = this.parsers.reduce(
+        (currentTag, parser) => parser(type, currentTag),
+        data
+      );
       // Enhanced tag
       const enhancedTag = this.enhancer(parsedTag, type);
       // Send tag
@@ -57,7 +60,7 @@ export default class Driver {
    */
   set(propertyOrData, value) {
     if (isObject(propertyOrData)) {
-      Object.keys(propertyOrData).forEach((propertyName) => {
+      Object.keys(propertyOrData).forEach(propertyName => {
         this.set(propertyName, propertyOrData[propertyName]);
       });
     } else {

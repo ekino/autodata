@@ -1,32 +1,33 @@
-/* eslint-disable require-jsdoc, import/no-extraneous-dependencies */
-import React, {Component} from 'react';
-import Helmet from 'react-helmet';
-import autoData from '../../autodata';
+/* eslint-disable require-jsdoc */
+import React, { Component } from "react";
+import Helmet from "react-helmet";
+import autoData from "../../autodata";
 
 export default class UrlChangeTracker extends Component {
   static changeHash() {
     const ts = Date.now();
     const newHash = `Timestamp hash ${ts}`;
-    location.hash = newHash;
+    document.location.hash = newHash;
 
     autoData.sendVirtualPageView({
       page: `/timestamp/${ts}`,
-      title: newHash,
+      title: newHash
     });
   }
 
   constructor(props) {
     super(props);
 
-    this.historyPushState = () => this.changeState(history.pushState);
-    this.historyReplaceState = () => this.changeState(history.replaceState, false);
+    this.historyPushState = () => this.changeState(window.history.pushState);
+    this.historyReplaceState = () =>
+      this.changeState(window.history.replaceState, false);
   }
 
   state = {
-    title: 'Autodata demo page',
-    page: '/autodata-demo-page/',
-    language: 'en',
-    statePushed: false,
+    title: "Autodata demo page",
+    page: "/autodata-demo-page/",
+    language: "en",
+    statePushed: false
   };
 
   changeState(method, goBack = true) {
@@ -34,14 +35,14 @@ export default class UrlChangeTracker extends Component {
       title: this.state.title,
       page: this.state.page,
       language: this.state.language,
-      statePushed: this.state.statePushed,
+      statePushed: this.state.statePushed
     };
 
     const newState = {
-      title: 'New page',
-      page: '/new-page/',
-      language: 'eng',
-      statePushed: true,
+      title: "New page",
+      page: "/new-page/",
+      language: "eng",
+      statePushed: true
     };
 
     this.setState(newState);
@@ -51,7 +52,7 @@ export default class UrlChangeTracker extends Component {
       this.setState(previousState);
 
       if (goBack) {
-        history.back();
+        window.history.back();
       } else {
         method(null, previousState.title, previousState.page);
       }
@@ -68,12 +69,15 @@ export default class UrlChangeTracker extends Component {
             data-pageview-page={this.state.page}
             data-pageview-title={this.state.title}
             data-pageview-language={this.state.language}
-          >{this.state.title}</title>
+          >
+            {this.state.title}
+          </title>
         </Helmet>
         <h2 className="title">UrlChangeTracker</h2>
         <div className="block-left">
           <h3>pushState</h3>
           <button
+            type="button"
             className="btn"
             onClick={this.historyPushState}
             disabled={this.state.statePushed}
@@ -82,6 +86,7 @@ export default class UrlChangeTracker extends Component {
           </button>
           <h3>replaceState</h3>
           <button
+            type="button"
             className="btn"
             onClick={this.historyReplaceState}
             disabled={this.state.statePushed}
@@ -91,7 +96,11 @@ export default class UrlChangeTracker extends Component {
         </div>
         <div className="block-right">
           <h3>hashChange</h3>
-          <button className="btn" onClick={UrlChangeTracker.changeHash}>
+          <button
+            type="button"
+            className="btn"
+            onClick={UrlChangeTracker.changeHash}
+          >
             Change hash
           </button>
         </div>

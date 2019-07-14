@@ -1,42 +1,44 @@
-import {expect} from 'chai';
-import {spy} from 'sinon';
-import EventTracker from '../event-tracker';
+import { expect } from "chai";
+import { spy } from "sinon";
+import EventTracker from "../event-tracker";
 
 const tracker = {
-  send: spy(),
+  send: spy()
 };
 const defaultOptions = {
-  attributePrefix: 'data-event-',
-  trigger: 'obj',
-  attributes: ['act', 'desc', 'val'],
+  attributePrefix: "data-event-",
+  trigger: "obj",
+  attributes: ["act", "desc", "val"]
 };
 
-const getInstance = (options = defaultOptions) => new EventTracker(tracker, options);
+const getInstance = (options = defaultOptions) =>
+  new EventTracker(tracker, options);
 const getEvent = attributes => ({
   delegateTarget: {
-    getAttribute: name => attributes[name.replace(defaultOptions.attributePrefix, '')],
-  },
+    getAttribute: name =>
+      attributes[name.replace(defaultOptions.attributePrefix, "")]
+  }
 });
 
-describe('(Plugin) event tracker', () => {
-  context('constructor', () => {
-    it('should have default config', () => {
-      const {opts} = getInstance();
+describe("(Plugin) event tracker", () => {
+  context("constructor", () => {
+    it("should have default config", () => {
+      const { opts } = getInstance();
       expect(opts).deep.equals(defaultOptions);
     });
   });
 
-  context('handleEventClicks', () => {
+  context("handleEventClicks", () => {
     let instance;
     beforeEach(() => {
       instance = getInstance();
     });
 
-    it('should tag the target attributes', () => {
-      const attributes = {obj: 'foo', act: 'bar', desc: 'baz', val: 'toto'};
+    it("should tag the target attributes", () => {
+      const attributes = { obj: "foo", act: "bar", desc: "baz", val: "toto" };
       instance.handleEventClicks(getEvent(attributes));
 
-      expect(tracker.send.calledWith('event', attributes)).equals(true);
+      expect(tracker.send.calledWith("event", attributes)).equals(true);
     });
   });
 });

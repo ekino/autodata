@@ -2,7 +2,9 @@ html {
   font-size: 62.5%;
 }
 
-*, *:after, *:before {
+*,
+*:after,
+*:before {
   box-sizing: border-box;
 }
 
@@ -32,7 +34,7 @@ h2 {
   cursor: pointer;
   width: 20rem;
   text-align: center;
-  transition: background-color .1s ease-out;
+  transition: background-color 0.1s ease-out;
 }
 
 .btn:hover {

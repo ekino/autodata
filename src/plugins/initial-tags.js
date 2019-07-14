@@ -1,7 +1,7 @@
-import logger from '../utils/logger';
-import {defaults, waitForDomToBeReady} from '../utils/utilities';
+import logger from "../utils/logger";
+import { defaults, waitForDomToBeReady } from "../utils/utilities";
 
-export const DEFAULT_EVENT = 'click';
+export const DEFAULT_EVENT = "click";
 
 /**
  * Registers initial tags events.
@@ -11,9 +11,9 @@ export const DEFAULT_EVENT = 'click';
  */
 function InitialTags(tracker, opts) {
   this.opts = defaults(opts, {
-    attributePrefix: 'data-',
+    attributePrefix: "data-",
     initialTagsDelay: 1e3, // 1sec
-    tags: [],
+    tags: []
   });
 
   this.tracker = tracker;
@@ -30,9 +30,9 @@ function InitialTags(tracker, opts) {
  * @param {object} tag - the tag to send
  */
 InitialTags.prototype.send = function send(tag) {
-  this.tracker.send('initial-tags', {
+  this.tracker.send("initial-tags", {
     event: DEFAULT_EVENT,
-    ...tag,
+    ...tag
   });
 };
 
@@ -49,10 +49,10 @@ InitialTags.prototype.parseInitialTags = function parseInitialTags() {
       try {
         return allTags.concat(JSON.parse(scriptTag.innerText));
       } catch (err) {
-        logger.warn('Script tag parsing failed', err);
+        logger.warn("Script tag parsing failed", err);
         return allTags;
       }
-    }, []),
+    }, [])
   ];
   initialTags.forEach(this.send.bind(this));
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const OutboundLinkTracker = () => (
   <section>
@@ -8,7 +8,9 @@ const OutboundLinkTracker = () => (
       href="http://google.fr"
       target="_blank"
       rel="noopener noreferrer"
-    >Go to google.fr</a>
+    >
+      Go to google.fr
+    </a>
   </section>
 );
 
