@@ -1,15 +1,15 @@
-import deepMerge from 'deepmerge';
-import * as plugins from './plugins';
-import * as tagTypes from './constants/tagTypes';
-import * as errors from './constants/errors';
-import getInstance from './drivers';
-import {getBrowserPageview, getOptionalConfig} from './utils/utilities';
-import logger, {setLevel} from './utils/logger';
+import deepMerge from "deepmerge";
+import * as plugins from "./plugins";
+import * as tagTypes from "./constants/tagTypes";
+import * as errors from "./constants/errors";
+import getInstance from "./drivers";
+import { getBrowserPageview, getOptionalConfig } from "./utils/utilities";
+import logger, { setLevel } from "./utils/logger";
 
 let driver;
 
 // TODO : refactor this not enough splitted, hard to test...
-const futureInit = ({common, ...rest}) => {
+const futureInit = ({ common, ...rest }) => {
   if (driver) {
     throw new Error(errors.NO_MULTIPLE_INIT);
   }
@@ -19,17 +19,17 @@ const futureInit = ({common, ...rest}) => {
 
   driver = getInstance(config);
 
-  setLevel(config.debug || 'none');
+  setLevel(config.debug || "none");
 
   if (!config.plugins) {
-    logger.warn('No plugins provided');
+    logger.warn("No plugins provided");
   } else {
     Object.keys(config.plugins)
       .filter(pluginName => plugins[pluginName])
-      .forEach((pluginName) => {
+      .forEach(pluginName => {
         const pluginConfig = {
           ...(driver.defaultConfig[pluginName] || {}), // driver default config
-          ...(config.plugins[pluginName] || {}), // user plugin config
+          ...(config.plugins[pluginName] || {}) // user plugin config
         };
 
         logger.debug(`Config for plugin : ${pluginName}`);
@@ -46,7 +46,7 @@ const futureInit = ({common, ...rest}) => {
 const init = (config = {}) => {
   if (!config.common) {
     config = {
-      common: config,
+      common: config
     };
 
     logger.warn(`
@@ -65,10 +65,10 @@ const init = (config = {}) => {
  * @param {string} data.page - page name
  * @param {string} data.title - page title
  */
-const sendVirtualPageView = (data) => {
+const sendVirtualPageView = data => {
   driver.instance.send(tagTypes.VIRTUAL_PAGEVIEW, {
     ...getBrowserPageview(),
-    ...data,
+    ...data
   });
 };
 
@@ -78,10 +78,10 @@ const sendVirtualPageView = (data) => {
  * @param {string} data.page - page name
  * @param {string} data.title - page title
  */
-const sendPageView = (data) => {
+const sendPageView = data => {
   driver.instance.send(tagTypes.PAGEVIEW, {
     ...getBrowserPageview(),
-    ...data,
+    ...data
   });
 };
 
@@ -89,7 +89,7 @@ const sendPageView = (data) => {
  * send custom event
  * @param {object} data - data to be sent
  */
-const sendEvent = (data) => {
+const sendEvent = data => {
   driver.instance.send(tagTypes.EVENT, data);
 };
 
@@ -98,5 +98,5 @@ export default {
   sendVirtualPageView,
   sendPageView,
   sendEvent,
-  tagTypes,
+  tagTypes
 };

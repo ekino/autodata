@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-
-const delegate = require('delegate');
-const {defaults, camelize} = require('../utils/utilities');
-
+const delegate = require("delegate");
+const { defaults, camelize } = require("../utils/utilities");
 
 /**
  * Registers declarative event tracking.
@@ -30,9 +28,9 @@ function EventTracker(tracker, opts) {
   if (!window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    attributePrefix: 'data-event-',
-    trigger: 'obj',
-    attributes: ['act', 'desc', 'val'],
+    attributePrefix: "data-event-",
+    trigger: "obj",
+    attributes: ["act", "desc", "val"]
   });
 
   this.tracker = tracker;
@@ -40,10 +38,13 @@ function EventTracker(tracker, opts) {
   const prefix = this.opts.attributePrefix;
   const selector = `[${prefix}${this.opts.trigger}]`;
 
-  this.delegate = delegate(document, selector,
-    'click', this.handleEventClicks.bind(this));
+  this.delegate = delegate(
+    document,
+    selector,
+    "click",
+    this.handleEventClicks.bind(this)
+  );
 }
-
 
 /**
  * Handles all clicks on elements with event attributes.
@@ -51,20 +52,18 @@ function EventTracker(tracker, opts) {
  */
 EventTracker.prototype.handleEventClicks = function handleEventClicks(event) {
   const link = event.delegateTarget;
-  const {attributePrefix, trigger, attributes} = this.opts;
+  const { attributePrefix, trigger, attributes } = this.opts;
   const data = {};
 
-  [...attributes, trigger]
-    .forEach((attrName) => {
-      const attrValue = link.getAttribute(`${attributePrefix}${attrName}`);
-      if (attrValue) {
-        data[camelize(attrName)] = attrValue;
-      }
-    });
+  [...attributes, trigger].forEach(attrName => {
+    const attrValue = link.getAttribute(`${attributePrefix}${attrName}`);
+    if (attrValue) {
+      data[camelize(attrName)] = attrValue;
+    }
+  });
 
-  this.tracker.send('event', data);
+  this.tracker.send("event", data);
 };
-
 
 /**
  * Removes all event listeners and instance properties.
@@ -75,6 +74,5 @@ EventTracker.prototype.remove = function remove() {
   this.tracker = null;
   this.opts = null;
 };
-
 
 export default EventTracker;

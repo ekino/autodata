@@ -12,6 +12,7 @@ cache:
 script:
   - yarn lint
   - yarn test
+  - yarn prettier-check
   - NODE_ENV=development yarn build
   - NODE_ENV=production yarn build
 

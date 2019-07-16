@@ -1,8 +1,8 @@
-import {defaults, includes, getPlaybackPercentage} from '../utils/utilities';
-import logger from '../utils/logger';
+import { defaults, includes, getPlaybackPercentage } from "../utils/utilities";
+import logger from "../utils/logger";
 
-export const NO_API_PROVIDED = 'No JwPlayer instance was provided';
-export const UNSUPPORTED_EVENT = 'The event: %s is not supported';
+export const NO_API_PROVIDED = "No JwPlayer instance was provided";
+export const UNSUPPORTED_EVENT = "The event: %s is not supported";
 
 /**
  * Track JWPlayer activity.
@@ -17,24 +17,24 @@ export default class {
     this.opts = defaults(opts, {
       jwplayer: null,
       events: [
-        'firstFrame',
-        'playlistItem',
-        'play',
-        'pause',
-        'complete',
-        'error',
-        'seek',
-        'time',
-        'mute',
-        'volume',
-        'fullscreen',
-        'resize',
-        'audioTrackChanged',
-        'displayClick',
+        "firstFrame",
+        "playlistItem",
+        "play",
+        "pause",
+        "complete",
+        "error",
+        "seek",
+        "time",
+        "mute",
+        "volume",
+        "fullscreen",
+        "resize",
+        "audioTrackChanged",
+        "displayClick"
       ],
       autoDetect: false,
       cuepoints: {},
-      enhancer: tag => tag,
+      enhancer: tag => tag
     });
 
     if (!this.opts.jwplayer) {
@@ -48,17 +48,19 @@ export default class {
       // Unreached cuepoints
       this.uc = {
         percentages: this.opts.cuepoints.percentages || [],
-        thresholds: this.opts.cuepoints.thresholds || [],
+        thresholds: this.opts.cuepoints.thresholds || []
       };
     }
 
-    const {jwplayer} = this.opts;
+    const { jwplayer } = this.opts;
 
-    if (includes(this.opts.events, 'all')) {
-      throw new Error(UNSUPPORTED_EVENT.replace('%s', 'all'));
+    if (includes(this.opts.events, "all")) {
+      throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
     }
 
-    jwplayer.api.registerPlugin('autoData', '6.0', instance => this.setInstance(instance));
+    jwplayer.api.registerPlugin("autoData", "6.0", instance =>
+      this.setInstance(instance)
+    );
 
     /**
      * Add autoData plugin to default configuration
@@ -68,8 +70,8 @@ export default class {
      */
     if (this.opts.autoDetect) {
       logger.warn(
-        'jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration'
-        + 'and it could be overridden so be careful with its use !',
+        "jwplayer:autoDetect is experimental because it uses the jwplayer.defaults configuration" +
+          "and it could be overridden so be careful with its use !"
       );
       // Prevent empty config case
       if (!jwplayer.defaults) {
@@ -82,7 +84,7 @@ export default class {
       // Do the override
       jwplayer.defaults.plugins = {
         ...jwplayer.defaults.plugins, // Keep existing configuration
-        autoData: {},
+        autoData: {}
       };
     }
   }
@@ -95,13 +97,13 @@ export default class {
   calculateUnreachedCuepoints(position, duration) {
     this.uc = Object.assign({}, this.opts.cuepoints);
     if (this.uc.thresholds) {
-      this.uc.thresholds =
-        this.uc.thresholds.filter(value => position < value);
+      this.uc.thresholds = this.uc.thresholds.filter(value => position < value);
     }
     if (this.uc.percentages) {
       const percentage = getPlaybackPercentage(position, duration);
-      this.uc.percentages =
-        this.uc.percentages.filter(value => percentage < value);
+      this.uc.percentages = this.uc.percentages.filter(
+        value => percentage < value
+      );
     }
   }
 
@@ -112,62 +114,70 @@ export default class {
    * @param {object} data* - optional data for 'all' event case
    */
   onEvent(instance, eventName, data = {}) {
-    const {title = '', file = '', mediaid = 'noid'} = instance.getPlaylistItem();
-    const itemInfo = {title, file, mediaid};
+    const {
+      title = "",
+      file = "",
+      mediaid = "noid"
+    } = instance.getPlaylistItem();
+    const itemInfo = { title, file, mediaid };
     let tag = null;
 
     switch (eventName) {
-      case 'firstFrame':
-        tag = {act: 'mediaStarted'};
+      case "firstFrame":
+        tag = { act: "mediaStarted" };
         break;
-      case 'playlistItem':
-        tag = {act: 'load', val: data.index};
+      case "playlistItem":
+        tag = { act: "load", val: data.index };
         break;
-      case 'play':
-        tag = {act: 'play', desc: data.oldstate};
+      case "play":
+        tag = { act: "play", desc: data.oldstate };
         break;
-      case 'pause':
-        tag = {act: 'pause', desc: data.oldstate};
+      case "pause":
+        tag = { act: "pause", desc: data.oldstate };
         break;
-      case 'complete': {
-        tag = {act: 'mediaEnded'};
+      case "complete": {
+        tag = { act: "mediaEnded" };
         break;
       }
-      case 'error':
-        tag = {act: 'error', desc: data.message};
+      case "error":
+        tag = { act: "error", desc: data.message };
         break;
-      case 'seek':
-        tag = {act: 'cuepoint', cuepointType: 'threshold', cuepointValue: data.offset};
+      case "seek":
+        tag = {
+          act: "cuepoint",
+          cuepointType: "threshold",
+          cuepointValue: data.offset
+        };
         break;
-      case 'time':
+      case "time":
         tag = this.onTimeEvent(data);
         break;
-      case 'mute':
-        tag = {act: 'mute', desc: data.mute};
+      case "mute":
+        tag = { act: "mute", desc: data.mute };
         break;
-      case 'volume':
-        tag = {act: 'volume', desc: data.volume};
+      case "volume":
+        tag = { act: "volume", desc: data.volume };
         break;
-      case 'fullscreen':
-        tag = {act: 'fullscreen', desc: data.fullscreen};
+      case "fullscreen":
+        tag = { act: "fullscreen", desc: data.fullscreen };
         break;
-      case 'resize':
-        tag = {act: 'resize', desc: `${data.width}|${data.height}`};
+      case "resize":
+        tag = { act: "resize", desc: `${data.width}|${data.height}` };
         break;
-      case 'audioTrackChanged':
+      case "audioTrackChanged":
         // TODO : find a way to reproduce this
-        tag = {act: 'playlist', ...data};
+        tag = { act: "playlist", ...data };
         break;
-      case 'displayClick':
-        tag = {act: 'clic'};
+      case "displayClick":
+        tag = { act: "clic" };
         break;
       default:
         break;
     }
 
     if (tag) {
-      tag = {...tag, ...itemInfo};
-      this.tracker.send('jwplayer', this.opts.enhancer(tag));
+      tag = { ...tag, ...itemInfo };
+      this.tracker.send("jwplayer", this.opts.enhancer(tag));
     }
   }
 
@@ -179,27 +189,33 @@ export default class {
   onTimeEvent(data) {
     if (this.opts.cuepoints) {
       if (this.opts.cuepoints.thresholds) {
-        const foundValue = this.uc.thresholds.find(value => data.position >= value);
+        const foundValue = this.uc.thresholds.find(
+          value => data.position >= value
+        );
         if (foundValue) {
-          this.uc.thresholds =
-            this.uc.thresholds.filter(value => value !== foundValue);
+          this.uc.thresholds = this.uc.thresholds.filter(
+            value => value !== foundValue
+          );
           return {
-            act: 'cuepoint',
-            cuepointType: 'threshold',
-            cuepointValue: foundValue,
+            act: "cuepoint",
+            cuepointType: "threshold",
+            cuepointValue: foundValue
           };
         }
       }
       if (this.opts.cuepoints.percentages) {
         const percentage = getPlaybackPercentage(data.position, data.duration);
-        const foundValue = this.uc.percentages.find(value => percentage >= value);
+        const foundValue = this.uc.percentages.find(
+          value => percentage >= value
+        );
         if (foundValue) {
-          this.uc.percentages =
-            this.uc.percentages.filter(value => value !== foundValue);
+          this.uc.percentages = this.uc.percentages.filter(
+            value => value !== foundValue
+          );
           return {
-            act: 'cuepoint',
-            cuepointType: 'percentage',
-            cuepointValue: foundValue,
+            act: "cuepoint",
+            cuepointType: "percentage",
+            cuepointValue: foundValue
           };
         }
       }
@@ -212,13 +228,13 @@ export default class {
    * @param {object} instance - jwplayer instance
    */
   setInstance(instance) {
-    this.opts.events.forEach((name) => {
+    this.opts.events.forEach(name => {
       instance.on(name, (...args) => this.onEvent(instance, name, ...args));
     });
-    instance.on('remove', () => this.unsetInstance(instance));
+    instance.on("remove", () => this.unsetInstance(instance));
 
     this.instances.push(instance.uniqueId);
-    this.tracker.send('jwplayer', {obj: 'instance', val: instance.uniqueId});
+    this.tracker.send("jwplayer", { obj: "instance", val: instance.uniqueId });
   }
 
   /**
@@ -230,7 +246,7 @@ export default class {
 
     if (instanceId !== -1) {
       this.instances.splice(instanceId, 1);
-      this.tracker.send('jwplayer', {obj: 'remove', val: instance.uniqueId});
+      this.tracker.send("jwplayer", { obj: "remove", val: instance.uniqueId });
     }
   }
 }

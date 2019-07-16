@@ -1,4 +1,4 @@
-import * as tagTypes from '../constants/tagTypes';
+import * as tagTypes from "../constants/tagTypes";
 
 /**
  * default plugin's configuration object
@@ -6,9 +6,9 @@ import * as tagTypes from '../constants/tagTypes';
  */
 export const config = {
   eventTracker: {
-    trigger: 'obj',
-    attributes: ['act', 'desc', 'val'],
-  },
+    trigger: "obj",
+    attributes: ["act", "desc", "val"]
+  }
 };
 
 /**
@@ -20,27 +20,26 @@ export const config = {
 export const parser = (type, data = {}) => {
   switch (type) {
     case tagTypes.EVENT:
-      return {event: 'click', ...data};
+      return { event: "click", ...data };
     case tagTypes.VIRTUAL_PAGEVIEW:
-      return {event: 'virtualpageview', ...data};
+      return { event: "virtualpageview", ...data };
     case tagTypes.PAGEVIEW:
-      return {event: 'pageview', ...data};
+      return { event: "pageview", ...data };
     case tagTypes.MEDIA_QUERY: // TODO
     case tagTypes.OUTBOUND_FORM: // TODO
     case tagTypes.OUTBOUND_LINK: // TODO
     case tagTypes.SOCIAL: // TODO
     case tagTypes.INITIAL_TAGS: // TODO
     default:
-      return {event: type, ...data};
+      return { event: type, ...data };
   }
 };
 
 /**
  * Send the parsed tag to dataLayer
  * @param {object} tag - parsed tag to be sent
- * @param {string} type - autoData tag type
  */
-export const sender = (tag, type) => { // eslint-disable-line no-unused-vars
+export const sender = tag => {
   if (!window.dataLayer) {
     window.dataLayer = [];
   }

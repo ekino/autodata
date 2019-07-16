@@ -1,4 +1,4 @@
-import * as tagTypes from '../constants/tagTypes';
+import * as tagTypes from "../constants/tagTypes";
 
 /**
  * default plugin's configuration object
@@ -6,9 +6,9 @@ import * as tagTypes from '../constants/tagTypes';
  */
 export const config = {
   eventTracker: {
-    trigger: 'obj',
-    attributes: ['act', 'desc', 'val'],
-  },
+    trigger: "obj",
+    attributes: ["act", "desc", "val"]
+  }
 };
 
 /**
@@ -21,18 +21,18 @@ export const parser = (type, data = {}) => {
   // TODO : identification in sender
   switch (type) {
     case tagTypes.EVENT:
-      return {event: 'click', ...data};
+      return { event: "click", ...data };
     case tagTypes.VIRTUAL_PAGEVIEW:
-      return {event: 'virtualpageview', ...data};
+      return { event: "virtualpageview", ...data };
     case tagTypes.PAGEVIEW:
-      return {event: 'pageview', ...data};
+      return { event: "pageview", ...data };
     case tagTypes.MEDIA_QUERY: // TODO
     case tagTypes.OUTBOUND_FORM: // TODO
     case tagTypes.OUTBOUND_LINK: // TODO
     case tagTypes.SOCIAL: // TODO
     case tagTypes.INITIAL_TAGS: // TODO
     default:
-      return {event: type, ...data};
+      return { event: type, ...data };
   }
 };
 
@@ -42,11 +42,11 @@ export const parser = (type, data = {}) => {
  * @param {string} type - autoData tag type
  */
 export const sender = (tag, type) => {
-  const clonedTag = {...tag};
-  const {utag} = window;
+  const clonedTag = { ...tag };
+  const { utag } = window;
 
   if (!utag) {
-    throw new Error('TEALIUM SENDER REQUIRES utag GLOBAL');
+    throw new Error("TEALIUM SENDER REQUIRES utag GLOBAL");
   }
 
   switch (type) {

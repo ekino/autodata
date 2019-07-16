@@ -4,12 +4,11 @@
  * of the real library
  */
 
-const $log = name => (...args) => console.log(
-  `%c GTM:${name}`, 'color: white; background: blue', ...args,
-);
+const $log = name => (...args) =>
+  console.log(`%c GTM:${name}`, "color: white; background: blue", ...args);
 const dataLayer = [];
 const oldPush = dataLayer.push;
-const logPush = $log('dataLayer.push');
+const logPush = $log("dataLayer.push");
 
 dataLayer.push = (...args) => {
   logPush(...args);

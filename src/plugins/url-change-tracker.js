@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-
-const defaults = require('../utils/utilities').defaults;
-const isObject = require('../utils/utilities').isObject;
-
+const { defaults, isObject } = require("../utils/utilities");
 
 /**
  * Adds handler for the history API methods
@@ -27,10 +24,10 @@ const isObject = require('../utils/utilities').isObject;
  */
 function UrlChangeTracker(tracker, opts) {
   // Feature detects to prevent errors in unsupporting browsers.
-  if (!history.pushState || !window.addEventListener) return;
+  if (!window.history.pushState || !window.addEventListener) return;
 
   this.opts = defaults(opts, {
-    shouldTrackUrlChange: this.shouldTrackUrlChange,
+    shouldTrackUrlChange: this.shouldTrackUrlChange
   });
 
   this.tracker = tracker;
@@ -43,33 +40,32 @@ function UrlChangeTracker(tracker, opts) {
   this.updateTrackerData = this.updateTrackerData.bind(this);
 
   // Overrides history.pushState.
-  this.originalPushState = history.pushState;
-  history.pushState = function pushState(state, title, ...rest) {
+  this.originalPushState = window.history.pushState;
+  window.history.pushState = function pushState(state, title, ...rest) {
     // Sets the document title for reference later.
     // TODO(philipwalton): consider using WeakMap for this to not conflict
     // with any user-defined property also called "title".
     if (isObject(state) && title) state.title = title;
 
-    this.originalPushState.call(history, state, title, ...rest);
+    this.originalPushState.call(window.history, state, title, ...rest);
     this.updateTrackerData();
   }.bind(this);
 
   // Overrides history.repaceState.
-  this.originalReplaceState = history.replaceState;
-  history.replaceState = function replaceState(state, title, ...rest) {
+  this.originalReplaceState = window.history.replaceState;
+  window.history.replaceState = function replaceState(state, title, ...rest) {
     // Sets the document title for reference later.
     // TODO(philipwalton): consider using WeakMap for this to not conflict
     // with any user-defined property also called "title".
     if (isObject(state) && title) state.title = title;
 
-    this.originalReplaceState.call(history, state, title, ...rest);
+    this.originalReplaceState.call(window.history, state, title, ...rest);
     this.updateTrackerData(false);
   }.bind(this);
 
   // Handles URL changes via user interaction.
-  window.addEventListener('popstate', this.updateTrackerData);
+  window.addEventListener("popstate", this.updateTrackerData);
 }
-
 
 /**
  * Updates the page and title fields on the tracker if necessary and
@@ -77,7 +73,9 @@ function UrlChangeTracker(tracker, opts) {
  * @param {boolean} shouldSendPageview Indicates whether the tracker should
  *     send a pageview after updating the URL.
  */
-UrlChangeTracker.prototype.updateTrackerData = function updateTrackerData(shouldSendPageview) {
+UrlChangeTracker.prototype.updateTrackerData = function updateTrackerData(
+  shouldSendPageview
+) {
   // Sets the default.
   shouldSendPageview = shouldSendPageview !== false;
 
@@ -87,19 +85,22 @@ UrlChangeTracker.prototype.updateTrackerData = function updateTrackerData(should
     const oldPath = this.path;
     const newPath = getPath();
 
-    if (oldPath !== newPath &&
-        this.opts.shouldTrackUrlChange.call(this, newPath, oldPath)) {
+    if (
+      oldPath !== newPath &&
+      this.opts.shouldTrackUrlChange.call(this, newPath, oldPath)
+    ) {
       const page = newPath;
-      const title = isObject(history.state) ? history.state.title : document.title;
+      const title = isObject(window.history.state)
+        ? window.history.state.title
+        : document.title;
 
       this.path = newPath;
-      this.tracker.set({page, title});
+      this.tracker.set({ page, title });
 
-      if (shouldSendPageview) this.tracker.send('pageview', {page, title});
+      if (shouldSendPageview) this.tracker.send("pageview", { page, title });
     }
   }, 0);
 };
-
 
 /**
  * Determines whether or not the tracker should send a hit with the new page
@@ -108,18 +109,20 @@ UrlChangeTracker.prototype.updateTrackerData = function updateTrackerData(should
  * @param {string} oldPath The path after the URL change.
  * @return {boolean} Whether or not the URL change should be tracked.
  */
-UrlChangeTracker.prototype.shouldTrackUrlChange = function shouldTrackUrlChange(newPath, oldPath) {
+UrlChangeTracker.prototype.shouldTrackUrlChange = function shouldTrackUrlChange(
+  newPath,
+  oldPath
+) {
   return newPath && oldPath;
 };
-
 
 /**
  * Removes all event listeners and instance properties.
  */
 UrlChangeTracker.prototype.remove = function remove() {
-  window.removeEventListener('popstate', this.updateTrackerData);
-  history.replaceState = this.originalReplaceState;
-  history.pushState = this.originalPushState;
+  window.removeEventListener("popstate", this.updateTrackerData);
+  window.history.replaceState = this.originalReplaceState;
+  window.history.pushState = this.originalPushState;
 
   this.tracker = null;
   this.opts = null;
@@ -130,13 +133,11 @@ UrlChangeTracker.prototype.remove = function remove() {
   this.originalPushState = null;
 };
 
-
 /**
  * @return {string} The path value of the current URL.
  */
 function getPath() {
-  return location.pathname + location.search;
+  return document.location.pathname + document.location.search;
 }
-
 
 export default UrlChangeTracker;
