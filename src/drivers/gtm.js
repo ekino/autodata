@@ -36,12 +36,14 @@ export const parser = (type, data = {}) => {
 };
 
 /**
- * Send the parsed tag to dataLayer
- * @param {object} tag - parsed tag to be sent
+ * Create a sender
+ * @param {string} dataLayerName - name of the dataLayer to push events
+ * @returns {Function} - a sender
  */
-export const sender = tag => {
-  if (!window.dataLayer) {
-    window.dataLayer = [];
+export const sender = (dataLayerName = "dataLayer") => tag => {
+  if (!window[dataLayerName]) {
+    window[dataLayerName] = [];
   }
-  window.dataLayer.push(tag);
+
+  window[dataLayerName].push(tag);
 };

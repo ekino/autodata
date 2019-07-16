@@ -26,7 +26,7 @@ export default function getInstance(config) {
   switch (tms.name) {
     case "gtm":
       parsers.push(gtm.parser);
-      senders.push(gtm.sender);
+      senders.push(gtm.sender(config.tms.dataLayerName));
       break;
     case "tealium":
       parsers.push(tealium.parser);
