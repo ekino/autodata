@@ -17,7 +17,7 @@ autoData.init({
         tms: {
           name: 'gtm',
           parser: function(type, data) {}, // Optional
-          enhancer: function (parsedTag) {}, // Optional
+          enhancer: function(parsedTag) {}, // Optional
           sender: function(enhancedTag) {}, // Optional
         },
         plugins: {
@@ -45,7 +45,7 @@ This function allows you to add custom data on the already parsed tag. This coul
 ### tms.sender
 This function allows you to change how parsed and enhanced data is sent to TMS or any tag collector system. For example, when using GTM as TMS, it pushes values in Google's dataLayer object.
 
-## autoData.sendPageView
+### autoData.sendPageView
 
 This method needs to be used in an SPA or in a tunnel, where there is no page reload. In this contexte, the goal is to track each views/steps as pageviews (generally called virtual pageviews).
 
@@ -70,7 +70,7 @@ Result
 }
 ```
 
-## autoData.sendVirtualPageView (deprecated)
+### autoData.sendVirtualPageView (deprecated)
 
 Usage
 
@@ -91,7 +91,7 @@ Result
 }
 ```
 
-## autoData.sendEvent
+### autoData.sendEvent
 
 This method needs to be used for "functionals tags", when data attributes is not enough and/or if the tag is computed dynamically when user interacts with the website. Also, interacted elements handled in Javascript with a preventDefault needs to be tagged with this method.
 
@@ -137,6 +137,23 @@ Result
     "foo":    true,
     "bar":    false,
     "baz":    true
+}
+```
+
+## GTM specific settings
+
+### Provide a custom `dataLayer`
+You can specify your own `dataLayer` name be setting `dataLayerName` in `tms` config :
+
+```
+{
+    common: {
+        tms: {
+          name: 'gtm',
+          dataLayerName: "myDataLayer"
+        },
+        /* ... */
+    }
 }
 ```
 
