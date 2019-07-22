@@ -1,28 +1,23 @@
 language: node_js
-
-node_js:
-  "8"
-
+node_js: '8'
 cache:
   yarn: true
   directories:
-    - node_modules
-    - dist
-
+  - node_modules
+  - dist
 script:
-  - yarn lint
-  - yarn test
-  - yarn prettier-check
-  - NODE_ENV=development yarn build
-  - NODE_ENV=production yarn build
-
-before_deploy: "ls -al dist"
+- yarn lint
+- yarn test
+- yarn prettier-check
+- NODE_ENV=development yarn build
+- NODE_ENV=production yarn build
+before_deploy: ls -al dist
 deploy:
   provider: npm
   email: opensource@ekino.com
   skip_cleanup: true
   api_key:
-    secure: oeF0VvsI+WjRspdVYh8DvnTyV+utl/4baW6NNnz2KsPttAcRGZr/R6tggmZ7tSIUN5xBggNr8TpcvYO6s8WLU01/VEVQthNyC+dzfh2glVnqDhE6R+rFljA0Sthxk9qJGYSSvlqssQLNie8vj8KyDPsBz+xNW5PrugH3Ps/VYoG6y4yPi4zx+yw3fE/sBIeizjhRB8VZa/7lSeqPiN/rRo+r1m4Bui6aisn6yZ98PMCL7ayRFe3zgDUyzs71hB9qePJZO7ku0IArg81cQCX1gnETbff+YPgv9h07q+X5htc5ejyJMq1FgAtURG0HCqjSLqqy3arCS4s+Z0XeO8Jj9K6Bb9meWUkd/4880kEqCPxFKtjxeFYKhit8rdmNVphe/O68cTDp2YJ+LqpAcldMV1PDSNN7KaY5lLqwxaQFdfgKeRFhgb+FiAVjqPsSqJ4Ja0564gvQtlfZrEvExonW9s5Mkw+NCB3v0OfTDy3tLWey3BosZsZm3Wy9o/gpoT7OKcVAl+y7e9dbmeoCSm4aP6wLhlEIIMock/AJUoC9z+uB9th5V4zHMCNoa5QxiddKn6ccpCSg1SGEyPsn6xtowOlavstcodeAOuERHvwdvHrgiDxUMouf1Kwg6UjBKzSPu8sGuzJWrEYzsQEvIDtY1/H30oF5q16Yu8M27FNJ5PM=
+    secure: Nkd3P4tb9PFu8yGzLX1QXt6DP10pfabVUVV506CuqTZzeey03I1xhlEUjWKA7UJuiH+Bvm7oDOpNN5AAmDS/ILpKjxluBvsjMri9/+e7Xil53dFy2l0+LZ7JyE1yiVTrZjDP87CGKLRZ3Q4vW2WeDqJ6CGSguXl7GVlnzsqeaIy4K894wKGXfk0tGWPJRQRbf8NjRMenyUCZT+19pS5DLJRGis8TVk8D4E6XDjZzFT+A5WqJlEedsRC3DyJCnoBrU/NF57mve1bMwsK4JFGgEvT+KYNZB0c9/voYWSix7UO5iaHgQTtuCxvLKnJmKdpuGleWOkSiN7LZd46d/TfDXk2rrbdCnOOvqSVNBCx3ekkXurPAfUdsfSvhjuVhHzeFYP+Xtt5g0jBqzpYzRNocSXHJj75Plg/kc5+SPKzbKLr93AOVsZSfvlcQDqHDeY9xVdIcJjOzplRYJ/6xxW/VKmUvg+spItQGPJRqqUU32+6YXAEl5c+pI6oTLDCw9uR7iry604+blqJwk6OsxtYAmyJUihiv2viFq7AZR6rTAdeeBrNwNtKK0nKyKvisKtoNTID7AIfINSfL+yn336nl5JucMMb2SAAjqB3/O5+z5DHaX5tGZZ8fUfJEh/KP2URAhu3GD0jYHiICb4oTrPCw1bul2icipL19GAAjOGC44hw=
   on:
     tags: true
     repo: ekino/autodata
