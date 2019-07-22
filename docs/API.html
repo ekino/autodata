@@ -7,7 +7,7 @@
         <title>API · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="GitBook 3.2.2">
+        <meta name="generator" content="GitBook 3.2.3">
         
         
         
@@ -438,7 +438,7 @@
         tms: {
           name: <span class="hljs-string">&apos;gtm&apos;</span>,
           parser: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">type, data</span>) </span>{}, <span class="hljs-comment">// Optional</span>
-          enhancer: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">parsedTag</span>) </span>{}, <span class="hljs-comment">// Optional</span>
+          enhancer: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parsedTag</span>) </span>{}, <span class="hljs-comment">// Optional</span>
           sender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">enhancedTag</span>) </span>{}, <span class="hljs-comment">// Optional</span>
         },
         plugins: {
@@ -459,7 +459,7 @@ please see the <a href="#optional-config">Optional config</a> section to know mo
 <p>This function allows you to add custom data on the already parsed tag. This could have been done by the parsing function but it is done this way in order to seperate the role of each function.</p>
 <h3 id="tmssender">tms.sender</h3>
 <p>This function allows you to change how parsed and enhanced data is sent to TMS or any tag collector system. For example, when using GTM as TMS, it pushes values in Google&apos;s dataLayer object.</p>
-<h2 id="autodatasendpageview">autoData.sendPageView</h2>
+<h3 id="autodatasendpageview">autoData.sendPageView</h3>
 <p>This method needs to be used in an SPA or in a tunnel, where there is no page reload. In this contexte, the goal is to track each views/steps as pageviews (generally called virtual pageviews).</p>
 <p>The output sent to TMS is the same than automatic pageviews.</p>
 <p>Usage</p>
@@ -475,7 +475,7 @@ please see the <a href="#optional-config">Optional config</a> section to know mo
     <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;meta_title&quot;</span>
 }
 </code></pre>
-<h2 id="autodatasendvirtualpageview-deprecated">autoData.sendVirtualPageView (deprecated)</h2>
+<h3 id="autodatasendvirtualpageview-deprecated">autoData.sendVirtualPageView (deprecated)</h3>
 <p>Usage</p>
 <pre><code class="lang-js">autoData.sendVirtualPageView({
     page: <span class="hljs-string">&apos;&apos;</span>, <span class="hljs-comment">// optional</span>
@@ -489,7 +489,7 @@ please see the <a href="#optional-config">Optional config</a> section to know mo
     <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;meta_title&quot;</span>
 }
 </code></pre>
-<h2 id="autodatasendevent">autoData.sendEvent</h2>
+<h3 id="autodatasendevent">autoData.sendEvent</h3>
 <p>This method needs to be used for &quot;functionals tags&quot;, when data attributes is not enough and/or if the tag is computed dynamically when user interacts with the website. Also, interacted elements handled in Javascript with a preventDefault needs to be tagged with this method.</p>
 <p>The output sent to TMS is the same than automatic tags.</p>
 <p>Usage</p>
@@ -523,7 +523,19 @@ please see the <a href="#optional-config">Optional config</a> section to know mo
     <span class="hljs-string">&quot;baz&quot;</span>:    <span class="hljs-literal">true</span>
 }
 </code></pre>
-<h2 id="optional-config">Optional config</h2>
+<h2 id="gtm-specific-settings">GTM specific settings</h2>
+<h3 id="provide-a-custom-datalayer">Provide a custom <code>dataLayer</code></h3>
+<p>You can specify your own <code>dataLayer</code> name be setting <code>dataLayerName</code> in <code>tms</code> config :</p>
+<pre><code>{
+    common: {
+        tms: {
+          name: &apos;gtm&apos;,
+          dataLayerName: &quot;myDataLayer&quot;
+        },
+        /* ... */
+    }
+}
+</code></pre><h2 id="optional-config">Optional config</h2>
 <p>If for any reason you need to use a specific configuration for autoData in a certain context, you can
 with the initialization object.</p>
 <p>By default, you will need to provide a <strong>common</strong> config that will be always used as a default one</p>
@@ -617,7 +629,7 @@ on a Single Page Application.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"API","level":"1.3","depth":1,"next":{"title":"Initialization","level":"1.3.1","depth":2,"anchor":"#init","path":"API.md","ref":"API.md#init","articles":[]},"previous":{"title":"Demo page","level":"1.2","depth":1,"path":"DEMO.md","ref":"DEMO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"API.md","mtime":"2017-10-01T12:29:07.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-01-25T15:43:09.186Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"API","level":"1.3","depth":1,"next":{"title":"Initialization","level":"1.3.1","depth":2,"anchor":"#init","path":"API.md","ref":"API.md#init","articles":[]},"previous":{"title":"Demo page","level":"1.2","depth":1,"path":"DEMO.md","ref":"DEMO.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"API.md","mtime":"2019-07-18T14:39:03.209Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-07-22T16:11:52.832Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
