@@ -62,6 +62,8 @@ export default {
     filename: isProd ? '[name].min.js' : '[name].js',
     library: 'autoData',
     libraryTarget: 'umd',
+    libraryExport: 'default',
+    globalObject: 'this'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
