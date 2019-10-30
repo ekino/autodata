@@ -11,12 +11,12 @@ import PageviewTracker from "./PageviewTracker";
 import InitialTags from "./InitialTags";
 import Logger from "./Logger";
 
-const Demo = ({ logs }) => (
+const Demo = ({ logs, clearLogs }) => (
   <div className="container">
     <header className="header">
       <h1>AutoData demo page</h1>
     </header>
-    <Logger logs={logs} />
+    <Logger logs={logs} clearLogs={clearLogs} />
     <main className="main">
       <EventTracker />
       <UrlChangeTracker />

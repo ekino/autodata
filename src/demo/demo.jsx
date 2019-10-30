@@ -13,8 +13,12 @@ require("./drivers/tealium");
 require("./drivers/gtm");
 
 const logs = [];
+const clearLogs = () => {
+  logs.length = 0;
+  renderDemo();
+}
 const renderDemo = () =>
-  render(<Demo logs={logs} />, document.querySelector("#demo-app"));
+  render(<Demo logs={logs} clearLogs={clearLogs}/>, document.querySelector("#demo-app"));
 const htmlLogger = tag => {
   if (logs.length > 5) {
     logs.pop();
