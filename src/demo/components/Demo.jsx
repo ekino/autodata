@@ -7,7 +7,6 @@ import UrlChangeTracker from "./UrlChangeTracker";
 import OutboundLinkTracker from "./OutboundLinkTracker";
 import OutboundFormTracker from "./OutboundFormTracker";
 import JwplayerTracker from "./JwplayerTracker";
-import FlowPlayerTracker from "./FlowPlayerTracker";
 import PageviewTracker from "./PageviewTracker";
 import InitialTags from "./InitialTags";
 import Logger from "./Logger";
@@ -23,7 +22,6 @@ const Demo = ({ logs, clearLogs }) => (
       <UrlChangeTracker />
       <OutboundLinkTracker />
       <OutboundFormTracker />
-      <FlowPlayerTracker />
       <JwplayerTracker />
       <PageviewTracker />
       <InitialTags />

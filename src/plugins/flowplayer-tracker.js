@@ -112,7 +112,7 @@ export default class {
     if (tag) {
       const itemInfo = this.getInfos(opts);
       tag = { ...tag, ...itemInfo };
-      this.tracker.send("flowplayer", this.opts.enhancer(tag));
+      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
     }
   }
 
@@ -170,7 +170,8 @@ export default class {
     if (itemInfo) {
       return {
         title: itemInfo.metadata.title,
-        mediaId: itemInfo.metadata.media_id
+        mediaId: itemInfo.metadata.media_id,
+        obj: "flowplayer"
       };
     }
   }
