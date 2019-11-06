@@ -72,6 +72,9 @@ export default class {
     const opts = data && data.opts;
     let tag = null;
     switch (eventName) {
+      case "loadstart":
+        tag = { act: "videoStarted" };
+        break;
       case "playing":
         tag = { act: "play" };
         break;
