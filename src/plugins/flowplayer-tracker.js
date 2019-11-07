@@ -46,21 +46,24 @@ export default class {
       throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
     }
 
-    flowplayer.cloud.then(() => {
-      this.instances = flowplayer.instances || [];
-      this.instances.map(video => {
-        video.hasStarted = false;
-        if (this.opts.cuepoints) {
-          this.cuepoints = this.opts.cuepoints;
-          this.uc = {
-            percentages: this.opts.cuepoints.percentages || [],
-            thresholds: this.opts.cuepoints.thresholds || []
-          };
-        }
-        video.on(Object.values(flowplayer.events), e => {
-          this.onEvent(video, e.type, e.target);
-        });
+    this.instances = flowplayer.instances || [];
+    this.instances.map(video => {
+      video.hasStarted = false;
+      if (this.opts.cuepoints) {
+        this.cuepoints = this.opts.cuepoints;
+        this.uc = {
+          percentages: this.opts.cuepoints.percentages || [],
+          thresholds: this.opts.cuepoints.thresholds || []
+        };
+      }
+      video.on(Object.values(flowplayer.events), e => {
+        this.onEvent(video, e.type, e.target);
       });
+    });
+
+    // eslint-disable-next-line
+    window.flowplayer.future((video, wrapper, instance) => {
+      this.setInstance(instance);
     });
   }
 
@@ -180,12 +183,32 @@ export default class {
    * @returns {object} filtered data
    */
   getInfos(itemInfo) {
-    if (itemInfo) {
+    if (itemInfo && itemInfo.metadata) {
       return {
-        title: itemInfo.metadata.title,
-        mediaId: itemInfo.metadata.media_id,
+        title: itemInfo.metadata.title || "",
+        mediaId: itemInfo.metadata.media_id || "",
         obj: "flowplayer"
       };
     }
+  }
+
+  /**
+   * setInstance - keep instance reference and bind events
+   * @param {object} instance - flowplayer instance
+   */
+  setInstance(instance) {
+    instance.hasStarted = false;
+    if (this.opts.cuepoints) {
+      this.cuepoints = this.opts.cuepoints;
+      this.uc = {
+        percentages: this.opts.cuepoints.percentages || [],
+        thresholds: this.opts.cuepoints.thresholds || []
+      };
+    }
+    instance.on(Object.values(flowplayer.events), e => {
+      this.onEvent(instance, e.type, e.target);
+    });
+    // instance.on("remove", () => this.unsetInstance(instance));
+    this.instances.push(instance.playerId);
   }
 }

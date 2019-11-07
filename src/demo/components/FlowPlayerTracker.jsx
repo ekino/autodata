@@ -23,10 +23,10 @@ export default class FlowplayerTracker extends Component {
     const id = `flow-player-${Date.now()}`;
 
     this.setState(state => ({ instances: state.instances.concat(id) }), () => {
-      flowplayer('#player_container', {
-        src: 'https://i.imgur.com/QkOfMo4.mp4',
-        token: __ENV__.FLOWPLAYER_KEY
-      })
+        flowplayer(`#${id}`, {
+          src: 'https://i.imgur.com/QkOfMo4.mp4',
+          token: __ENV__.FLOWPLAYER_KEY
+        })
     });
   }
 
@@ -35,7 +35,7 @@ export default class FlowplayerTracker extends Component {
     const id = instances.pop();
 
     try {
-      flowplayer(id).remove();
+      flowplayer(`#${id}`).destroy();
       players.pop();
       this.setState({ instances, players });
     } catch (err) {
@@ -45,9 +45,10 @@ export default class FlowplayerTracker extends Component {
 
   render() {
     const { instances } = this.state;
-
     const players = instances.map(id => (
-      <div key={id} id="player_container"></div>
+      <li key={id}>
+        <div id={id} />
+      </li>
     ));
     return (
       <section className="player-tracker">
