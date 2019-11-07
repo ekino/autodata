@@ -47,8 +47,9 @@ export default class {
     }
 
     flowplayer.cloud.then(() => {
-      this.instances = flowplayer.instances;
+      this.instances = flowplayer.instances || [];
       this.instances.map(video => {
+        video.hasStarted = false;
         if (this.opts.cuepoints) {
           this.cuepoints = this.opts.cuepoints;
           this.uc = {
@@ -57,7 +58,7 @@ export default class {
           };
         }
         video.on(Object.values(flowplayer.events), e => {
-          this.onEvent(e.type, e.target);
+          this.onEvent(video, e.type, e.target);
         });
       });
     });
@@ -65,16 +66,14 @@ export default class {
 
   /**
    * onEvent - send event information to tracker
+   * @param {object} instance - current flowplayer instance
    * @param {string} eventName - configuration event name
    * @param {object} data* - optional data for 'all' event case
    */
-  onEvent(eventName, data = {}) {
+  onEvent(instance, eventName, data = {}) {
     const opts = data && data.opts;
     let tag = null;
     switch (eventName) {
-      case "loadstart":
-        tag = { act: "videoStarted" };
-        break;
       case "playing":
         tag = { act: "play" };
         break;
@@ -82,6 +81,8 @@ export default class {
         tag = { act: "pause" };
         break;
       case "ended":
+        // resets the flag for the "started" event
+        instance.hasStarted = false;
         tag = { act: "ended" };
         break;
       case "error":
@@ -115,6 +116,15 @@ export default class {
     if (tag) {
       const itemInfo = this.getInfos(opts);
       tag = { ...tag, ...itemInfo };
+      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
+    }
+
+    // Flowplayer doesn't send an event on the initial start of the video
+    // send a "started" event each time the video starts from the beginning
+    if (eventName === "playing" && !instance.hasStarted) {
+      instance.hasStarted = true;
+      const itemInfo = this.getInfos(opts);
+      tag = { act: "started", ...itemInfo };
       this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
     }
   }
