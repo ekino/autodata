@@ -144,7 +144,7 @@ a.btn {
   grid-area: blockRight;
 }
 
-.jwplayer-tracker ul {
+.player-tracker ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
