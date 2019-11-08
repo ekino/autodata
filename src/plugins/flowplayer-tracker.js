@@ -31,15 +31,26 @@ export default class {
       enhancer: tag => tag
     });
 
-    if (!this.opts.flowplayer) {
-      throw new Error(NO_API_PROVIDED);
-    }
-
     this.tracker = tracker;
     this.instances = [];
     this.cuepoints = [];
 
     const { flowplayer } = this.opts;
+
+    window.autoDataTools.registerFlowplayer = instance => {
+      this.setInstance(instance);
+    };
+
+    // eslint-disable-next-line
+    window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
+        this.setInstance(instance);
+      });
+
+    if (!this.opts.flowplayer) {
+      // throw new Error(NO_API_PROVIDED);
+      // Flowplayer can be imported dynamically
+      return;
+    }
 
     if (includes(this.opts.events, "all")) {
       throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
@@ -49,15 +60,6 @@ export default class {
     this.instances.forEach(video => {
       this.setInstance(video);
     });
-
-    // eslint-disable-next-line
-    window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
-        this.setInstance(instance);
-      });
-
-    window.autoDataTools.registerFlowplayer = instance => {
-      this.setInstance(instance);
-    };
   }
 
   /**
