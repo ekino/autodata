@@ -56,6 +56,7 @@ The autodata.min.js built file is small (25ko) and comes with all plugins includ
 | **outboundFormTracker** | Automatically tracks form submits to external domains.                 |
 | **outboundLinkTracker** | Automatically tracks link clicks to external domains.                  |
 | **jwplayerTracker**     | Automatically tracks events from [jwplayer](https://www.jwplayer.com)  |
+| **flowplayerTracker**   | Automatically tracks events from [flowplayer](https://flowplayer.com/)  |
 
 ## Installation and usage
 

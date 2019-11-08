@@ -27,7 +27,6 @@ export default class {
         "fullscreen_exit",
         "resize"
       ],
-      autoDetect: false,
       cuepoints: {},
       enhancer: tag => tag
     });
@@ -47,7 +46,7 @@ export default class {
     }
 
     this.instances = flowplayer.instances || [];
-    this.instances.map(video => {
+    this.instances.forEach(video => {
       video.hasStarted = false;
       if (this.opts.cuepoints) {
         this.cuepoints = this.opts.cuepoints;
