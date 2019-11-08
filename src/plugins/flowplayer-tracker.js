@@ -39,11 +39,6 @@ export default class {
       this.setInstance(instance);
     };
 
-    // eslint-disable-next-line
-    window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
-        this.setInstance(instance);
-      });
-
     if (!this.opts.flowplayer) {
       // throw new Error(NO_API_PROVIDED);
       // since Flowplayer can be imported dynamically,
@@ -51,16 +46,21 @@ export default class {
       return;
     }
 
-    const { flowplayer } = this.opts;
+    // eslint-disable-next-line
+    // window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
+    //   this.setInstance(instance);
+    // });
 
-    if (includes(this.opts.events, "all")) {
-      throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
-    }
+    // const { flowplayer } = this.opts;
 
-    this.instances = flowplayer.instances || [];
-    this.instances.forEach(video => {
-      this.setInstance(video);
-    });
+    // if (includes(this.opts.events, "all")) {
+    //   throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
+    // }
+
+    // this.instances = flowplayer.instances || [];
+    // this.instances.forEach(video => {
+    //   this.setInstance(video);
+    // });
   }
 
   /**
@@ -68,9 +68,9 @@ export default class {
    * @param {object} instance - current flowplayer instance
    * @param {string} eventName - configuration event name
    * @param {object} data* - optional data for 'all' event case
+   * @param {any} srcElemnt - srcElement from the event
    */
-  onEvent(instance, eventName, data = {}) {
-    const opts = data && data.opts;
+  onEvent(instance, eventName, data = {}, srcElement) {
     let tag = null;
     switch (eventName) {
       case "playing":
@@ -116,7 +116,7 @@ export default class {
     }
 
     if (tag) {
-      const itemInfo = this.getInfos(opts);
+      const itemInfo = this.getInfos(srcElement);
       tag = { ...tag, ...itemInfo };
       this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
     }
@@ -125,7 +125,7 @@ export default class {
     // send a "started" event each time the video starts from the beginning
     if (eventName === "playing" && !instance.hasStarted) {
       instance.hasStarted = true;
-      const itemInfo = this.getInfos(opts);
+      const itemInfo = this.getInfos(srcElement);
       tag = { act: "started", ...itemInfo };
       this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
     }
@@ -181,14 +181,12 @@ export default class {
    * @param {object} itemInfo - video data
    * @returns {object} filtered data
    */
-  getInfos(itemInfo) {
-    if (itemInfo && itemInfo.metadata) {
-      return {
-        title: itemInfo.metadata.title || "",
-        mediaId: itemInfo.metadata.media_id || "",
-        obj: "flowplayer"
-      };
-    }
+  getInfos(srcElement) {
+    return {
+      title: srcElement.title || "",
+      currentSrc: srcElement.currentSrc || "",
+      obj: "flowplayer"
+    };
   }
 
   /**
@@ -205,7 +203,7 @@ export default class {
       };
     }
     instance.on(Object.values(flowplayer.events), e => {
-      this.onEvent(instance, e.type, e.target);
+      this.onEvent(instance, e.type, e.target, e.srcElement);
     });
   }
 }
