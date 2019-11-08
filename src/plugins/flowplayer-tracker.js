@@ -47,23 +47,17 @@ export default class {
 
     this.instances = flowplayer.instances || [];
     this.instances.forEach(video => {
-      video.hasStarted = false;
-      if (this.opts.cuepoints) {
-        this.cuepoints = this.opts.cuepoints;
-        this.uc = {
-          percentages: this.opts.cuepoints.percentages || [],
-          thresholds: this.opts.cuepoints.thresholds || []
-        };
-      }
-      video.on(Object.values(flowplayer.events), e => {
-        this.onEvent(video, e.type, e.target);
-      });
+      this.setInstance(video);
     });
 
     // eslint-disable-next-line
-    window.flowplayer.future((video, wrapper, instance) => {
+    window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
+        this.setInstance(instance);
+      });
+
+    window.autodataRegisterFlowplayer = instance => {
       this.setInstance(instance);
-    });
+    };
   }
 
   /**
@@ -106,7 +100,10 @@ export default class {
         tag = { act: "fullscreenExit", desc: "exit" };
         break;
       case "resize":
-        tag = { act: "resize", desc: `${data.width}|${data.height}` };
+        tag = {
+          act: "resize",
+          desc: `${data.clientWidth}|${data.clientHeight}`
+        };
         break;
       case "timeupdate":
         tag = this.onTimeEvent(data);
@@ -207,7 +204,5 @@ export default class {
     instance.on(Object.values(flowplayer.events), e => {
       this.onEvent(instance, e.type, e.target);
     });
-    // instance.on("remove", () => this.unsetInstance(instance));
-    this.instances.push(instance.playerId);
   }
 }

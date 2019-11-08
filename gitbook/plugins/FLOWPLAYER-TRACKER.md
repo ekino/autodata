@@ -18,6 +18,19 @@ autoData.init({
 });
 ```
 
+If you are using the embeded version of the flowplayer video player, autodata will automatically track every new instance on the page.
+
+However, if you are using the JavaScript-based initialization of flowplayer, you'll need to register each new player to autodata with `autodataRegisterFlowplayer`:
+
+```js
+const player = flowplayer('#player_container', {
+  src: 'my_video.mp4',
+  token: '<my_token>'
+})
+
+autodataRegisterFlowplayer(player);
+```
+
 ## Default configuration
 
 ```js

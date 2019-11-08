@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import logger from "../../utils/logger";
 
-require("../vendors/flowplayer/flowplayer");
+window.flowplayer = require("../vendors/flowplayer/flowplayer.js");
 
 const { flowPlayer } = window;
 
@@ -23,10 +23,14 @@ export default class FlowplayerTracker extends Component {
     const id = `flow-player-${Date.now()}`;
 
     this.setState(state => ({ instances: state.instances.concat(id) }), () => {
-        flowplayer(`#${id}`, {
+        const player = flowplayer(`#${id}`, {
           src: 'https://i.imgur.com/QkOfMo4.mp4',
           token: __ENV__.FLOWPLAYER_KEY
         })
+        
+        if (window.autodataRegisterFlowplayer){
+          window.autodataRegisterFlowplayer(player)
+        }
     });
   }
 
