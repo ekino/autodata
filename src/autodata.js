@@ -8,6 +8,9 @@ import logger, { setLevel } from "./utils/logger";
 
 let driver;
 
+// will host every global functions needed by autoData plugins
+window.autoDataTools = {};
+
 // TODO : refactor this not enough splitted, hard to test...
 const futureInit = ({ common, ...rest }) => {
   if (driver) {

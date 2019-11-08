@@ -55,7 +55,7 @@ export default class {
         this.setInstance(instance);
       });
 
-    window.autodataRegisterFlowplayer = instance => {
+    window.autoDataTools.registerFlowplayer = instance => {
       this.setInstance(instance);
     };
   }

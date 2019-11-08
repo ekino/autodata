@@ -28,8 +28,8 @@ export default class FlowplayerTracker extends Component {
           token: __ENV__.FLOWPLAYER_KEY
         })
         
-        if (window.autodataRegisterFlowplayer){
-          window.autodataRegisterFlowplayer(player)
+        if (window.autoDataTools.registerFlowplayer){
+          window.autoDataTools.registerFlowplayer(player)
         }
     });
   }
