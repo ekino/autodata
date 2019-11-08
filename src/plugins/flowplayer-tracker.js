@@ -35,8 +35,6 @@ export default class {
     this.instances = [];
     this.cuepoints = [];
 
-    const { flowplayer } = this.opts;
-
     window.autoDataTools.registerFlowplayer = instance => {
       this.setInstance(instance);
     };
@@ -48,9 +46,12 @@ export default class {
 
     if (!this.opts.flowplayer) {
       // throw new Error(NO_API_PROVIDED);
-      // Flowplayer can be imported dynamically
+      // since Flowplayer can be imported dynamically,
+      // skip the detection of existing flowplayer if we don't have access to the global object
       return;
     }
+
+    const { flowplayer } = this.opts;
 
     if (includes(this.opts.events, "all")) {
       throw new Error(UNSUPPORTED_EVENT.replace("%s", "all"));
