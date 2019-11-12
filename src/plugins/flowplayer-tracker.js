@@ -223,7 +223,7 @@ export default class {
       };
     }
 
-    instance.on(Object.values(this.opts.events), e => {
+    instance.on(this.opts.events, e => {
       this.onEvent(instance, e.type, e.target, e.srcElement, e.error);
     });
   }
