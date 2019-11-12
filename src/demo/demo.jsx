@@ -118,7 +118,8 @@ autoData.init({
           "volumechange",
           "fullscreenenter",
           "fullscreenexit",
-          "resize"
+          "resize",
+          "timeupdate"
         ],
         cuepoints: {
           percentages: [25, 50, 75],

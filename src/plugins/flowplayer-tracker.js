@@ -126,6 +126,15 @@ export default class {
         break;
     }
 
+    if (eventName === "playing" && !instance.hasStarted) {
+      instance.hasStarted = true;
+
+      this.tracker.send(
+        "flowplayer",
+        this.opts.enhancer({ act: "started", ...this.getInfos(srcElement) })
+      );
+    }
+
     if (tag) {
       this.tracker.send(
         "flowplayer",
@@ -136,24 +145,14 @@ export default class {
 
   /**
    * onTimeEvent - send time event information to tracker
-   * @param {object} data - data for 'time' event case
+   * @param {object} instance - data for 'time' event case
    * @returns {?object} - tag object
    */
-  onTimeEvent(data) {
-    // Flowplayer doesn't send an event on the initial start of the video
-    // send a "started" event each time the video starts from the beginning
-    if (!instance.hasStarted) {
-      instance.hasStarted = true;
-
-      tag = { act: "started", ...this.getInfos(srcElement) };
-
-      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
-    }
-
+  onTimeEvent(instance) {
     if (this.opts.cuepoints) {
       if (this.opts.cuepoints.thresholds) {
         const foundValue = this.uc.thresholds.find(
-          value => data.currentTime >= value
+          value => instance.currentTime >= value
         );
 
         if (foundValue) {
@@ -171,8 +170,8 @@ export default class {
 
       if (this.opts.cuepoints.percentages) {
         const percentage = getPlaybackPercentage(
-          data.currentTime,
-          data.duration
+          instance.currentTime,
+          instance.duration
         );
 
         const foundValue = this.uc.percentages.find(
