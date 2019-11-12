@@ -99,7 +99,7 @@ export default class {
         if (instance.muted) {
           tag = { act: "mute" };
         } else {
-          tag = { act: "volume", desc: data.value };
+          tag = { act: "volume", desc: data.volume };
         }
         break;
 
