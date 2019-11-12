@@ -14,18 +14,17 @@ export default class {
    */
   constructor(tracker, opts) {
     this.opts = defaults(opts, {
-      flowplayer: null,
       events: [
         "playing",
         "pause",
         "ended",
         "error",
         "seeked",
-        "cuepoint_start",
-        "volume_change",
-        "fullscreen_enter",
-        "fullscreen_exit",
-        "resize"
+        "volumechange",
+        "fullscreenenter",
+        "fullscreenexit",
+        "resize",
+        "timeupdate"
       ],
       cuepoints: {},
       enhancer: tag => tag
@@ -40,13 +39,6 @@ export default class {
         this.setInstance(instance);
       }
     };
-
-    if (!this.opts.flowplayer) {
-      // throw new Error(NO_API_PROVIDED);
-      // since Flowplayer can be imported dynamically,
-      // skip the detection of existing flowplayer if we don't have access to the global object
-      return;
-    }
 
     // eslint-disable-next-line
     // window.flowplayer.future && window.flowplayer.future((video, wrapper, instance) => {
@@ -74,6 +66,7 @@ export default class {
    */
   onEvent(instance, eventName, data = {}, srcElement) {
     let tag = null;
+
     switch (eventName) {
       case "playing":
         tag = { act: "play" };
@@ -90,19 +83,16 @@ export default class {
         tag = { act: "error" };
         break;
       case "seeked":
-        tag = { act: "seeked", desc: data.currentTime };
-        break;
-      case "cuepoints":
-        tag = { act: "cuepointStart" };
+        tag = { act: "seek", desc: data.currentTime };
         break;
       case "volumechange":
-        tag = { act: "volumeChange", desc: data.volume };
+        tag = { act: "volume", desc: data.volume };
         break;
       case "fullscreenenter":
-        tag = { act: "fullscreenEnter", desc: "enter" };
+        tag = { act: "fullscreen", desc: "enter" };
         break;
       case "fullscreenexit":
-        tag = { act: "fullscreenExit", desc: "exit" };
+        tag = { act: "fullscreen", desc: "exit" };
         break;
       case "resize":
         tag = {
@@ -113,23 +103,16 @@ export default class {
       case "timeupdate":
         tag = this.onTimeEvent(data);
         break;
+
       default:
         break;
     }
 
     if (tag) {
-      const itemInfo = this.getInfos(srcElement);
-      tag = { ...tag, ...itemInfo };
-      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
-    }
-
-    // Flowplayer doesn't send an event on the initial start of the video
-    // send a "started" event each time the video starts from the beginning
-    if (eventName === "playing" && !instance.hasStarted) {
-      instance.hasStarted = true;
-      const itemInfo = this.getInfos(srcElement);
-      tag = { act: "started", ...itemInfo };
-      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
+      this.tracker.send(
+        "flowplayer",
+        this.opts.enhancer({ ...tag, ...this.getInfos(srcElement) })
+      );
     }
   }
 
@@ -139,15 +122,27 @@ export default class {
    * @returns {?object} - tag object
    */
   onTimeEvent(data) {
+    // Flowplayer doesn't send an event on the initial start of the video
+    // send a "started" event each time the video starts from the beginning
+    if (!instance.hasStarted) {
+      instance.hasStarted = true;
+
+      tag = { act: "started", ...this.getInfos(srcElement) };
+
+      this.tracker.send("flowplayer", this.opts.enhancer(tag, itemInfo));
+    }
+
     if (this.opts.cuepoints) {
       if (this.opts.cuepoints.thresholds) {
         const foundValue = this.uc.thresholds.find(
           value => data.currentTime >= value
         );
+
         if (foundValue) {
           this.uc.thresholds = this.uc.thresholds.filter(
             value => value !== foundValue
           );
+
           return {
             act: "cuepoint",
             cuepointType: "threshold",
@@ -155,18 +150,22 @@ export default class {
           };
         }
       }
+
       if (this.opts.cuepoints.percentages) {
         const percentage = getPlaybackPercentage(
           data.currentTime,
           data.duration
         );
+
         const foundValue = this.uc.percentages.find(
           value => percentage >= value
         );
+
         if (foundValue) {
           this.uc.percentages = this.uc.percentages.filter(
             value => value !== foundValue
           );
+
           return {
             act: "cuepoint",
             cuepointType: "percentage",
@@ -175,6 +174,7 @@ export default class {
         }
       }
     }
+
     return null;
   }
 
@@ -206,7 +206,7 @@ export default class {
       };
     }
 
-    instance.on(Object.values(flowplayer.events), e => {
+    instance.on(Object.values(this.opts.events), e => {
       this.onEvent(instance, e.type, e.target, e.srcElement);
     });
   }
