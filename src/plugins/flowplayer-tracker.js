@@ -204,7 +204,7 @@ export default class {
   getInfos(srcElement) {
     return {
       title: srcElement.title || "",
-      file: srcElement.src,
+      file: srcElement.currentSrc,
       obj: "flowplayer"
     };
   }
