@@ -1,4 +1,4 @@
-import { defaults, includes, getPlaybackPercentage } from "../utils/utilities";
+import { defaults, getPlaybackPercentage } from "../utils/utilities";
 
 export const NO_API_PROVIDED = "No FlowPlayer instance was provided";
 export const UNSUPPORTED_EVENT = "The event: %s is not supported";
@@ -68,7 +68,7 @@ export default class {
    * @param {object} instance - current flowplayer instance
    * @param {string} eventName - configuration event name
    * @param {object} data* - optional data for 'all' event case
-   * @param {any} srcElemnt - srcElement from the event
+   * @param {any} srcElement - srcElement from the event
    */
   onEvent(instance, eventName, data = {}, srcElement) {
     let tag = null;
@@ -178,7 +178,7 @@ export default class {
 
   /**
    * getInfos - retrieve infos from the player instance
-   * @param {object} itemInfo - video data
+   * @param {object} srcElement - video data
    * @returns {object} filtered data
    */
   getInfos(srcElement) {
