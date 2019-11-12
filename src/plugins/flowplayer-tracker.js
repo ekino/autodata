@@ -63,43 +63,61 @@ export default class {
    * @param {string} eventName - configuration event name
    * @param {object} data* - optional data for 'all' event case
    * @param {any} srcElement - srcElement from the event
+   * @param {Error} error - error thrown by Player
    */
-  onEvent(instance, eventName, data = {}, srcElement) {
+  onEvent(instance, eventName, data = {}, srcElement, error) {
     let tag = null;
 
     switch (eventName) {
       case "playing":
         tag = { act: "play" };
         break;
+
       case "pause":
         tag = { act: "pause" };
         break;
+
       case "ended":
         // resets the flag for the "started" event
         instance.hasStarted = false;
         tag = { act: "ended" };
         break;
+
       case "error":
-        tag = { act: "error" };
+        tag = { act: "error", desc: error.type, val: error.code };
         break;
+
       case "seeked":
-        tag = { act: "seek", desc: data.currentTime };
+        tag = {
+          act: "seek",
+          desc: data.currentTime,
+          val: Math.round(data.currentTime)
+        };
         break;
+
       case "volumechange":
-        tag = { act: "volume", desc: data.volume };
+        if (instance.muted) {
+          tag = { act: "mute" };
+        } else {
+          tag = { act: "volume", desc: data.value };
+        }
         break;
+
       case "fullscreenenter":
         tag = { act: "fullscreen", desc: "enter" };
         break;
+
       case "fullscreenexit":
         tag = { act: "fullscreen", desc: "exit" };
         break;
+
       case "resize":
         tag = {
           act: "resize",
           desc: `${data.clientWidth}|${data.clientHeight}`
         };
         break;
+
       case "timeupdate":
         tag = this.onTimeEvent(data);
         break;
@@ -145,8 +163,8 @@ export default class {
 
           return {
             act: "cuepoint",
-            cuepointType: "threshold",
-            cuepointValue: foundValue
+            desc: "threshold",
+            val: foundValue
           };
         }
       }
@@ -168,8 +186,8 @@ export default class {
 
           return {
             act: "cuepoint",
-            cuepointType: "percentage",
-            cuepointValue: foundValue
+            desc: "percentage",
+            val: foundValue
           };
         }
       }
@@ -186,7 +204,7 @@ export default class {
   getInfos(srcElement) {
     return {
       title: srcElement.title || "",
-      currentSrc: srcElement.currentSrc || "",
+      file: srcElement.src,
       obj: "flowplayer"
     };
   }
@@ -207,7 +225,7 @@ export default class {
     }
 
     instance.on(Object.values(this.opts.events), e => {
-      this.onEvent(instance, e.type, e.target, e.srcElement);
+      this.onEvent(instance, e.type, e.target, e.srcElement, e.error);
     });
   }
 }
