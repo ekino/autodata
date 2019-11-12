@@ -22,16 +22,19 @@ export default class FlowplayerTracker extends Component {
   createPlayer() {
     const id = `flow-player-${Date.now()}`;
 
-    this.setState(state => ({ instances: state.instances.concat(id) }), () => {
+    this.setState(
+      state => ({ instances: state.instances.concat(id) }),
+      () => {
         const player = flowplayer(`#${id}`, {
-          src: 'https://i.imgur.com/QkOfMo4.mp4',
+          src: "https://i.imgur.com/QkOfMo4.mp4",
           token: __ENV__.FLOWPLAYER_KEY
-        })
-        
-        if (window.autoDataTools.registerFlowplayer){
-          window.autoDataTools.registerFlowplayer(player)
+        });
+
+        if (window.autoDataTools.registerFlowplayer) {
+          window.autoDataTools.registerFlowplayer(player);
         }
-    });
+      }
+    );
   }
 
   destroyPlayer() {
@@ -57,9 +60,7 @@ export default class FlowplayerTracker extends Component {
     return (
       <section className="player-tracker">
         <h2>FlowPlayerTracker</h2>
-        <ul>
-          {players}
-        </ul>
+        <ul>{players}</ul>
         <button type="button" className="btn" onClick={this.createPlayer}>
           Create
         </button>

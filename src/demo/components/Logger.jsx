@@ -11,7 +11,9 @@ const Logger = ({ logs, clearLogs }) => (
         </li>
       ))}
     </ul>
-    <button type="button" className="btn" onClick={clearLogs}>clear</button>
+    <button type="button" className="btn" onClick={clearLogs}>
+      clear
+    </button>
   </aside>
 );
 
