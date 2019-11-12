@@ -35,8 +35,10 @@ export default class {
     this.instances = [];
     this.cuepoints = [];
 
-    window.autoDataTools.registerFlowplayer = instance => {
-      this.setInstance(instance);
+    window.autoDataTools = {
+      registerFlowplayer: instance => {
+        this.setInstance(instance);
+      }
     };
 
     if (!this.opts.flowplayer) {
@@ -195,6 +197,7 @@ export default class {
    */
   setInstance(instance) {
     instance.hasStarted = false;
+
     if (this.opts.cuepoints) {
       this.cuepoints = this.opts.cuepoints;
       this.uc = {
@@ -202,6 +205,7 @@ export default class {
         thresholds: this.opts.cuepoints.thresholds || []
       };
     }
+
     instance.on(Object.values(flowplayer.events), e => {
       this.onEvent(instance, e.type, e.target, e.srcElement);
     });
