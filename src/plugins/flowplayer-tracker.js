@@ -129,7 +129,7 @@ export default class {
 
       this.tracker.send(
         "flowplayer",
-        this.opts.enhancer({ act: "started", ...itemInfos }, itemInfos)
+        this.opts.enhancer({ act: "started", ...itemInfos }, instance.opts)
       );
     }
 
@@ -138,7 +138,7 @@ export default class {
 
       this.tracker.send(
         "flowplayer",
-        this.opts.enhancer({ ...tag, ...itemInfos }, itemInfos)
+        this.opts.enhancer({ ...tag, ...itemInfos }, instance.opts)
       );
     }
   }
