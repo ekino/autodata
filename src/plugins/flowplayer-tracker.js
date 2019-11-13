@@ -125,16 +125,20 @@ export default class {
     if (eventName === "playing" && !instance.hasStarted) {
       instance.hasStarted = true;
 
+      const itemInfos = this.getInfos(srcElement);
+
       this.tracker.send(
         "flowplayer",
-        this.opts.enhancer({ act: "started", ...this.getInfos(srcElement) })
+        this.opts.enhancer({ act: "started", ...itemInfos }, itemInfos)
       );
     }
 
     if (tag) {
+      const itemInfos = this.getInfos(srcElement);
+
       this.tracker.send(
         "flowplayer",
-        this.opts.enhancer({ ...tag, ...this.getInfos(srcElement) })
+        this.opts.enhancer({ ...tag, ...itemInfos }, itemInfos)
       );
     }
   }
