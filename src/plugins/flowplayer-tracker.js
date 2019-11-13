@@ -163,7 +163,8 @@ export default class {
           return {
             act: "cuepoint",
             desc: "threshold",
-            val: foundValue
+            val: foundValue,
+            time: instance.currentTime
           };
         }
       }
@@ -186,7 +187,8 @@ export default class {
           return {
             act: "cuepoint",
             desc: "percentage",
-            val: foundValue
+            val: foundValue,
+            time: instance.currentTime
           };
         }
       }
