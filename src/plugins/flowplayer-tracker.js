@@ -69,6 +69,10 @@ export default class {
     let tag = null;
 
     switch (eventName) {
+      case "playing":
+        tag = { act: "play" };
+        break;
+
       case "pause":
         tag = { act: "pause" };
         break;
