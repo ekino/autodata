@@ -18,7 +18,7 @@ const futureInit = ({ common, ...rest }) => {
   }
 
   // Merge deeply optional config with common
-  const config = deepMerge(getOptionalConfig(rest), common);
+  const config = deepMerge(common, getOptionalConfig(rest));
 
   driver = getInstance(config);
 
