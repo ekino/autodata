@@ -7,3 +7,4 @@ export { default as socialTracker } from "./social-tracker";
 export { default as urlChangeTracker } from "./url-change-tracker";
 export { default as pageviewTracker } from "./pageview-tracker";
 export { default as jwplayerTracker } from "./jwplayer-tracker";
+export { default as flowplayerTracker } from "./flowplayer-tracker";

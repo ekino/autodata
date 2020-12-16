@@ -13,8 +13,15 @@ require("./drivers/tealium");
 require("./drivers/gtm");
 
 const logs = [];
+const clearLogs = () => {
+  logs.length = 0;
+  renderDemo();
+};
 const renderDemo = () =>
-  render(<Demo logs={logs} />, document.querySelector("#demo-app"));
+  render(
+    <Demo logs={logs} clearLogs={clearLogs} />,
+    document.querySelector("#demo-app")
+  );
 const htmlLogger = tag => {
   if (logs.length > 5) {
     logs.pop();
@@ -97,6 +104,27 @@ autoData.init({
       jwplayerTracker: {
         jwplayer,
         autoDetect: true
+      },
+      flowplayerTracker: {
+        flowplayer,
+        events: [
+          "loadeddata",
+          "playing",
+          "pause",
+          "ended",
+          "error",
+          "seeked",
+          "cuepointStart",
+          "volumechange",
+          "fullscreenenter",
+          "fullscreenexit",
+          "resize",
+          "timeupdate"
+        ],
+        cuepoints: {
+          percentages: [25, 50, 75],
+          thresholds: [3, 8, 12, 15]
+        }
       }
     }
   },

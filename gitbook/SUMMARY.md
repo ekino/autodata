@@ -13,6 +13,7 @@
     - [outboundFormTracker](./plugins/OUTBOUND-FORM-TRACKER.md)
     - [outboundLinkTracker](./plugins/OUTBOUND-LINK-TRACKER.md)
     - [jwplayerTracker](./plugins/JWPLAYER-TRACKER.MD)
+    - [flowplayerTracker](./plugins/FLOWPLAYER-TRACKER.MD)
 - [Data layer](DATALAYER.md)
 - [FAQ](FAQ.md)
 - [Debug](DEBUG.md)
