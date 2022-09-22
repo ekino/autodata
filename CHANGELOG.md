@@ -1,3 +1,103 @@
+#### 0.17.0 (2022-09-22)
+
+##### Documentation Changes
+
+* **flowplayer:**  add flowplayer entry to gitbook (b7c858b9)
+
+##### New Features
+
+*  update metadata (6c348954)
+*  pass metadata to enhancer (7235a2fb)
+* **flow-player:**  started evt based on playing evt (f42307b3)
+* **flowplayer:**
+  *  don't kill plugin when global flowplayer object is undefined (23339245)
+  *  move registerFlowplayer to a shared autodata window object (40855f1d)
+  *  add autodataRegisterFlowplayer (742868b3)
+  *  add support for dynamic players (e8fd4f81)
+  *  add videoStarted event (36d31e1f)
+  *  add flow player tracker config to demo site (7819a50c)
+  *  add flow player plugin tracker (6bfbd330)
+* **demo:**
+  *  add flowplayer component (1b10d850)
+  *  add a button to clear the logs (9be8ed11)
+
+##### Bug Fixes
+
+* **security:**  Remove webpack-bundle-analyzer which uses ejs in an insecure version (#27) (248e52d6)
+* **flow-player:**
+  *  remove useless Object.values (f8706a83)
+  *  volume data (95ab9d3e)
+* **flowplayer:**
+  *  only use registerFlowplayer to handle events (f9eee95e)
+  *  fix crash when flowplayer is undefined (d7119ef3)
+  *  send started event once (8889e24d)
+  *  add opts to the enhancer (9d43b607)
+*  umd default export (b3d340bb)
+
+##### Refactors
+
+*  get back play evt (56dde784)
+*  cuepoint object tracking (e232379d)
+*  remove play evt (fc29b5d0)
+*  run prettier (7f57a098)
+*  ran prettier over webpack conf file (0c08c2e2)
+* **flow-player:**
+  *  currentSrc instead (c06e66d4)
+  *  some feedback for LV - part 2 (fc4c7150)
+  *  some feedback for LV (f6622d0c)
+  *  create autoDataTools object first (148d6ae7)
+  *  fix eslint issues (d51e3cef)
+
+#### 0.17.0 (2022-09-22)
+
+##### Documentation Changes
+
+* **flowplayer:**  add flowplayer entry to gitbook (b7c858b9)
+
+##### New Features
+
+*  update metadata (6c348954)
+*  pass metadata to enhancer (7235a2fb)
+* **flow-player:**  started evt based on playing evt (f42307b3)
+* **flowplayer:**
+  *  don't kill plugin when global flowplayer object is undefined (23339245)
+  *  move registerFlowplayer to a shared autodata window object (40855f1d)
+  *  add autodataRegisterFlowplayer (742868b3)
+  *  add support for dynamic players (e8fd4f81)
+  *  add videoStarted event (36d31e1f)
+  *  add flow player tracker config to demo site (7819a50c)
+  *  add flow player plugin tracker (6bfbd330)
+* **demo:**
+  *  add flowplayer component (1b10d850)
+  *  add a button to clear the logs (9be8ed11)
+
+##### Bug Fixes
+
+* **security:**  Remove webpack-bundle-analyzer which uses ejs in an insecure version (#27) (248e52d6)
+* **flow-player:**
+  *  remove useless Object.values (f8706a83)
+  *  volume data (95ab9d3e)
+* **flowplayer:**
+  *  only use registerFlowplayer to handle events (f9eee95e)
+  *  fix crash when flowplayer is undefined (d7119ef3)
+  *  send started event once (8889e24d)
+  *  add opts to the enhancer (9d43b607)
+*  umd default export (b3d340bb)
+
+##### Refactors
+
+*  get back play evt (56dde784)
+*  cuepoint object tracking (e232379d)
+*  remove play evt (fc29b5d0)
+*  run prettier (7f57a098)
+*  ran prettier over webpack conf file (0c08c2e2)
+* **flow-player:**
+  *  currentSrc instead (c06e66d4)
+  *  some feedback for LV - part 2 (fc4c7150)
+  *  some feedback for LV (f6622d0c)
+  *  create autoDataTools object first (148d6ae7)
+  *  fix eslint issues (d51e3cef)
+
 #### 0.16.0 (2019-07-22)
 
 ##### Chores

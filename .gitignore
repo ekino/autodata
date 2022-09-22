@@ -13,3 +13,6 @@ ENV.json
 # Build files
 dist/
 .tmp
+
+#npm config
+.npmrc
